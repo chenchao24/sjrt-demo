@@ -1,0 +1,444 @@
+/* ══ Mobile SPA Styles ══ */
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:var(--font);font-size:var(--tx-base);line-height:1.5;color:var(--c-text-2);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+
+/* ── Phone Shell (desktop preview) ── */
+@media (min-width:600px){
+  html,body{min-height:100vh;overflow-y:auto;
+    background:radial-gradient(ellipse at 20% 15%,rgba(64,128,255,.22),transparent 45%),
+               radial-gradient(ellipse at 80% 85%,rgba(100,50,200,.18),transparent 45%),
+               linear-gradient(150deg,#030b1f 0%,#081638 45%,#0e2260 100%);
+    display:flex;align-items:flex-start;justify-content:center;padding:20px 0}
+
+  .phone-outer{
+    position:relative;width:393px;height:852px;
+    background:#111;border-radius:54px;
+    /* Fixed children become fixed rel. to this element */
+    transform:translateZ(0);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),
+               0 0 0 9px #1a1a1a,
+               0 0 0 10.5px #2c2c2c,
+               0 60px 120px rgba(0,0,0,.85),
+               0 0 80px rgba(22,93,255,.14);
+    overflow:hidden;flex-shrink:0}
+
+  /* Volume buttons */
+  .phone-btn-left{position:absolute;left:-4px;top:0;width:4px;height:100%;pointer-events:none}
+  .phone-btn-left::before{content:'';position:absolute;left:0;top:108px;width:4px;height:34px;background:#222;border-radius:2px 0 0 2px}
+  .phone-btn-left::after{content:'';position:absolute;left:0;top:154px;width:4px;height:60px;background:#222;border-radius:2px 0 0 2px;box-shadow:0 74px 0 #222}
+  .phone-btn-right{position:absolute;right:-4px;top:172px;width:4px;height:80px;background:#222;border-radius:0 2px 2px 0}
+
+  .phone-screen{position:absolute;inset:0;border-radius:54px;overflow:hidden;background:var(--c-bg-2)}
+  .mobile-shell{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:rgba(22,93,255,.25) transparent;-webkit-overflow-scrolling:touch;background:var(--c-bg-2)}
+  .mobile-shell::-webkit-scrollbar{width:3px}
+  .mobile-shell::-webkit-scrollbar-track{background:transparent}
+  .mobile-shell::-webkit-scrollbar-thumb{background:rgba(22,93,255,.28);border-radius:2px}
+
+  /* Status bar */
+  .status-bar{height:36px;display:flex;align-items:center;padding:0 24px;justify-content:space-between;pointer-events:none;position:sticky;top:0;z-index:80}
+  .status-bar.on-dark{color:rgba(255,255,255,.9);background:transparent}
+  .status-bar.on-light{color:var(--c-text-1);background:var(--c-bg-2)}
+  .status-time{font-size:15px;font-weight:600}
+  .status-icons{font-size:13px;letter-spacing:2px}
+
+  /* Bottom nav — fixed rel. to phone-outer */
+  .bottom-nav{position:fixed;bottom:8px;left:8px;right:8px}
+
+  /* Preloader (shows before Vue mounts) */
+  .phone-preloader{position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;background:var(--c-bg-2);z-index:9999}
+  .preloader-spinner{width:36px;height:36px;border:3px solid var(--c-fill);
+    border-top-color:var(--c-primary);border-radius:50%;
+    animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}\n  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  /* Back-to-home floating link (desktop, outside phone) */
+  .back-home-btn{position:fixed;top:24px;right:32px;padding:9px 18px;
+    border-radius:999px;background:rgba(255,255,255,.1);backdrop-filter:blur(12px);
+    color:rgba(255,255,255,.8);font-size:13px;text-decoration:none;
+    border:1px solid rgba(255,255,255,.18);transition:.18s;z-index:300}
+  .back-home-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+}
+
+@media (max-width:599px){
+  html,body{background:var(--c-bg-2)}
+  .phone-outer,.phone-screen{width:100%;min-height:100vh;position:relative}
+  .phone-notch,.phone-btn-left,.phone-btn-right{display:none}
+  .phone-preloader{position:fixed;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;background:var(--c-bg-2);z-index:9999}
+  .mobile-shell{min-height:100vh;overflow-x:hidden;background:var(--c-bg-2)}
+  .status-bar{display:none}
+  .bottom-nav{position:fixed;bottom:8px;left:8px;right:8px}
+  .back-home-btn{display:none}
+}
+
+/* ── Layout ── */
+.page{padding:var(--sp-4);padding-bottom:96px}
+.section{margin-top:var(--sp-5)}
+
+/* ── Top Bar ── */
+.top-bar{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-3) 0 var(--sp-4)}
+.top-bar h2{margin:0;font-size:var(--tx-xl);font-weight:var(--fw-b);color:var(--c-text-1)}
+.back-btn{width:36px;height:36px;border:none;border-radius:var(--r-md);background:var(--c-bg-1);
+  box-shadow:var(--sh-2);cursor:pointer;font-size:20px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;transition:var(--t-fast);color:var(--c-text-1);line-height:1}
+.back-btn:active{transform:scale(.93)}
+
+/* ── Hero ── */
+.hero{border-radius:var(--r-2xl);padding:var(--sp-5) var(--sp-5) var(--sp-6);
+  background:linear-gradient(140deg,#3570ff 0%,#165DFF 55%,#0c3bbf 100%);
+  color:white;box-shadow:var(--sh-4);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:260px;height:260px;border-radius:50%;
+  background:rgba(255,255,255,.06);top:-80px;right:-60px;pointer-events:none}
+.hero::after{content:'';position:absolute;width:140px;height:140px;border-radius:50%;
+  background:rgba(255,255,255,.04);bottom:-40px;left:-30px;pointer-events:none}
+.hero-badge{display:inline-block;font-size:10px;font-weight:var(--fw-sb);letter-spacing:.5px;
+  text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:var(--sp-2)}
+.hero-title{font-size:23px;font-weight:var(--fw-b);line-height:1.3;margin-bottom:var(--sp-3)}
+.hero-sub{font-size:var(--tx-sm);color:rgba(255,255,255,.8);line-height:1.7}
+.hero-row{margin-top:var(--sp-4);display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3)}
+.hero-pill{display:inline-flex;align-items:center;gap:6px;padding:8px var(--sp-3);
+  border-radius:var(--r-pill);background:rgba(255,255,255,.16);font-size:var(--tx-xs);
+  backdrop-filter:blur(8px);cursor:pointer;transition:var(--t-fast)}
+.hero-pill:active{background:rgba(255,255,255,.26)}
+.hero-pill.danger{background:rgba(245,63,63,.28)}
+
+/* ── Hero quick stats ── */
+.hero-stats{display:flex;align-items:center;justify-content:flex-start;gap:0;
+  margin:var(--sp-4) 0 var(--sp-3);background:rgba(255,255,255,.13);
+  border-radius:var(--r-xl);padding:var(--sp-3) 0;backdrop-filter:blur(8px)}
+.hero-stat{flex:1;text-align:center;cursor:pointer;padding:0 var(--sp-3)}
+.hero-stat:active{opacity:.75}
+.hs-val{font-size:22px;font-weight:var(--fw-b);color:white;line-height:1}
+.hs-label{font-size:10px;color:rgba(255,255,255,.72);margin-top:3px}
+.hero-stat-divider{width:1px;height:32px;background:rgba(255,255,255,.22);flex-shrink:0}
+
+/* ── Hero doctor cluster ── */
+.hero-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--sp-3);margin-bottom:0}
+.hero-text-col{flex:1;min-width:0}
+.hero-img-cluster{flex-shrink:0;position:relative;width:88px;height:88px;margin-top:var(--sp-2)}
+.hero-ic{position:absolute;border-radius:50%;object-fit:cover;object-position:top center;
+  border:2.5px solid rgba(255,255,255,.55)}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--sp-3)}
+.section-head h3{margin:0;font-size:var(--tx-lg);font-weight:var(--fw-sb);color:var(--c-text-1)}
+.see-all{font-size:var(--tx-xs);color:var(--c-primary);cursor:pointer;padding:4px var(--sp-2)}
+
+/* ── Card base ── */
+.card{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2)}
+.card-stack{display:grid;gap:var(--sp-3)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3)}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--sp-2)}
+
+/* ── Horizontal Scroll ── */
+.h-scroll{display:flex;gap:var(--sp-3);overflow-x:auto;padding-bottom:var(--sp-2);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.h-scroll::-webkit-scrollbar{display:none}
+
+/* ── Service Cards ── */
+.svc-card{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);
+  padding:var(--sp-4);cursor:pointer;transition:var(--t-base);min-height:116px;
+  display:flex;flex-direction:column;justify-content:space-between}
+.svc-card:active{transform:scale(.96);box-shadow:var(--sh-1)}
+.svc-icon{width:44px;height:44px;border-radius:var(--r-lg);display:flex;align-items:center;
+  justify-content:center;font-size:22px;margin-bottom:var(--sp-3)}
+.svc-name{font-size:var(--tx-md);font-weight:var(--fw-sb);color:var(--c-text-1);margin-bottom:3px}
+.svc-desc{font-size:10px;color:var(--c-text-3);line-height:1.6}
+
+/* ── Stats ── */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-3)}
+.stat-card{background:var(--c-bg-1);border-radius:var(--r-lg);padding:var(--sp-3) var(--sp-2) var(--sp-3) var(--sp-3);
+  box-shadow:var(--sh-1);border-left:3px solid var(--c-primary);cursor:pointer;transition:var(--t-fast)}
+.stat-card:nth-child(2){border-left-color:var(--c-success)}
+.stat-card:nth-child(3){border-left-color:var(--c-warning)}
+.stat-label{font-size:10px;color:var(--c-text-3);margin-bottom:4px}
+.stat-value{font-size:22px;font-weight:var(--fw-b);color:var(--c-text-1);line-height:1}
+
+/* ── Expert Card ── */
+.expert-card{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);
+  padding:var(--sp-4) var(--sp-3);width:148px;flex-shrink:0;cursor:pointer;
+  transition:var(--t-fast);text-align:center}
+.expert-card:active{transform:scale(.96)}
+
+/* ── Letter Avatar ── */
+.letter-av{border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-weight:var(--fw-b);color:white}
+.av-blue  {background:linear-gradient(135deg,#4080FF,#165DFF)}
+.av-teal  {background:linear-gradient(135deg,#00D9C0,#00B578)}
+.av-orange{background:linear-gradient(135deg,#FF9F4A,#FF7D00)}
+.av-purple{background:linear-gradient(135deg,#A66CFF,#7B61FF)}
+.av-pink  {background:linear-gradient(135deg,#FF7FAB,#E53F7F)}
+.av-indigo{background:linear-gradient(135deg,#6686FF,#4256c8)}
+
+/* ── Article Card ── */
+.article-card{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);
+  overflow:hidden;cursor:pointer;transition:var(--t-fast)}
+.article-card:active{opacity:.88;transform:scale(.99)}
+.article-thumb{position:relative;overflow:hidden;background:linear-gradient(135deg,#EEF4FF,#dce9ff)}
+.article-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:var(--t-slow)}
+.article-body{padding:var(--sp-4)}
+.eyebrow{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:var(--r-pill);
+  background:var(--c-primary-bg);color:var(--c-primary);font-size:10px;font-weight:var(--fw-sb)}
+.article-title{font-size:var(--tx-md);font-weight:var(--fw-sb);color:var(--c-text-1);
+  line-height:1.4;margin:var(--sp-2) 0 var(--sp-1)}
+.article-meta{font-size:var(--tx-xs);color:var(--c-text-3);line-height:1.6}
+
+/* ── Filter Section ── */
+.filter-section{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-1);
+  padding:var(--sp-3) var(--sp-4);display:grid;gap:var(--sp-3)}
+.chip-row{display:flex;gap:var(--sp-2);flex-wrap:wrap}
+.chip{padding:6px var(--sp-3);border-radius:var(--r-pill);font-size:var(--tx-xs);font-weight:var(--fw-m);
+  background:var(--c-fill);color:var(--c-text-2);cursor:pointer;user-select:none;
+  transition:var(--t-fast);border:1.5px solid transparent}
+.chip.active{background:var(--c-primary-bg);color:var(--c-primary);border-color:rgba(22,93,255,.2)}
+.chip.green{background:var(--c-success-bg);color:var(--c-success)}
+.chip.orange{background:var(--c-warning-bg);color:var(--c-warning)}
+.chip.red{background:var(--c-danger-bg);color:var(--c-danger)}
+.chip.purple{background:var(--c-purple-bg);color:var(--c-purple)}
+
+/* ── Doctor Mini Card (appointment compact grid) ── */
+.doc-mini-card{background:var(--c-bg-1);border-radius:var(--r-lg);box-shadow:var(--sh-1);
+  padding:var(--sp-3);display:flex;align-items:center;gap:var(--sp-2);
+  border:2px solid transparent;cursor:pointer;transition:var(--t-fast)}
+.doc-mini-card:active{opacity:.9}
+.doc-mini-card.selected{border-color:var(--c-primary);background:linear-gradient(180deg,#fff,var(--c-primary-bg));
+  box-shadow:0 4px 16px rgba(22,93,255,.14)}
+.doc-mini-info{flex:1;min-width:0}
+.doc-mini-name{font-size:var(--tx-sm);font-weight:var(--fw-sb);color:var(--c-text-1);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc-mini-sub{font-size:10px;color:var(--c-text-3);margin:2px 0 4px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ── Doctor Card ── */
+.doctor-card{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);
+  padding:var(--sp-4);display:flex;gap:var(--sp-3);cursor:pointer;
+  transition:var(--t-fast);border:2px solid transparent}
+.doctor-card:active{opacity:.9}
+.doctor-card.selected{border-color:var(--c-primary);background:linear-gradient(180deg,#fff,#eef4ff);
+  box-shadow:0 6px 20px rgba(22,93,255,.15)}
+.doc-name{font-size:var(--tx-md);font-weight:var(--fw-sb);color:var(--c-text-1)}
+.doc-sub{font-size:var(--tx-xs);color:var(--c-text-3);margin:3px 0 var(--sp-2)}
+.tag-row{display:flex;gap:var(--sp-1);flex-wrap:wrap}
+
+/* ── Doctor Select Card (appointment step 1 full-width list) ── */
+.doctor-select-card{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);
+  padding:var(--sp-4);display:flex;gap:var(--sp-4);align-items:flex-start;
+  border:2px solid transparent;cursor:pointer;transition:var(--t-fast)}
+.doctor-select-card:active{opacity:.92}
+.doctor-select-card.selected{border-color:var(--c-primary);
+  background:linear-gradient(180deg,#fff,var(--c-primary-bg));
+  box-shadow:0 6px 20px rgba(22,93,255,.15)}
+
+/* ── Slot Buttons ── */
+.slot-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin-top:var(--sp-3)}
+.slot-btn{background:var(--c-bg-1);border:1.5px solid var(--c-border);border-radius:var(--r-lg);
+  padding:var(--sp-3) var(--sp-2);text-align:center;cursor:pointer;transition:var(--t-fast)}
+.slot-btn:active:not(.full){transform:scale(.96)}
+.slot-btn.selected{border-color:var(--c-primary);background:var(--c-primary-bg)}
+.slot-btn.full{background:var(--c-fill);cursor:not-allowed;opacity:.6}
+.slot-date{font-size:var(--tx-sm);font-weight:var(--fw-sb);color:var(--c-text-1)}
+.slot-time{font-size:var(--tx-xs);color:var(--c-text-3);margin:2px 0}
+.slot-remain{font-size:var(--tx-xxs);font-weight:var(--fw-sb)}
+.slot-remain.ok{color:var(--c-success)}
+.slot-remain.warn{color:var(--c-warning)}
+.slot-remain.gone{color:var(--c-text-4)}
+
+/* ── Patient Card ── */
+.patient-card{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);
+  padding:var(--sp-4);border:2px solid transparent;cursor:pointer;transition:var(--t-fast)}
+.patient-card.selected{border-color:var(--c-primary);background:linear-gradient(180deg,#fff,var(--c-primary-bg))}
+
+/* ── Booking Steps ── */
+.booking-steps{background:var(--c-bg-1);border-radius:var(--r-xl);padding:var(--sp-4) var(--sp-5);
+  box-shadow:var(--sh-2);display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:var(--sp-4);position:relative}
+.step-connector{flex:1;height:2px;background:var(--c-fill);margin:0 4px;margin-bottom:20px}
+.step-dot-wrap{display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;z-index:1}
+.step-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:var(--tx-sm);font-weight:var(--fw-b);background:var(--c-fill);color:var(--c-text-3)}
+.step-dot.active{background:var(--c-primary);color:white}
+.step-dot.done{background:var(--c-success);color:white}
+.step-name{font-size:var(--tx-xxs);color:var(--c-text-3)}
+.step-name.active{color:var(--c-primary);font-weight:var(--fw-sb)}
+
+/* ── Form Section ── */
+.form-section{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);padding:var(--sp-4)}
+.form-title{font-size:var(--tx-md);font-weight:var(--fw-sb);color:var(--c-text-1);margin-bottom:var(--sp-4);
+  padding-bottom:var(--sp-3);border-bottom:1.5px solid var(--c-fill)}
+
+/* ── Assessment Card ── */
+.assess-card{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);overflow:hidden}
+.assess-body{padding:var(--sp-4)}
+
+/* ── Scale Cover (image placeholder) ── */
+.scale-cover{height:116px;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:var(--sp-4);position:relative;overflow:hidden}
+.scale-cover::before{content:'';position:absolute;right:-16px;top:-16px;
+  width:96px;height:96px;border-radius:50%;background:rgba(255,255,255,.1);pointer-events:none}
+.scale-cover-badge{display:inline-block;background:rgba(255,255,255,.22);color:white;
+  font-size:10px;font-weight:var(--fw-sb);padding:2px 10px;border-radius:var(--r-pill);
+  margin-bottom:6px;backdrop-filter:blur(4px)}
+.scale-cover-name{font-size:var(--tx-lg);font-weight:var(--fw-b);color:white;line-height:1.2}
+
+/* ── Report Card (my-assessments rich view) ── */
+.report-card{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);overflow:hidden;cursor:pointer;transition:var(--t-fast)}
+.report-card:active{opacity:.9}
+.report-card-header{padding:var(--sp-3) var(--sp-4);display:flex;align-items:center;justify-content:space-between}
+.report-card-body{padding:0 var(--sp-4) var(--sp-4)}
+
+/* ── Appointment Reminder (home page) ── */
+.appt-reminder{background:linear-gradient(135deg,#eef8ff,#ddf0ff);
+  border-radius:var(--r-xl);padding:var(--sp-4);  display:flex;align-items:center;gap:var(--sp-3);
+  cursor:pointer;border:1px solid rgba(22,93,255,.14);transition:var(--t-fast)}
+.appt-reminder:active{opacity:.88}
+
+/* ── Appointment Success Page ── */
+.success-page{text-align:center;padding:var(--sp-8) 0 var(--sp-5);position:relative;overflow:hidden}
+.success-check{width:88px;height:88px;border-radius:50%;
+  background:linear-gradient(135deg,#00B578,#00D9A0);
+  display:flex;align-items:center;justify-content:center;
+  font-size:42px;margin:0 auto var(--sp-5);
+  box-shadow:0 16px 36px rgba(0,181,120,.28)}
+.success-title{font-size:26px;font-weight:var(--fw-b);color:var(--c-text-1);margin-bottom:var(--sp-2)}
+.success-sub{font-size:var(--tx-base);color:var(--c-text-3);margin-bottom:0}
+
+/* ── Quiz Option ── */
+.quiz-opt{background:var(--c-bg-1);border:2px solid var(--c-border);border-radius:var(--r-lg);
+  padding:var(--sp-4);cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+  gap:var(--sp-3);transition:var(--t-fast)}
+.quiz-opt:active,.quiz-opt.picked{border-color:var(--c-primary);background:var(--c-primary-bg)}
+.quiz-opt-label{font-size:var(--tx-base);color:var(--c-text-1);font-weight:var(--fw-m)}
+.quiz-opt-score{font-size:var(--tx-xs);color:var(--c-text-3);flex-shrink:0}
+
+/* ── Risk ── */
+.risk-badge{display:inline-flex;align-items:center;gap:6px;padding:8px var(--sp-4);
+  border-radius:var(--r-pill);font-size:var(--tx-sm);font-weight:var(--fw-sb)}
+.risk-high  {background:var(--c-danger-bg);color:var(--c-danger)}
+.risk-mid   {background:var(--c-warning-bg);color:var(--c-warning)}
+.risk-low   {background:var(--c-success-bg);color:var(--c-success)}
+
+/* ── Score Ring ── */
+.score-ring{width:100px;height:100px;border-radius:50%;margin:0 auto var(--sp-4);
+  display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-ring.high  {background:var(--c-danger-bg)}
+.score-ring.mid   {background:var(--c-warning-bg)}
+.score-ring.low   {background:var(--c-success-bg)}
+.score-val{font-size:26px;font-weight:var(--fw-b);color:var(--c-text-1);line-height:1}
+.score-sub{font-size:var(--tx-xxs);color:var(--c-text-3)}
+
+/* ── Advice/Alert Boxes ── */
+.advice-box{background:var(--c-primary-bg);border-radius:var(--r-lg);padding:var(--sp-4);
+  font-size:var(--tx-sm);color:var(--c-text-2);line-height:1.7}
+.alert-box{background:var(--c-danger-bg);border-radius:var(--r-lg);padding:var(--sp-4);
+  font-size:var(--tx-sm);color:#b71d18;line-height:1.7;border-left:3px solid var(--c-danger)}
+
+/* ── Summary Card ── */
+.summary-card{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);padding:var(--sp-5)}
+.summary-row{display:flex;justify-content:space-between;align-items:center;
+  padding:var(--sp-3) 0;border-bottom:1px solid var(--c-fill);font-size:var(--tx-sm)}
+.summary-row:last-child{border-bottom:none}
+.s-label{color:var(--c-text-3)}
+.s-value{color:var(--c-text-1);font-weight:var(--fw-sb)}
+
+/* ── Appointment Card ── */
+.appt-card{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);overflow:hidden}
+.appt-header{padding:var(--sp-4);display:flex;gap:var(--sp-3);align-items:flex-start}
+.appt-footer{padding:var(--sp-3) var(--sp-4);background:var(--c-bg-3);
+  display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2)}
+
+/* ── Profile ── */
+.profile-hero{background:linear-gradient(140deg,#3570ff,#165DFF,#0c3bbf);
+  border-radius:var(--r-2xl);padding:var(--sp-5);color:white;display:flex;align-items:center;gap:var(--sp-4)}
+.profile-av{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.22);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:var(--fw-b);
+  color:white;flex-shrink:0}
+.profile-name{font-size:var(--tx-xl);font-weight:var(--fw-b)}
+.profile-sub{font-size:var(--tx-xs);color:rgba(255,255,255,.72);margin-top:4px}
+
+.menu-list{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);overflow:hidden}
+.menu-row{display:flex;align-items:center;padding:var(--sp-4) var(--sp-5);gap:var(--sp-3);
+  cursor:pointer;transition:var(--t-fast);border-bottom:1px solid var(--c-fill)}
+.menu-row:last-child{border-bottom:none}
+.menu-row:active{background:var(--c-fill)}
+.menu-icon{width:36px;height:36px;border-radius:var(--r-md);display:flex;align-items:center;
+  justify-content:center;font-size:18px;flex-shrink:0}
+.menu-text{flex:1;font-size:var(--tx-base);font-weight:var(--fw-m);color:var(--c-text-1)}
+.menu-arrow{color:var(--c-text-4);font-size:18px}
+
+/* ── Bottom Nav ── */
+.bottom-nav{background:rgba(255,255,255,.93);border-radius:var(--r-2xl);
+  box-shadow:0 -1px 0 rgba(0,0,0,.04),0 12px 32px rgba(22,93,255,.12);
+  backdrop-filter:blur(18px);display:grid;grid-template-columns:repeat(5,1fr);
+  padding:6px var(--sp-2) 8px;z-index:100}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:5px 0;cursor:pointer;user-select:none;transition:var(--t-fast)}
+.nav-icon{font-size:21px;line-height:1}
+.nav-label{font-size:var(--tx-xxs);color:var(--c-text-3)}
+.nav-item.active .nav-label{color:var(--c-primary);font-weight:var(--fw-sb)}
+.nav-item.active .nav-icon{transform:scale(1.08)}
+
+/* ── Empty States ── */
+.empty-state{padding:var(--sp-10) var(--sp-6);text-align:center;color:var(--c-text-3)}
+.empty-icon{font-size:46px;margin-bottom:var(--sp-3)}
+.empty-text{font-size:var(--tx-sm);line-height:1.9}
+
+/* ── Review Card ── */
+.review-card{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);padding:var(--sp-4)}
+
+/* ── Module Banner ── */
+.module-banner{margin:0 calc(-1 * var(--sp-4)) var(--sp-5);padding:22px var(--sp-5) 26px;
+  position:relative;overflow:hidden;color:white}
+.module-banner::before{content:'';position:absolute;right:-24px;top:-24px;
+  width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.07);pointer-events:none}
+.module-banner::after{content:'';position:absolute;right:32px;bottom:-28px;
+  width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.05);pointer-events:none}
+.banner-icon{font-size:36px;margin-bottom:8px;display:block}
+.banner-title{font-size:21px;font-weight:var(--fw-b);margin-bottom:5px;line-height:1.2}
+.banner-sub{font-size:13px;line-height:1.6;opacity:.82}
+.banner-deco{position:absolute;right:-12px;top:0;height:115%;width:auto;
+  object-fit:cover;object-position:top center;opacity:.34;pointer-events:none;
+  mask-image:linear-gradient(to left,black 50%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to left,black 50%,transparent 100%)}
+.mb-blue   {background:linear-gradient(135deg,#1677FF,#0e4abf)}
+.mb-purple {background:linear-gradient(135deg,#7C3AED,#4F1D96)}
+.mb-teal   {background:linear-gradient(135deg,#0F766E,#065F46)}
+.mb-orange {background:linear-gradient(135deg,#EA580C,#9A3412)}
+.mb-rose   {background:linear-gradient(135deg,#E11D48,#9F1239)}
+.mb-sky    {background:linear-gradient(135deg,#0284C7,#075985)}
+.mb-green  {background:linear-gradient(135deg,#16A34A,#166534)}
+.mb-indigo {background:linear-gradient(135deg,#4F46E5,#3730A3)}
+.mb-amber  {background:linear-gradient(135deg,#D97706,#92400E)}
+
+/* ── Notice Strip ── */
+.notice-strip{display:flex;align-items:center;gap:var(--sp-2);background:var(--c-primary-bg);
+  border-radius:var(--r-pill);padding:9px var(--sp-4);margin-top:var(--sp-3);
+  cursor:pointer;overflow:hidden;border:1px solid rgba(22,93,255,.12);transition:var(--t-fast)}
+.notice-strip:active{opacity:.85}
+.notice-tag{background:var(--c-primary);color:white;border-radius:var(--r-pill);
+  padding:2px 9px;font-size:10px;font-weight:var(--fw-sb);flex-shrink:0;white-space:nowrap}
+.notice-text{flex:1;color:var(--c-text-2);font-size:var(--tx-xs);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+
+/* ── Activity Feed ── */
+.activity-feed{background:var(--c-bg-1);border-radius:var(--r-xl);box-shadow:var(--sh-2);padding:var(--sp-2) var(--sp-4)}
+.act-item{display:flex;align-items:flex-start;gap:var(--sp-3);padding:var(--sp-3) 0;
+  border-bottom:1px solid var(--c-fill)}
+.act-item:last-child{border-bottom:none}
+.act-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.act-dot-blue{background:var(--c-primary)}
+.act-dot-purple{background:var(--c-purple)}
+.act-dot-orange{background:var(--c-warning)}
+.act-dot-red{background:var(--c-danger)}
+.act-text{font-size:var(--tx-sm);color:var(--c-text-1);line-height:1.5}
+.act-time{font-size:var(--tx-xxs);color:var(--c-text-4);margin-top:2px}
+
+/* ── Utilities ── */
+.flex-between{display:flex;justify-content:space-between;align-items:center}
+.flex-center{display:flex;justify-content:center;align-items:center}
+.text-muted{color:var(--c-text-3);font-size:var(--tx-xs)}
+.text-primary{color:var(--c-primary)}
+.fw-bold{font-weight:var(--fw-b)}
+.mt-3{margin-top:var(--sp-3)}
+.mt-4{margin-top:var(--sp-4)}
+.mt-5{margin-top:var(--sp-5)}
+.w-full{width:100%}

@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>后台管理端</title>
+    <link rel="stylesheet" href="/vendor/element-plus.css" />
+    <style>
+      :root {
+        --blue-start: #4080ff;
+        --blue-end: #165dff;
+        --soft-bg: #f5f7fa;
+        --text-strong: #1d2129;
+        --text-main: #4e5969;
+        --text-soft: #86909c;
+        --shadow: 0 16px 40px rgba(24, 62, 124, 0.09);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: linear-gradient(180deg, #f7faff 0%, #f5f7fa 100%);
+        font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: var(--text-main);
+      }
+
+      #app {
+        min-height: 100vh;
+      }
+
+      .admin-shell {
+        display: grid;
+        grid-template-columns: 248px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        background: linear-gradient(180deg, #0f3b93 0%, #165dff 100%);
+        color: white;
+        padding: 28px 20px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+      }
+
+      .brand {
+        padding: 16px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-size: 22px;
+        line-height: 1.4;
+      }
+
+      .brand p {
+        margin: 10px 0 0;
+        font-size: 13px;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.82);
+      }
+
+      .menu {
+        margin-top: 26px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .menu-item {
+        padding: 14px 16px;
+        border-radius: 18px;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .menu-item.active {
+        background: rgba(255, 255, 255, 0.22);
+        font-weight: 600;
+        box-shadow: inset 3px 0 0 rgba(255,255,255,0.8);
+      }
+
+      .menu-item:hover:not(.active) {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .main {
+        padding: 24px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .topbar h2 {
+        margin: 0;
+        font-size: 28px;
+        color: var(--text-strong);
+      }
+
+      .subline {
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--text-soft);
+      }
+
+      .panel,
+      .card,
+      .metric-card,
+      .feed-item,
+      .schedule-card {
+        background: white;
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+      }
+
+      .panel {
+        padding: 20px;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .metric-card {
+        padding: 18px;
+        background: linear-gradient(180deg, #ffffff, #f7faff);
+        border-top: 3px solid transparent;
+      }
+
+      .metric-card:nth-child(1) { border-top-color: #165dff; }
+      .metric-card:nth-child(2) { border-top-color: #00b578; }
+      .metric-card:nth-child(3) { border-top-color: #ff7d00; }
+      .metric-card:nth-child(4) { border-top-color: #7b61ff; }
+
+      .metric-card strong {
+        display: block;
+        margin-top: 10px;
+        font-size: 30px;
+        color: var(--text-strong);
+      }
+
+      .dashboard-grid {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.9fr);
+        gap: 18px;
+      }
+
+      .chart-box {
+        height: 320px;
+      }
+
+      .feed-list {
+        display: grid;
+        gap: 12px;
+        max-height: 400px;
+        overflow: auto;
+      }
+
+      .feed-item {
+        padding: 14px;
+      }
+
+      .tiny {
+        color: var(--text-soft);
+        font-size: 12px;
+        line-height: 1.8;
+      }
+
+      .row-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 14px;
+      }
+
+      .row-head h3 {
+        margin: 0;
+        color: var(--text-strong);
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 18px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .badge.blue {
+        color: #165dff;
+        background: rgba(22, 93, 255, 0.1);
+      }
+
+      .badge.orange {
+        color: #ff7d00;
+        background: rgba(255, 125, 0, 0.12);
+      }
+
+      .badge.red {
+        color: #f53f3f;
+        background: rgba(245, 63, 63, 0.1);
+      }
+
+      .schedule-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .schedule-card {
+        padding: 16px;
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 1200px) {
+        .metrics,
+        .schedule-grid,
+        .two-col,
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="admin-shell" v-loading="loading">
+        <aside class="sidebar">
+          <div class="brand">
+            <h1>儿童心理健康服务平台</h1>
+            <p>后台管理演示端，展示内容运营、号源管理、订单联动与量表分析。</p>
+          </div>
+          <div class="menu">
+            <div class="menu-item" :class="{ active: currentMenu === 'dashboard' }" @click="switchMenu('dashboard')">实时运营仪表盘</div>
+            <div class="menu-item" :class="{ active: currentMenu === 'articles' }" @click="switchMenu('articles')">科普知识内容管理</div>
+            <div class="menu-item" :class="{ active: currentMenu === 'resources' }" @click="switchMenu('resources')">医生 / 医院管理</div>
+            <div class="menu-item" :class="{ active: currentMenu === 'schedules' }" @click="switchMenu('schedules')">实时号源管理</div>
+            <div class="menu-item" :class="{ active: currentMenu === 'appointments' }" @click="switchMenu('appointments')">预约订单管理</div>
+            <div class="menu-item" :class="{ active: currentMenu === 'analytics' }" @click="switchMenu('analytics')">心理测评分析</div>
+          </div>
+        </aside>
+
+        <main class="main">
+          <div class="topbar">
+            <div>
+              <h2>{{ menuTitles[currentMenu] }}</h2>
+              <div class="subline">演示数据为本地 JSON 文件，写操作会实时同步到 C 端与后台界面。</div>
+            </div>
+            <div class="toolbar">
+              <el-tag type="primary">WebSocket 已接入</el-tag>
+              <el-button @click="refreshAll">手动刷新</el-button>
+              <el-button type="primary" plain @click="goHome">返回演示首页</el-button>
+            </div>
+          </div>
+
+          <section v-if="currentMenu === 'dashboard'">
+            <div class="metrics">
+              <div class="metric-card">
+                <div class="tiny">今日访问量</div>
+                <strong>{{ state.dashboard.cards.todayVisits }}</strong>
+              </div>
+              <div class="metric-card">
+                <div class="tiny">科普阅读量</div>
+                <strong>{{ state.dashboard.cards.articleReads }}</strong>
+              </div>
+              <div class="metric-card">
+                <div class="tiny">测评完成数</div>
+                <strong>{{ state.dashboard.cards.assessmentCount }}</strong>
+              </div>
+              <div class="metric-card">
+                <div class="tiny">预约订单数</div>
+                <strong>{{ state.dashboard.cards.appointmentCount }}</strong>
+              </div>
+            </div>
+            <div class="dashboard-grid">
+              <div class="panel">
+                <div class="row-head"><h3>近 7 天预约与测评趋势</h3></div>
+                <div id="dashboardChart" class="chart-box"></div>
+              </div>
+              <div class="two-col" style="grid-template-columns:1fr;gap:18px">
+                <div class="panel">
+                  <div class="row-head"><h3>待办事项</h3></div>
+                  <div class="feed-list">
+                    <div class="feed-item" v-for="todo in state.dashboard.todos" :key="todo.id">
+                      <span class="badge" :class="todo.level === 'danger' ? 'red' : todo.level === 'warning' ? 'orange' : 'blue'">{{ todo.level }}</span>
+                      <div style="margin-top:8px;color:var(--text-strong)">{{ todo.label }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel">
+                  <div class="row-head"><h3>最近 20 条实时动态</h3></div>
+                  <div class="feed-list">
+                    <div class="feed-item" v-for="item in state.dashboard.activityFeed" :key="item.id">
+                      <div style="font-weight:700;color:var(--text-strong)">{{ item.title }}</div>
+                      <div class="tiny">{{ item.detail }}</div>
+                      <div class="tiny">{{ formatDateTime(item.createdAt) }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section v-else-if="currentMenu === 'articles'">
+            <div class="panel">
+              <div class="row-head">
+                <h3>科普内容列表</h3>
+                <div class="toolbar">
+                  <el-select v-model="articleStatusFilter" placeholder="状态筛选" style="width:160px">
+                    <el-option label="全部" value="全部"></el-option>
+                    <el-option label="已发布" value="已发布"></el-option>
+                    <el-option label="待审核" value="待审核"></el-option>
+                  </el-select>
+                  <el-button type="primary" @click="openArticleDialog()">新增内容</el-button>
+                </div>
+              </div>
+              <el-table :data="filteredAdminArticles" border>
+                <el-table-column prop="title" label="标题" min-width="220"></el-table-column>
+                <el-table-column prop="category" label="分类" width="100"></el-table-column>
+                <el-table-column prop="contentType" label="类型" width="90"></el-table-column>
+                <el-table-column prop="favoriteCount" label="收藏数" width="90"></el-table-column>
+                <el-table-column prop="views" label="浏览量" width="90"></el-table-column>
+                <el-table-column label="状态" width="100">
+                  <template #default="scope">
+                    <el-tag :type="scope.row.status === '已发布' ? 'success' : 'warning'">{{ scope.row.status }}</el-tag>
+                  </template>
+                </el-table-column>
+                <el-table-column label="操作" width="260" fixed="right">
+                  <template #default="scope">
+                    <el-button link type="primary" @click="openArticleDialog(scope.row)">编辑</el-button>
+                    <el-button link type="success" @click="publishArticle(scope.row)" :disabled="scope.row.status === '已发布'">发布</el-button>
+                    <el-button link type="danger" @click="removeArticle(scope.row)">删除</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </section>
+
+          <section v-else-if="currentMenu === 'resources'" class="two-col">
+            <div class="panel">
+              <div class="row-head">
+                <h3>医生管理</h3>
+                <el-button type="primary" @click="openDoctorDialog()">新增医生</el-button>
+              </div>
+              <el-table :data="state.doctors" border height="560">
+                <el-table-column prop="name" label="姓名" width="110"></el-table-column>
+                <el-table-column prop="title" label="职称" width="120"></el-table-column>
+                <el-table-column label="医院" min-width="180">
+                  <template #default="scope">{{ scope.row.hospital.name }}</template>
+                </el-table-column>
+                <el-table-column label="操作" width="160">
+                  <template #default="scope">
+                    <el-button link type="primary" @click="openDoctorDialog(scope.row)">编辑</el-button>
+                    <el-button link type="danger" @click="removeDoctor(scope.row)">删除</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+            <div class="panel">
+              <div class="row-head">
+                <h3>医院管理</h3>
+                <el-button type="primary" @click="openHospitalDialog()">新增医院</el-button>
+              </div>
+              <el-table :data="state.hospitals" border height="560">
+                <el-table-column prop="name" label="医院名称" min-width="200"></el-table-column>
+                <el-table-column prop="phone" label="联系电话" width="140"></el-table-column>
+                <el-table-column label="操作" width="160">
+                  <template #default="scope">
+                    <el-button link type="primary" @click="openHospitalDialog(scope.row)">编辑</el-button>
+                    <el-button link type="danger" @click="removeHospital(scope.row)">删除</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </section>
+
+          <section v-else-if="currentMenu === 'schedules'">
+            <div class="panel">
+              <div class="row-head">
+                <h3>排班与号源监控</h3>
+                <div class="toolbar">
+                  <el-radio-group v-model="scheduleView">
+                    <el-radio-button label="周视图"></el-radio-button>
+                    <el-radio-button label="月视图"></el-radio-button>
+                  </el-radio-group>
+                  <el-button type="primary" @click="openScheduleDialog()">新增排班</el-button>
+                </div>
+              </div>
+              <div class="schedule-grid" style="margin-bottom:18px">
+                <div class="schedule-card" v-for="slot in scheduleCards" :key="slot.id">
+                  <div style="font-weight:700;color:var(--text-strong)">{{ slot.doctorName }}</div>
+                  <div class="tiny">{{ slot.date }} {{ slot.timeSlot }}</div>
+                  <div style="margin:10px 0 12px">
+                    <el-progress :percentage="Math.round((slot.bookedSlots / slot.totalSlots) * 100)" :status="slot.availableSlots <= 3 ? 'exception' : 'success'"></el-progress>
+                  </div>
+                  <div class="tiny">总号源 {{ slot.totalSlots }} / 已预约 {{ slot.bookedSlots }} / 余号 {{ slot.availableSlots }}</div>
+                </div>
+              </div>
+              <el-table :data="state.schedules" border>
+                <el-table-column prop="doctorName" label="医生" width="120"></el-table-column>
+                <el-table-column prop="date" label="日期" width="120"></el-table-column>
+                <el-table-column prop="timeSlot" label="时段" width="140"></el-table-column>
+                <el-table-column prop="totalSlots" label="总号源" width="90"></el-table-column>
+                <el-table-column prop="bookedSlots" label="已预约" width="90"></el-table-column>
+                <el-table-column prop="availableSlots" label="剩余号源" width="100"></el-table-column>
+                <el-table-column label="状态" width="100">
+                  <template #default="scope">
+                    <el-tag :type="scope.row.availableSlots <= 3 ? 'danger' : 'success'">{{ scope.row.status }}</el-tag>
+                  </template>
+                </el-table-column>
+                <el-table-column label="操作" width="140">
+                  <template #default="scope">
+                    <el-button link type="primary" @click="openScheduleDialog(scope.row)">调整</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </section>
+
+          <section v-else-if="currentMenu === 'appointments'">
+            <div class="panel">
+              <div class="row-head">
+                <h3>预约订单列表</h3>
+                <div class="toolbar">
+                  <el-select v-model="orderStatusFilter" style="width:140px">
+                    <el-option label="全部状态" value="全部"></el-option>
+                    <el-option label="待就诊" value="待就诊"></el-option>
+                    <el-option label="已完成" value="已完成"></el-option>
+                    <el-option label="已取消" value="已取消"></el-option>
+                  </el-select>
+                  <el-button @click="exportOrders">导出 CSV</el-button>
+                </div>
+              </div>
+              <el-table :data="filteredOrders" border>
+                <el-table-column prop="id" label="订单ID" width="180"></el-table-column>
+                <el-table-column label="医生" width="120">
+                  <template #default="scope">{{ scope.row.doctor.name }}</template>
+                </el-table-column>
+                <el-table-column label="医院" min-width="180">
+                  <template #default="scope">{{ scope.row.doctor.hospital.name }}</template>
+                </el-table-column>
+                <el-table-column label="儿童" width="110">
+                  <template #default="scope">{{ scope.row.patient.name }}</template>
+                </el-table-column>
+                <el-table-column prop="date" label="预约日期" width="120"></el-table-column>
+                <el-table-column prop="timeSlot" label="时段" width="120"></el-table-column>
+                <el-table-column prop="status" label="状态" width="100"></el-table-column>
+                <el-table-column label="详情" min-width="260">
+                  <template #default="scope">{{ scope.row.preConsultation.mainIssue }}</template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </section>
+
+          <section v-else-if="currentMenu === 'analytics'" class="two-col">
+            <div class="panel">
+              <div class="row-head"><h3>测评统计概览</h3></div>
+              <div class="metrics" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+                <div class="metric-card">
+                  <div class="tiny">总测评数</div>
+                  <strong>{{ state.assessmentAnalytics.overview.total }}</strong>
+                </div>
+                <div class="metric-card">
+                  <div class="tiny">高风险数量</div>
+                  <strong>{{ state.assessmentAnalytics.overview.high }}</strong>
+                </div>
+                <div class="metric-card">
+                  <div class="tiny">中风险数量</div>
+                  <strong>{{ state.assessmentAnalytics.overview.medium }}</strong>
+                </div>
+                <div class="metric-card">
+                  <div class="tiny">低风险数量</div>
+                  <strong>{{ state.assessmentAnalytics.overview.low }}</strong>
+                </div>
+              </div>
+              <div id="assessmentChart" class="chart-box" style="margin-top:18px"></div>
+            </div>
+            <div class="panel">
+              <div class="row-head"><h3>高危结果列表</h3></div>
+              <el-table :data="state.assessmentAnalytics.highRiskList" border height="520">
+                <el-table-column prop="patientName" label="儿童" width="120"></el-table-column>
+                <el-table-column prop="scaleName" label="量表" min-width="180"></el-table-column>
+                <el-table-column prop="riskLevel" label="风险等级" width="100"></el-table-column>
+                <el-table-column prop="createdAt" label="测评时间" min-width="180"></el-table-column>
+              </el-table>
+            </div>
+          </section>
+        </main>
+
+        <el-dialog v-model="articleDialogVisible" title="科普内容" width="720px">
+          <el-form label-position="top">
+            <el-form-item label="标题"><el-input v-model="articleForm.title"></el-input></el-form-item>
+            <el-form-item label="摘要"><el-input v-model="articleForm.summary"></el-input></el-form-item>
+            <el-form-item label="作者"><el-input v-model="articleForm.author"></el-input></el-form-item>
+            <el-form-item label="封面图"><el-input v-model="articleForm.cover"></el-input></el-form-item>
+            <div class="two-col">
+              <el-form-item label="分类"><el-select v-model="articleForm.category" style="width:100%"><el-option label="情绪" value="情绪"></el-option><el-option label="学习" value="学习"></el-option><el-option label="亲子" value="亲子"></el-option><el-option label="发育" value="发育"></el-option><el-option label="睡眠" value="睡眠"></el-option></el-select></el-form-item>
+              <el-form-item label="类型"><el-select v-model="articleForm.contentType" style="width:100%"><el-option label="图文" value="图文"></el-option><el-option label="视频" value="视频"></el-option></el-select></el-form-item>
+            </div>
+            <el-form-item label="正文"><el-input v-model="articleForm.content" type="textarea" :rows="5"></el-input></el-form-item>
+            <el-form-item label="视频链接"><el-input v-model="articleForm.videoUrl"></el-input></el-form-item>
+          </el-form>
+          <template #footer>
+            <el-button @click="articleDialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="saveArticle">保存</el-button>
+          </template>
+        </el-dialog>
+
+        <el-dialog v-model="doctorDialogVisible" title="医生信息" width="720px">
+          <el-form label-position="top">
+            <div class="two-col">
+              <el-form-item label="姓名"><el-input v-model="doctorForm.name"></el-input></el-form-item>
+              <el-form-item label="职称"><el-input v-model="doctorForm.title"></el-input></el-form-item>
+            </div>
+            <el-form-item label="所属医院"><el-select v-model="doctorForm.hospitalId" style="width:100%"><el-option v-for="hospital in state.hospitals" :key="hospital.id" :label="hospital.name" :value="hospital.id"></el-option></el-select></el-form-item>
+            <el-form-item label="头像"><el-input v-model="doctorForm.avatar"></el-input></el-form-item>
+            <el-form-item label="擅长标签（用中文逗号分隔）"><el-input v-model="doctorForm.specialtiesText"></el-input></el-form-item>
+            <el-form-item label="擅长方向"><el-input v-model="doctorForm.goodAt"></el-input></el-form-item>
+            <el-form-item label="简介"><el-input v-model="doctorForm.intro" type="textarea" :rows="4"></el-input></el-form-item>
+          </el-form>
+          <template #footer>
+            <el-button @click="doctorDialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="saveDoctor">保存</el-button>
+          </template>
+        </el-dialog>
+
+        <el-dialog v-model="hospitalDialogVisible" title="医院信息" width="620px">
+          <el-form label-position="top">
+            <el-form-item label="医院名称"><el-input v-model="hospitalForm.name"></el-input></el-form-item>
+            <el-form-item label="地址"><el-input v-model="hospitalForm.address"></el-input></el-form-item>
+            <el-form-item label="联系电话"><el-input v-model="hospitalForm.phone"></el-input></el-form-item>
+          </el-form>
+          <template #footer>
+            <el-button @click="hospitalDialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="saveHospital">保存</el-button>
+          </template>
+        </el-dialog>
+
+        <el-dialog v-model="scheduleDialogVisible" title="排班配置" width="620px">
+          <el-form label-position="top">
+            <el-form-item label="医生"><el-select v-model="scheduleForm.doctorId" style="width:100%"><el-option v-for="doctor in state.doctors" :key="doctor.id" :label="doctor.name" :value="doctor.id"></el-option></el-select></el-form-item>
+            <div class="two-col">
+              <el-form-item label="日期"><el-date-picker v-model="scheduleForm.date" type="date" value-format="YYYY-MM-DD" style="width:100%"></el-date-picker></el-form-item>
+              <el-form-item label="时段"><el-input v-model="scheduleForm.timeSlot" placeholder="如 09:00-09:30"></el-input></el-form-item>
+            </div>
+            <div class="two-col">
+              <el-form-item label="总号源"><el-input-number v-model="scheduleForm.totalSlots" :min="1" style="width:100%"></el-input-number></el-form-item>
+              <el-form-item label="已预约"><el-input-number v-model="scheduleForm.bookedSlots" :min="0" style="width:100%"></el-input-number></el-form-item>
+            </div>
+            <el-form-item label="状态"><el-select v-model="scheduleForm.status" style="width:100%"><el-option label="正常" value="正常"></el-option><el-option label="停诊" value="停诊"></el-option></el-select></el-form-item>
+          </el-form>
+          <template #footer>
+            <el-button @click="scheduleDialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="saveSchedule">保存</el-button>
+          </template>
+        </el-dialog>
+      </div>
+    </div>
+
+    <script src="/vendor/vue.js"></script>
+    <script src="/vendor/element-plus.js"></script>
+    <script src="/vendor/echarts.js"></script>
+    <script>
+      const { createApp, nextTick } = Vue;
+      const { ElMessage, ElMessageBox } = ElementPlus;
+
+      createApp({
+        data() {
+          return {
+            loading: false,
+            ws: null,
+            dashboardChart: null,
+            assessmentChart: null,
+            currentMenu: 'dashboard',
+            menuTitles: {
+              dashboard: '实时运营仪表盘',
+              articles: '科普知识内容管理',
+              resources: '医生 / 医院管理',
+              schedules: '实时号源管理',
+              appointments: '预约订单管理',
+              analytics: '心理测评分析'
+            },
+            articleStatusFilter: '全部',
+            orderStatusFilter: '全部',
+            scheduleView: '周视图',
+            state: {
+              articles: [],
+              doctors: [],
+              hospitals: [],
+              schedules: [],
+              appointments: [],
+              assessments: [],
+              reviews: [],
+              dashboard: { cards: {}, trends: [], activityFeed: [], todos: [] },
+              assessmentAnalytics: { overview: {}, highRiskList: [], trends: [] }
+            },
+            articleDialogVisible: false,
+            doctorDialogVisible: false,
+            hospitalDialogVisible: false,
+            scheduleDialogVisible: false,
+            articleForm: { id: '', title: '', summary: '', author: '', category: '情绪', contentType: '图文', cover: '', content: '', videoUrl: '' },
+            doctorForm: { id: '', name: '', title: '', hospitalId: '', avatar: '', specialtiesText: '', goodAt: '', intro: '' },
+            hospitalForm: { id: '', name: '', address: '', phone: '' },
+            scheduleForm: { id: '', doctorId: '', date: '', timeSlot: '', totalSlots: 8, bookedSlots: 0, status: '正常' }
+          };
+        },
+        computed: {
+          filteredAdminArticles() {
+            return this.state.articles.filter((item) => this.articleStatusFilter === '全部' || item.status === this.articleStatusFilter);
+          },
+          filteredOrders() {
+            return this.state.appointments.filter((item) => this.orderStatusFilter === '全部' || item.status === this.orderStatusFilter);
+          },
+          scheduleCards() {
+            return this.state.schedules.slice(0, this.scheduleView === '周视图' ? 6 : 9);
+          }
+        },
+        methods: {
+          async request(url, options) {
+            const res = await fetch(url, options);
+            const data = await res.json();
+            if (!res.ok) {
+              throw new Error(data.message || '请求失败');
+            }
+            return data.data;
+          },
+          async fetchBootstrap() {
+            this.loading = true;
+            try {
+              const data = await this.request('/api/bootstrap?scope=admin');
+              this.state = { ...this.state, ...data };
+              await nextTick();
+              this.renderCharts();
+            } catch (error) {
+              ElMessage.error(error.message);
+            } finally {
+              this.loading = false;
+            }
+          },
+          async refreshAll() {
+            await this.fetchBootstrap();
+            ElMessage.success('数据已刷新');
+          },
+          switchMenu(menu) {
+            this.currentMenu = menu;
+            nextTick(() => this.renderCharts());
+          },
+          formatDateTime(value) {
+            return String(value || '').replace('T', ' ').slice(0, 16);
+          },
+          renderCharts() {
+            if (document.getElementById('dashboardChart')) {
+              if (!this.dashboardChart) {
+                this.dashboardChart = echarts.init(document.getElementById('dashboardChart'));
+              }
+              this.dashboardChart.setOption({
+                tooltip: { trigger: 'axis' },
+                legend: { data: ['预约量', '测评量'] },
+                xAxis: { type: 'category', data: this.state.dashboard.trends.map((item) => item.date.slice(5)) },
+                yAxis: { type: 'value' },
+                series: [
+                  { name: '预约量', type: 'line', smooth: true, data: this.state.dashboard.trends.map((item) => item.appointments), color: '#165DFF' },
+                  { name: '测评量', type: 'line', smooth: true, data: this.state.dashboard.trends.map((item) => item.assessments), color: '#00B578' }
+                ]
+              });
+            }
+            if (document.getElementById('assessmentChart')) {
+              if (!this.assessmentChart) {
+                this.assessmentChart = echarts.init(document.getElementById('assessmentChart'));
+              }
+              this.assessmentChart.setOption({
+                tooltip: { trigger: 'axis' },
+                xAxis: { type: 'category', data: this.state.assessmentAnalytics.trends.map((item) => item.date.slice(5)) },
+                yAxis: { type: 'value' },
+                series: [
+                  { name: '总量', type: 'bar', data: this.state.assessmentAnalytics.trends.map((item) => item.total), color: '#4080FF' },
+                  { name: '高风险', type: 'line', smooth: true, data: this.state.assessmentAnalytics.trends.map((item) => item.high), color: '#F53F3F' }
+                ]
+              });
+            }
+          },
+          goHome() {
+            window.location.href = '/';
+          },
+          openArticleDialog(row) {
+            this.articleForm = row
+              ? { ...row }
+              : { id: '', title: '', summary: '', author: '', category: '情绪', contentType: '图文', cover: '', content: '', videoUrl: '' };
+            this.articleDialogVisible = true;
+          },
+          async saveArticle() {
+            try {
+              const method = this.articleForm.id ? 'PUT' : 'POST';
+              const url = this.articleForm.id ? `/api/admin/articles/${this.articleForm.id}` : '/api/admin/articles';
+              await this.request(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.articleForm)
+              });
+              this.articleDialogVisible = false;
+              await this.fetchBootstrap();
+              ElMessage.success('内容已保存');
+            } catch (error) {
+              ElMessage.error(error.message);
+            }
+          },
+          async publishArticle(row) {
+            try {
+              await this.request(`/api/admin/articles/${row.id}/publish`, { method: 'POST' });
+              await this.fetchBootstrap();
+              ElMessage.success('内容已发布，C 端立即可见');
+            } catch (error) {
+              ElMessage.error(error.message);
+            }
+          },
+          async removeArticle(row) {
+            try {
+              await ElMessageBox.confirm(`确认删除 ${row.title}？`, '删除内容', { type: 'warning' });
+              await this.request(`/api/admin/articles/${row.id}`, { method: 'DELETE' });
+              await this.fetchBootstrap();
+              ElMessage.success('内容已删除');
+            } catch (error) {
+              if (error !== 'cancel') {
+                ElMessage.error(error.message || '操作已取消');
+              }
+            }
+          },
+          openDoctorDialog(row) {
+            this.doctorForm = row
+              ? {
+                  ...row,
+                  specialtiesText: Array.isArray(row.specialties) ? row.specialties.join('，') : ''
+                }
+              : { id: '', name: '', title: '', hospitalId: this.state.hospitals[0] ? this.state.hospitals[0].id : '', avatar: '', specialtiesText: '', goodAt: '', intro: '' };
+            this.doctorDialogVisible = true;
+          },
+          async saveDoctor() {
+            try {
+              const payload = {
+                ...this.doctorForm,
+                specialties: this.doctorForm.specialtiesText.split(/[，,]/).map((item) => item.trim()).filter(Boolean)
+              };
+              delete payload.specialtiesText;
+              const method = payload.id ? 'PUT' : 'POST';
+              const url = payload.id ? `/api/admin/doctors/${payload.id}` : '/api/admin/doctors';
+              await this.request(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              });
+              this.doctorDialogVisible = false;
+              await this.fetchBootstrap();
+              ElMessage.success('医生信息已保存');
+            } catch (error) {
+              ElMessage.error(error.message);
+            }
+          },
+          async removeDoctor(row) {
+            try {
+              await ElMessageBox.confirm(`确认删除医生 ${row.name}？`, '删除医生', { type: 'warning' });
+              await this.request(`/api/admin/doctors/${row.id}`, { method: 'DELETE' });
+              await this.fetchBootstrap();
+              ElMessage.success('医生已删除');
+            } catch (error) {
+              if (error !== 'cancel') {
+                ElMessage.error(error.message || '操作已取消');
+              }
+            }
+          },
+          openHospitalDialog(row) {
+            this.hospitalForm = row ? { ...row } : { id: '', name: '', address: '', phone: '' };
+            this.hospitalDialogVisible = true;
+          },
+          async saveHospital() {
+            try {
+              const method = this.hospitalForm.id ? 'PUT' : 'POST';
+              const url = this.hospitalForm.id ? `/api/admin/hospitals/${this.hospitalForm.id}` : '/api/admin/hospitals';
+              await this.request(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.hospitalForm)
+              });
+              this.hospitalDialogVisible = false;
+              await this.fetchBootstrap();
+              ElMessage.success('医院信息已保存');
+            } catch (error) {
+              ElMessage.error(error.message);
+            }
+          },
+          async removeHospital(row) {
+            try {
+              await ElMessageBox.confirm(`确认删除医院 ${row.name}？`, '删除医院', { type: 'warning' });
+              await this.request(`/api/admin/hospitals/${row.id}`, { method: 'DELETE' });
+              await this.fetchBootstrap();
+              ElMessage.success('医院已删除');
+            } catch (error) {
+              if (error !== 'cancel') {
+                ElMessage.error(error.message || '操作已取消');
+              }
+            }
+          },
+          openScheduleDialog(row) {
+            this.scheduleForm = row
+              ? { ...row }
+              : { id: '', doctorId: this.state.doctors[0] ? this.state.doctors[0].id : '', date: '', timeSlot: '', totalSlots: 8, bookedSlots: 0, status: '正常' };
+            this.scheduleDialogVisible = true;
+          },
+          async saveSchedule() {
+            try {
+              const method = this.scheduleForm.id ? 'PUT' : 'POST';
+              const url = this.scheduleForm.id ? `/api/admin/schedules/${this.scheduleForm.id}` : '/api/admin/schedules';
+              await this.request(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.scheduleForm)
+              });
+              this.scheduleDialogVisible = false;
+              await this.fetchBootstrap();
+              ElMessage.success('排班已保存');
+            } catch (error) {
+              ElMessage.error(error.message);
+            }
+          },
+          exportOrders() {
+            window.open('/api/admin/appointments/export', '_blank');
+          },
+          connectWs() {
+            const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+            this.ws = new WebSocket(`${protocol}://${window.location.host}`);
+            this.ws.onmessage = async (event) => {
+              const payload = JSON.parse(event.data);
+              if (payload.type !== 'connected') {
+                await this.fetchBootstrap();
+              }
+            };
+          }
+        },
+        async mounted() {
+          await this.fetchBootstrap();
+          this.connectWs();
+          window.addEventListener('resize', this.renderCharts);
+        },
+        beforeUnmount() {
+          window.removeEventListener('resize', this.renderCharts);
+          if (this.ws) {
+            this.ws.close();
+          }
+          if (this.dashboardChart) {
+            this.dashboardChart.dispose();
+          }
+          if (this.assessmentChart) {
+            this.assessmentChart.dispose();
+          }
+        }
+      }).use(ElementPlus).mount('#app');
+    </script>
+  </body>
+</html>

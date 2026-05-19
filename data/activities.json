@@ -1,0 +1,65 @@
+[
+  {
+    "id": "4978c01d-a5b4-4f05-8536-652948bdb8d1",
+    "action": "assessment_completed",
+    "title": "完成心理测评",
+    "detail": "王乐乐 完成 学龄儿童注意力表现筛查，结果 中 风险",
+    "createdAt": "2026-05-19T07:48:16.355Z"
+  },
+  {
+    "id": "93866084-6706-44bf-bb8e-7511aa502721",
+    "action": "appointment_created",
+    "title": "新增预约订单",
+    "detail": "王乐乐 已预约 赵舒宁 2026-05-21 09:00-09:30",
+    "createdAt": "2026-05-19T07:47:59.593Z"
+  },
+  {
+    "id": "d217f14a-49f1-4ace-be50-d7a03af1f03c",
+    "action": "assessment_completed",
+    "title": "完成心理测评",
+    "detail": "王乐乐 完成 儿童情绪风险快速筛查，结果 低 风险",
+    "createdAt": "2026-05-19T06:17:01.097Z"
+  },
+  {
+    "id": "32a1a17f-0bfe-4bff-b6d9-e3c1933a62b0",
+    "action": "appointment_created",
+    "title": "新增预约订单",
+    "detail": "王乐乐 已预约 姜叙白 2026-05-30 13:30-14:00",
+    "createdAt": "2026-05-19T06:15:37.748Z"
+  },
+  {
+    "id": "d7a54472-9632-486b-bb34-93a92f95d74e",
+    "action": "assessment_completed",
+    "title": "完成心理测评",
+    "detail": "王乐乐 完成 儿童情绪风险快速筛查，结果 中 风险",
+    "createdAt": "2026-05-19T05:00:46.672Z"
+  },
+  {
+    "id": "activity-001",
+    "action": "appointment_created",
+    "title": "新增预约订单",
+    "detail": "王乐乐 已预约 赵舒宁 2026-05-21 14:00-14:30",
+    "createdAt": "2026-05-18T08:30:00.000Z"
+  },
+  {
+    "id": "activity-002",
+    "action": "assessment_completed",
+    "title": "完成心理测评",
+    "detail": "王乐乐 完成 儿童情绪风险快速筛查，结果 高 风险",
+    "createdAt": "2026-05-17T15:20:00.000Z"
+  },
+  {
+    "id": "activity-003",
+    "action": "favorite_added",
+    "title": "收藏科普内容",
+    "detail": "内容 article-005 已加入收藏",
+    "createdAt": "2026-05-18T13:10:00.000Z"
+  },
+  {
+    "id": "activity-004",
+    "action": "review_created",
+    "title": "提交就诊评价",
+    "detail": "医生沟通耐心，给出的亲子任务非常具体。",
+    "createdAt": "2026-05-12T16:20:00.000Z"
+  }
+]

@@ -1,0 +1,212 @@
+[
+  {
+    "id": "schedule-001",
+    "doctorId": "doctor-001",
+    "date": "2026-05-21",
+    "timeSlot": "09:00-09:30",
+    "totalSlots": 8,
+    "bookedSlots": 4,
+    "availableSlots": 4,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-002",
+    "doctorId": "doctor-001",
+    "date": "2026-05-21",
+    "timeSlot": "14:00-14:30",
+    "totalSlots": 8,
+    "bookedSlots": 5,
+    "availableSlots": 3,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-003",
+    "doctorId": "doctor-002",
+    "date": "2026-05-21",
+    "timeSlot": "10:00-10:30",
+    "totalSlots": 10,
+    "bookedSlots": 4,
+    "availableSlots": 6,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-004",
+    "doctorId": "doctor-003",
+    "date": "2026-05-22",
+    "timeSlot": "09:30-10:00",
+    "totalSlots": 6,
+    "bookedSlots": 1,
+    "availableSlots": 5,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-005",
+    "doctorId": "doctor-004",
+    "date": "2026-05-22",
+    "timeSlot": "13:30-14:00",
+    "totalSlots": 8,
+    "bookedSlots": 2,
+    "availableSlots": 6,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-006",
+    "doctorId": "doctor-005",
+    "date": "2026-05-23",
+    "timeSlot": "09:00-09:30",
+    "totalSlots": 6,
+    "bookedSlots": 2,
+    "availableSlots": 4,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-007",
+    "doctorId": "doctor-006",
+    "date": "2026-05-23",
+    "timeSlot": "15:00-15:30",
+    "totalSlots": 6,
+    "bookedSlots": 5,
+    "availableSlots": 1,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-008",
+    "doctorId": "doctor-007",
+    "date": "2026-05-24",
+    "timeSlot": "10:30-11:00",
+    "totalSlots": 8,
+    "bookedSlots": 2,
+    "availableSlots": 6,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-009",
+    "doctorId": "doctor-008",
+    "date": "2026-05-24",
+    "timeSlot": "14:30-15:00",
+    "totalSlots": 8,
+    "bookedSlots": 3,
+    "availableSlots": 5,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-010",
+    "doctorId": "doctor-009",
+    "date": "2026-05-25",
+    "timeSlot": "09:00-09:30",
+    "totalSlots": 10,
+    "bookedSlots": 7,
+    "availableSlots": 3,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-011",
+    "doctorId": "doctor-010",
+    "date": "2026-05-25",
+    "timeSlot": "13:00-13:30",
+    "totalSlots": 8,
+    "bookedSlots": 4,
+    "availableSlots": 4,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-012",
+    "doctorId": "doctor-001",
+    "date": "2026-05-26",
+    "timeSlot": "09:00-09:30",
+    "totalSlots": 8,
+    "bookedSlots": 1,
+    "availableSlots": 7,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-013",
+    "doctorId": "doctor-002",
+    "date": "2026-05-26",
+    "timeSlot": "14:00-14:30",
+    "totalSlots": 8,
+    "bookedSlots": 2,
+    "availableSlots": 6,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-014",
+    "doctorId": "doctor-003",
+    "date": "2026-05-27",
+    "timeSlot": "10:00-10:30",
+    "totalSlots": 6,
+    "bookedSlots": 1,
+    "availableSlots": 5,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-015",
+    "doctorId": "doctor-004",
+    "date": "2026-05-27",
+    "timeSlot": "16:00-16:30",
+    "totalSlots": 8,
+    "bookedSlots": 0,
+    "availableSlots": 8,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-016",
+    "doctorId": "doctor-005",
+    "date": "2026-05-28",
+    "timeSlot": "09:30-10:00",
+    "totalSlots": 8,
+    "bookedSlots": 2,
+    "availableSlots": 6,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-017",
+    "doctorId": "doctor-006",
+    "date": "2026-05-28",
+    "timeSlot": "15:30-16:00",
+    "totalSlots": 6,
+    "bookedSlots": 3,
+    "availableSlots": 3,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-018",
+    "doctorId": "doctor-007",
+    "date": "2026-05-29",
+    "timeSlot": "10:00-10:30",
+    "totalSlots": 6,
+    "bookedSlots": 1,
+    "availableSlots": 5,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-019",
+    "doctorId": "doctor-008",
+    "date": "2026-05-29",
+    "timeSlot": "14:00-14:30",
+    "totalSlots": 8,
+    "bookedSlots": 2,
+    "availableSlots": 6,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-020",
+    "doctorId": "doctor-009",
+    "date": "2026-05-30",
+    "timeSlot": "09:00-09:30",
+    "totalSlots": 10,
+    "bookedSlots": 4,
+    "availableSlots": 6,
+    "status": "正常"
+  },
+  {
+    "id": "schedule-021",
+    "doctorId": "doctor-010",
+    "date": "2026-05-30",
+    "timeSlot": "13:30-14:00",
+    "totalSlots": 8,
+    "bookedSlots": 4,
+    "availableSlots": 4,
+    "status": "正常"
+  }
+]

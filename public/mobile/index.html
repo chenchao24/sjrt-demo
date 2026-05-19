@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>儿童心理健康家长服务端</title>
+  <link rel="stylesheet" href="/vendor/element-plus.css">
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/mobile.css">
+  <style>
+    .el-button{font-family:var(--font)!important;border-radius:var(--r-pill)!important}
+    .el-button--primary{--el-button-bg-color:var(--c-primary)!important;--el-button-border-color:var(--c-primary)!important;--el-button-hover-bg-color:var(--c-primary-hover)!important}
+    .el-input__inner,.el-textarea__inner{font-family:var(--font)!important;border-radius:var(--r-md)!important}
+    .el-select .el-input__wrapper{border-radius:var(--r-md)!important}
+    .el-form-item__label{font-size:var(--tx-sm)!important;color:var(--c-text-2)!important;font-weight:var(--fw-m)!important}
+    .el-dialog{border-radius:var(--r-2xl)!important}
+    .el-dialog__header{padding:20px 24px 14px!important}
+    .el-dialog__body{padding:0 24px 16px!important}
+    .el-dialog__footer{padding:12px 24px 20px!important}
+    .el-tabs__item{font-size:var(--tx-sm)!important}
+    .el-progress-bar__outer{border-radius:999px!important}
+    .el-progress-bar__inner{border-radius:999px!important}
+    .el-rate{height:auto!important}
+    .el-loading-mask{border-radius:54px}
+    [v-cloak]{display:none!important}
+  </style>
+</head>
+<body>
+<div class="phone-outer">
+  <div class="phone-btn-left"></div>
+  <div class="phone-btn-right"></div>
+  <div class="phone-screen">
+  <div class="phone-preloader" id="preloader">
+    <div class="preloader-spinner"></div>
+    <div style="margin-top:12px;font-size:12px;color:var(--c-text-3)">加载中...</div>
+  </div>
+  <div id="app" v-cloak>
+  <div class="mobile-shell" v-loading="loading">
+
+    <!-- Status bar (desktop decorative) -->
+    <div class="status-bar" :class="isHome ? 'on-dark' : 'on-light'">
+      <span class="status-time">{{ clockTime }}</span>
+      <span class="status-icons">▲▲▲ 🔋</span>
+    </div>
+
+    <!-- ══ HOME ══ -->
+    <div v-if="isHome" class="page" style="padding-top:0">
+      <div class="hero" style="margin-top:-52px;padding-top:66px;padding-bottom:8px">
+        <div class="hero-title-row">
+          <div class="hero-text-col">
+            <div class="hero-badge">盛京医疗联盟 · 儿童心理健康</div>
+            <div class="hero-title">👋 你好，{{ state.user.name || '家长' }}</div>
+            <div class="hero-sub">为您的孩子提供科普 · 测评 · 预约 · 随访全程服务</div>
+          </div>
+          <div class="hero-img-cluster">
+            <img class="hero-ic" style="width:86px;height:86px;top:50%;left:50%;transform:translate(-50%,-50%)" src="/css/img/pic/doctor-avatar-20.png" alt="">
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat" @click="go('/my-assessments')"><div class="hs-val">{{ state.assessments.length }}</div><div class="hs-label">测评记录</div></div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat" @click="go('/my-appointments')"><div class="hs-val">{{ pendingAppointments.length }}</div><div class="hs-label">待就诊</div></div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat" @click="go('/articles')"><div class="hs-val">{{ featuredArticles.length }}+</div><div class="hs-label">科普文章</div></div>
+        </div>
+        <div class="hero-row">
+          <div class="hero-pill">👩 {{ state.user.mobile || '已登录' }}</div>
+          <div class="hero-pill danger">☎ 紧急求助</div>
+        </div>
+      </div>
+
+      <!-- Notice strip -->
+      <div class="notice-strip" @click="go('/assessments')">
+        <span class="notice-tag">新上线</span>
+        <span class="notice-text">《儿童睡眠问题评估》量表已上线，欢迎体验专业测评</span>
+        <span style="color:var(--c-primary);flex-shrink:0">›</span>
+      </div>
+
+      <div class="section grid-2">
+        <div class="svc-card" @click="go('/articles')">
+          <div class="svc-icon" style="background:#EEF4FF">📖</div>
+          <div><div class="svc-name">心理科普</div><div class="svc-desc">图文视频 · 分类收藏</div></div>
+        </div>
+        <div class="svc-card" @click="go('/appointment')">
+          <div class="svc-icon" style="background:#E8F9F0">🩺</div>
+          <div><div class="svc-name">门诊预约</div><div class="svc-desc">实时号源 · 绿色通道</div></div>
+        </div>
+        <div class="svc-card" @click="go('/assessments')">
+          <div class="svc-icon" style="background:#FFF3E8">🧠</div>
+          <div><div class="svc-name">心理测评</div><div class="svc-desc">量表筛查 · 智能报告</div></div>
+        </div>
+        <div class="svc-card" @click="go('/my-appointments')">
+          <div class="svc-icon" style="background:#F0EDFF">📅</div>
+          <div><div class="svc-name">我的预约</div><div class="svc-desc">订单查看与取消</div></div>
+        </div>
+      </div>
+
+      <!-- Pending appointment reminder -->
+      <div class="appt-reminder section" v-if="pendingAppointments.length" @click="go('/my-appointments')">
+        <span style="font-size:24px">🗓️</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:var(--tx-sm);font-weight:var(--fw-sb);color:var(--c-primary)">{{ pendingAppointments.length }} 个待就诊预约</div>
+          <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-top:2px">{{ pendingAppointments[0].date }} {{ pendingAppointments[0].timeSlot }} · {{ pendingAppointments[0].doctor.name }}</div>
+        </div>
+        <span style="color:var(--c-primary);font-size:20px;flex-shrink:0">›</span>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><h3>推荐专家</h3><span class="see-all" @click="go('/appointment')">去预约 ›</span></div>
+        <div class="h-scroll">
+          <div class="expert-card" v-for="doctor in recommendedDoctors" :key="doctor.id" @click="openDoctor(doctor.id)">
+            <div :class="['letter-av', avColor(doctor.name)]" :style="docBgStyle(doctor)" style="width:52px;height:52px;font-size:20px;margin:0 auto var(--sp-3)">{{ doctor.name[0] }}</div>
+            <div style="font-size:var(--tx-sm);font-weight:var(--fw-sb);color:var(--c-text-1);text-align:center">{{ doctor.name }}</div>
+            <div style="font-size:10px;color:var(--c-text-3);margin:3px 0 var(--sp-2);text-align:center">{{ doctor.title }}</div>
+            <div style="text-align:center"><span class="chip orange" style="font-size:10px;padding:3px 8px">{{ doctor.specialties[0] }}</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><h3>精选科普</h3><span class="see-all" @click="go('/articles')">全部 ›</span></div>
+        <div class="card-stack">
+          <div class="article-card" v-for="article in featuredArticles" :key="article.id" @click="openArticle(article.id)">
+            <div class="article-thumb" style="height:150px">
+              <img :src="article.cover" :alt="article.title" @error="$event.target.style.opacity=0" style="width:100%;height:100%;object-fit:cover;display:block">
+              <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,.38));pointer-events:none"></div>
+              <span style="position:absolute;bottom:8px;left:10px;font-size:10px;font-weight:600;background:rgba(22,93,255,.9);color:#fff;padding:3px 8px;border-radius:999px">{{ article.contentType }}</span>
+            </div>
+            <div class="article-body">
+              <span class="eyebrow">{{ article.category }}</span>
+              <div class="article-title">{{ article.title }}</div>
+              <div class="article-meta">{{ article.author }} · {{ article.views }}次浏览</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ARTICLES ══ -->
+    <div v-else-if="route.path==='/articles'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/')">‹</button><h2>儿童心理科普</h2></div>
+      <div class="module-banner mb-blue">
+        <span class="banner-icon">📖</span>
+        <div class="banner-title">儿童心理科普</div>
+        <div class="banner-sub">图文 · 视频 · 专家解读 · 分类收藏</div>
+        <img class="banner-deco" src="/css/img/pic/doctor-avatar-14.png" alt="">
+      </div>
+      <div class="filter-section">
+        <div class="chip-row">
+          <span class="chip" :class="{active:articleType==='全部'}" @click="articleType='全部'">全部</span>
+          <span class="chip" :class="{active:articleType==='图文'}" @click="articleType='图文'">图文</span>
+          <span class="chip" :class="{active:articleType==='视频'}" @click="articleType='视频'">视频</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip" :class="{active:articleCategory==='全部'}" @click="articleCategory='全部'">全部分类</span>
+          <span class="chip" v-for="cat in state.categories" :key="cat" :class="{active:articleCategory===cat}" @click="articleCategory=cat">{{ cat }}</span>
+        </div>
+      </div>
+      <div class="card-stack section">
+        <div class="article-card" v-for="article in filteredArticles" :key="article.id">
+          <div style="display:flex;gap:var(--sp-3);padding:var(--sp-4);align-items:flex-start">
+            <div style="width:88px;height:72px;border-radius:var(--r-lg);overflow:hidden;background:linear-gradient(135deg,#EEF4FF,#dce9ff);flex-shrink:0">
+              <img style="width:100%;height:100%;object-fit:cover" :src="article.cover" @error="$event.target.style.opacity=0">
+            </div>
+            <div style="flex:1;min-width:0" @click="openArticle(article.id)">
+              <span class="eyebrow">{{ article.category }}</span>
+              <div class="article-title" style="font-size:var(--tx-base)">{{ article.title }}</div>
+              <div class="article-meta">{{ article.author }} · ♥ {{ article.favoriteCount }}</div>
+            </div>
+            <button @click="toggleFavorite(article)" style="border:none;background:none;cursor:pointer;font-size:22px;flex-shrink:0;padding:0;line-height:1;color:var(--c-warning);margin-top:2px">{{ article.isFavorite ? '★' : '☆' }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ARTICLE DETAIL ══ -->
+    <div v-else-if="route.path==='/article' && currentArticle" class="page" style="padding:0;padding-bottom:96px">
+      <div style="position:relative;height:240px;background:linear-gradient(135deg,#EEF4FF,#dce9ff);overflow:hidden">
+        <img style="width:100%;height:100%;object-fit:cover;display:block" :src="currentArticle.cover" @error="$event.target.style.opacity=0">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.24) 0%,transparent 45%,rgba(0,0,0,.6) 100%)"></div>
+        <button class="back-btn" style="position:absolute;top:16px;left:16px;background:rgba(255,255,255,.9)" @click="go('/articles')">‹</button>
+        <div style="position:absolute;bottom:16px;left:16px;right:16px">
+          <span class="eyebrow" style="background:rgba(255,255,255,.18);color:#fff;backdrop-filter:blur(8px)">{{ currentArticle.category }} · {{ currentArticle.contentType }}</span>
+        </div>
+      </div>
+      <div style="padding:var(--sp-4)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-3)">
+          <div style="flex:1">
+            <h1 style="margin:var(--sp-3) 0 var(--sp-2);font-size:20px;font-weight:var(--fw-b);color:var(--c-text-1);line-height:1.4">{{ currentArticle.title }}</h1>
+            <div style="font-size:var(--tx-xs);color:var(--c-text-3)">{{ currentArticle.author }} · {{ currentArticle.views }}次浏览 · ♥ {{ currentArticle.favoriteCount }}</div>
+          </div>
+          <button @click="toggleFavorite(currentArticle)" style="flex-shrink:0;border:none;background:var(--c-fill);border-radius:var(--r-lg);padding:8px 12px;cursor:pointer;font-size:var(--tx-xs);color:var(--c-text-2);white-space:nowrap">{{ currentArticle.isFavorite ? '★ 已收藏' : '☆ 收藏' }}</button>
+        </div>
+        <div class="card" style="padding:var(--sp-5);margin-top:var(--sp-4);font-size:var(--tx-base);line-height:1.9;color:var(--c-text-2)">{{ currentArticle.content }}</div>
+        <video v-if="currentArticle.contentType==='视频'" :src="currentArticle.videoUrl" controls style="width:100%;border-radius:var(--r-xl);margin-top:var(--sp-4)"></video>
+        <div v-if="(currentArticle.recommendedDoctors||[]).length" class="section">
+          <div class="section-head"><h3>相关困扰？立即预约专家</h3></div>
+          <div class="card-stack">
+            <div class="doctor-card" v-for="doctor in (currentArticle.recommendedDoctors||[])" :key="doctor.id" @click="openDoctor(doctor.id)">
+              <div :class="['letter-av', avColor(doctor.name)]" :style="docBgStyle(doctor)" style="width:52px;height:52px;font-size:20px;flex-shrink:0">{{ doctor.name[0] }}</div>
+              <div>
+                <div class="doc-name">{{ doctor.name }}</div>
+                <div class="doc-sub">{{ doctor.title }} · {{ doctor.hospital.name }}</div>
+                <div class="tag-row"><span class="chip orange" style="font-size:10px;padding:2px 7px" v-for="t in doctor.specialties.slice(0,2)" :key="t">{{ t }}</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ DOCTOR DETAIL ══ -->
+    <div v-else-if="route.path==='/doctor' && currentDoctor" class="page">
+      <div class="top-bar"><button class="back-btn" @click="historyBack()">‹</button><h2>医生详情</h2></div>
+      <div class="card" style="padding:var(--sp-5)">
+        <div style="display:flex;gap:var(--sp-4);align-items:flex-start">
+          <div :class="['letter-av', avColor(currentDoctor.name)]" :style="docBgStyle(currentDoctor)" style="width:72px;height:72px;font-size:28px;border-radius:var(--r-xl);flex-shrink:0">{{ currentDoctor.name[0] }}</div>
+          <div>
+            <div style="font-size:var(--tx-xl);font-weight:var(--fw-b);color:var(--c-text-1)">{{ currentDoctor.name }}</div>
+            <div style="font-size:var(--tx-sm);color:var(--c-text-3);margin:4px 0 var(--sp-3)">{{ currentDoctor.title }} · {{ currentDoctor.hospital.name }}</div>
+            <div class="tag-row"><span class="chip orange" style="font-size:10px;padding:2px 7px" v-for="t in currentDoctor.specialties" :key="t">{{ t }}</span></div>
+          </div>
+        </div>
+        <div style="margin-top:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid var(--c-fill)">
+          <div style="font-size:var(--tx-sm);color:var(--c-text-2);line-height:1.8">{{ currentDoctor.intro }}</div>
+          <div style="margin-top:var(--sp-3);font-size:var(--tx-sm);color:var(--c-text-2)"><b style="color:var(--c-text-1)">擅长：</b>{{ currentDoctor.goodAt }}</div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-head"><h3>近期可预约时段</h3></div>
+        <div v-if="currentDoctorSchedules.length" class="slot-grid">
+          <div v-for="slot in currentDoctorSchedules" :key="slot.id"
+            :class="['slot-btn', slot.availableSlots===0 ? 'full' : '']"
+            @click="slot.availableSlots>0 && bookFromDoctor(slot)">
+            <div class="slot-date">{{ slot.date }}</div>
+            <div class="slot-time">{{ slot.timeSlot }}</div>
+            <div :class="['slot-remain', slot.availableSlots===0?'gone':slot.availableSlots<=3?'warn':'ok']">
+              {{ slot.availableSlots===0 ? '已约满' : `余 ${slot.availableSlots} 号` }}
+            </div>
+          </div>
+        </div>
+        <div v-else class="empty-state" style="padding:var(--sp-8)"><div class="empty-icon">📅</div><div class="empty-text">暂无可预约时段</div></div>
+      </div>
+    </div>
+
+    <!-- ══ ASSESSMENTS ══ -->
+    <div v-else-if="route.path==='/assessments'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/')">‹</button><h2>儿童心理测评</h2></div>
+      <div class="module-banner mb-purple">
+        <span class="banner-icon">🧠</span>
+        <div class="banner-title">心理测评中心</div>
+        <div class="banner-sub">专业量表 · 智能评分 · 风险预警</div>
+        <img class="banner-deco" src="/css/img/pic/doctor-avatar-15.png" alt="">
+      </div>
+      <div class="filter-section">
+        <div class="chip-row">
+          <span class="chip" :class="{active:scaleAgeBand==='全部'}" @click="scaleAgeBand='全部'">全部年龄</span>
+          <span class="chip" v-for="age in ageBands" :key="age" :class="{active:scaleAgeBand===age}" @click="scaleAgeBand=age">{{ age }}</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip" :class="{active:scaleProblemType==='全部'}" @click="scaleProblemType='全部'">全部类型</span>
+          <span class="chip" v-for="t in problemTypes" :key="t" :class="{active:scaleProblemType===t}" @click="scaleProblemType=t">{{ t }}</span>
+        </div>
+      </div>
+      <div class="card-stack section">
+        <div class="assess-card" v-for="scale in filteredScales" :key="scale.id">
+          <!-- Image / color placeholder -->
+          <div class="scale-cover" :style="scaleCoverStyle(scale)">
+            <div class="scale-cover-badge">{{ scale.ageBand }} · {{ scale.questionCount }}题</div>
+            <div class="scale-cover-name">{{ scale.name }}</div>
+          </div>
+          <!-- Content -->
+          <div class="assess-body">
+            <div class="flex-between" style="gap:var(--sp-3);margin-bottom:var(--sp-3)">
+              <div style="flex:1">
+                <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-bottom:5px">{{ scale.problemType }}</div>
+                <div style="font-size:var(--tx-sm);color:var(--c-text-2);line-height:1.6">{{ scale.description }}</div>
+              </div>
+            </div>
+            <el-button type="primary" style="width:100%;height:40px" @click="startQuiz(scale.id)">开始测评</el-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ QUIZ ══ -->
+    <div v-else-if="route.path==='/quiz' && quizScale" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/assessments')">‹</button><h2>{{ quizScale.name }}</h2></div>
+      <div class="card" style="padding:var(--sp-4);margin-bottom:var(--sp-4)">
+        <div class="flex-between" style="margin-bottom:var(--sp-3)">
+          <div style="font-size:var(--tx-sm);color:var(--c-text-3)">第 <b style="color:var(--c-primary);font-size:var(--tx-md)">{{ quizIndex+1 }}</b> / {{ quizScale.questions.length }} 题</div>
+          <el-select v-model="quizPatientId" placeholder="选择儿童" size="small" style="width:130px">
+            <el-option v-for="p in state.patients" :key="p.id" :label="p.name" :value="p.id"></el-option>
+          </el-select>
+        </div>
+        <el-progress :percentage="Math.round((quizIndex/quizScale.questions.length)*100)" :show-text="false" :stroke-width="6"></el-progress>
+      </div>
+      <div class="card" style="padding:var(--sp-5)">
+        <div style="font-size:var(--tx-lg);font-weight:var(--fw-sb);color:var(--c-text-1);line-height:1.55;margin-bottom:var(--sp-5)">{{ currentQuizQuestion.title }}</div>
+        <div class="card-stack">
+          <div class="quiz-opt" v-for="opt in currentQuizQuestion.options" :key="opt.label" @click="selectAnswer(opt)">
+            <span class="quiz-opt-label">{{ opt.label }}</span>
+            <span class="quiz-opt-score">{{ opt.score }} 分</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ REPORT ══ -->
+    <div v-else-if="route.path==='/report' && currentReport" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/assessments')">‹</button><h2>测评报告</h2></div>
+      <div class="card" style="padding:var(--sp-6);text-align:center">
+        <div :class="['score-ring', currentReport.riskLevel==='高'?'high':currentReport.riskLevel==='中'?'mid':'low']">
+          <div class="score-val">{{ currentReport.score }}</div>
+          <div class="score-sub">/{{ currentReport.maxScore }}</div>
+        </div>
+        <div style="font-size:var(--tx-xl);font-weight:var(--fw-b);color:var(--c-text-1);margin-bottom:var(--sp-2)">{{ currentReport.scaleName }}</div>
+        <div style="font-size:var(--tx-sm);color:var(--c-text-3);margin-bottom:var(--sp-4)">{{ currentReport.patientName }}</div>
+        <span :class="['risk-badge', currentReport.riskLevel==='高'?'risk-high':currentReport.riskLevel==='中'?'risk-mid':'risk-low']">
+          {{ currentReport.riskLevel==='高'?'⚠️':currentReport.riskLevel==='中'?'⚡':'✅' }} {{ currentReport.riskLevel }}风险
+        </span>
+      </div>
+      <div v-if="currentReport.riskLevel==='高'" class="alert-box section">⚠️ 当前结果提示较高风险，建议尽快预约儿童心理专科进一步评估。</div>
+      <div class="advice-box section">{{ currentReport.suggestion }}</div>
+      <div class="section"><el-button type="primary" style="width:100%;height:48px;font-size:var(--tx-base)" @click="recommendBooking(currentReport)">一键预约推荐专家</el-button></div>
+    </div>
+
+    <!-- ══ APPOINTMENT ══ -->
+    <div v-else-if="route.path==='/appointment'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/')">‹</button><h2>门诊预约</h2></div>
+      <div class="module-banner mb-teal">
+        <span class="banner-icon">🩺</span>
+        <div class="banner-title">门诊预约绿色通道</div>
+        <div class="banner-sub">实时号源 · 四步流程 · 预问诊随访</div>
+        <img class="banner-deco" src="/css/img/pic/doctor-avatar-12.png" alt="">
+      </div>
+
+      <!-- 4-step indicator -->
+      <div class="booking-steps">
+        <div class="step-dot-wrap">
+          <div :class="['step-dot', booking.step>=1?'active':'', booking.step>1?'done':'']">{{ booking.step>1?'✓':'1' }}</div>
+          <div :class="['step-name', booking.step===1?'active':'']">选医生</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-dot-wrap">
+          <div :class="['step-dot', booking.step>=2?'active':'', booking.step>2?'done':'']">{{ booking.step>2?'✓':'2' }}</div>
+          <div :class="['step-name', booking.step===2?'active':'']">选时段</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-dot-wrap">
+          <div :class="['step-dot', booking.step>=3?'active':'', booking.step>3?'done':'']">{{ booking.step>3?'✓':'3' }}</div>
+          <div :class="['step-name', booking.step===3?'active':'']">预问诊</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-dot-wrap">
+          <div :class="['step-dot', booking.step>=4?'active':'']">4</div>
+          <div :class="['step-name', booking.step===4?'active':'']">确认</div>
+        </div>
+      </div>
+
+      <!-- Step 1: Select Doctor (full-width list) -->
+      <div v-if="booking.step===1">
+        <div style="font-size:var(--tx-sm);color:var(--c-text-3);margin-bottom:var(--sp-3)">共 {{ state.doctors.length }} 位儿童心理专家，点击选择</div>
+        <div class="card-stack">
+          <div v-for="doctor in state.doctors" :key="doctor.id"
+            :class="['doctor-select-card', booking.doctorId===doctor.id?'selected':'']"
+            @click="selectDoctor(doctor.id)">
+            <div :class="['letter-av', avColor(doctor.name)]" :style="docBgStyle(doctor)" style="width:60px;height:60px;font-size:24px;flex-shrink:0;border-radius:var(--r-xl)">{{ doctor.name[0] }}</div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+                <span style="font-size:var(--tx-lg);font-weight:var(--fw-b);color:var(--c-text-1)">{{ doctor.name }}</span>
+                <span v-if="booking.doctorId===doctor.id" style="color:var(--c-success);font-size:20px;font-weight:700">✓</span>
+              </div>
+              <div style="font-size:var(--tx-sm);color:var(--c-text-3);margin-bottom:var(--sp-2)">{{ doctor.title }} · {{ doctor.hospital.name }}</div>
+              <div class="tag-row" style="margin-bottom:var(--sp-2)">
+                <span class="chip orange" style="font-size:10px;padding:2px 7px" v-for="t in doctor.specialties.slice(0,2)" :key="t">{{ t }}</span>
+              </div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3);line-height:1.5">{{ doctor.goodAt }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <el-button type="primary" style="width:100%;height:48px" :disabled="!booking.doctorId" @click="booking.step=2">下一步：选择时段 →</el-button>
+        </div>
+      </div>
+
+      <!-- Step 2: Select Slot -->
+      <div v-else-if="booking.step===2">
+        <div v-if="selectedDoctor" class="card" style="padding:var(--sp-3) var(--sp-4);display:flex;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-4)">
+          <div :class="['letter-av', avColor(selectedDoctor.name)]" :style="docBgStyle(selectedDoctor)" style="width:44px;height:44px;font-size:18px;flex-shrink:0">{{ selectedDoctor.name[0] }}</div>
+          <div>
+            <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1)">{{ selectedDoctor.name }}</div>
+            <div style="font-size:var(--tx-xs);color:var(--c-text-3)">{{ selectedDoctor.title }} · {{ selectedDoctor.hospital.name }}</div>
+          </div>
+        </div>
+        <div class="section-head"><h3>请选择就诊时段</h3></div>
+        <div v-if="bookingSchedules.length" class="slot-grid">
+          <div v-for="slot in bookingSchedules" :key="slot.id"
+            :class="['slot-btn', booking.scheduleId===slot.id?'selected':'']"
+            @click="selectSchedule(slot)">
+            <div class="slot-date">{{ slot.date }}</div>
+            <div class="slot-time">{{ slot.timeSlot }}</div>
+            <div :class="['slot-remain', slot.availableSlots<=3?'warn':'ok']">余 {{ slot.availableSlots }} 号</div>
+          </div>
+        </div>
+        <div v-else class="empty-state" style="padding:var(--sp-8)"><div class="empty-icon">📅</div><div class="empty-text">该医生暂无可预约号源<br>请返回选择其他医生</div></div>
+        <div class="grid-2 section">
+          <el-button style="height:44px" @click="booking.step=1">← 返回选医生</el-button>
+          <el-button type="primary" style="height:44px" :disabled="!booking.scheduleId" @click="enterBookingStep3()">下一步：预问诊 →</el-button>
+        </div>
+      </div>
+
+      <!-- Step 3: Pre-consultation -->
+      <div v-else-if="booking.step===3">
+        <div class="section-head"><h3>选择就诊人</h3><span class="see-all" @click="go('/patients')">管理 ›</span></div>
+        <div class="card-stack">
+          <div v-for="patient in state.patients" :key="patient.id"
+            :class="['patient-card', booking.patientId===patient.id?'selected':'']"
+            @click="booking.patientId=patient.id">
+            <div class="flex-between">
+              <div>
+                <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1)">{{ patient.name }}</div>
+                <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-top:3px">{{ patient.gender }} · {{ patient.age }}岁 · {{ patient.grade }}</div>
+              </div>
+              <div v-if="booking.patientId===patient.id" style="color:var(--c-success);font-size:20px">✓</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-section section">
+          <div class="form-title">儿童专属预问诊</div>
+          <el-form label-position="top" size="small">
+            <el-form-item label="1. 本次就诊主要问题"><el-input v-model="booking.preConsultation.mainIssue" type="textarea" :rows="2" placeholder="请简要描述孩子的主要问题..."></el-input></el-form-item>
+            <el-form-item label="2. 症状持续时间"><el-input v-model="booking.preConsultation.duration" placeholder="如：2个月、半年以上"></el-input></el-form-item>
+            <el-form-item label="3. 是否曾在其他医院就诊">
+              <el-select v-model="booking.preConsultation.history" style="width:100%">
+                <el-option label="否" value="否"></el-option><el-option label="是" value="是"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="4. 主要行为表现"><el-input v-model="booking.preConsultation.behavior" type="textarea" :rows="2" placeholder="如：注意力分散、情绪易激动..."></el-input></el-form-item>
+            <el-form-item label="5. 生长发育情况"><el-input v-model="booking.preConsultation.development" placeholder="如：发育正常/轻度迟缓"></el-input></el-form-item>
+            <el-form-item label="6. 近半年家庭是否有重大变化"><el-input v-model="booking.preConsultation.familyChange" placeholder="如：搬家、父母离异、升学压力..."></el-input></el-form-item>
+          </el-form>
+        </div>
+        <div class="grid-2 section">
+          <el-button style="height:44px" @click="booking.step=2">← 上一步</el-button>
+          <el-button type="primary" style="height:44px" :disabled="!canGoBookingConfirm" @click="booking.step=4">下一步：确认 →</el-button>
+        </div>
+      </div>
+
+      <!-- Step 4: Confirm -->
+      <div v-else-if="booking.step===4">
+        <div class="summary-card">
+          <div style="font-size:var(--tx-lg);font-weight:var(--fw-b);color:var(--c-text-1);margin-bottom:var(--sp-4)">确认预约信息</div>
+          <div class="summary-row"><span class="s-label">医生</span><span class="s-value">{{ selectedDoctor && selectedDoctor.name }}</span></div>
+          <div class="summary-row"><span class="s-label">职称</span><span class="s-value">{{ selectedDoctor && selectedDoctor.title }}</span></div>
+          <div class="summary-row"><span class="s-label">医院</span><span class="s-value">{{ selectedDoctor && selectedDoctor.hospital.name }}</span></div>
+          <div class="summary-row"><span class="s-label">预约时间</span><span class="s-value">{{ selectedSchedule && (selectedSchedule.date + ' ' + selectedSchedule.timeSlot) }}</span></div>
+          <div class="summary-row"><span class="s-label">就诊人</span><span class="s-value">{{ selectedPatient && selectedPatient.name }}</span></div>
+          <div class="summary-row"><span class="s-label">儿童年龄</span><span class="s-value">{{ selectedPatient && selectedPatient.age }} 岁</span></div>
+        </div>
+        <div class="advice-box section" style="font-size:var(--tx-xs)">📋 请携带儿童有效证件与既往检查资料，提前 15 分钟到院。就诊前 24 小时内可在「我的预约」中取消。</div>
+        <div class="grid-2 section">
+          <el-button style="height:44px" @click="booking.step=3">← 上一步</el-button>
+          <el-button type="primary" style="height:44px" @click="submitAppointment">确认提交</el-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ APPOINTMENT SUCCESS ══ -->
+    <div v-else-if="route.path==='/appointment-success'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/')">‹</button><h2>预约结果</h2></div>
+      <div class="success-page" style="position:relative;overflow:hidden">
+        <img src="/css/img/pic/doctor-avatar-12.png" style="position:absolute;right:-20px;top:20px;height:210px;width:auto;object-fit:cover;object-position:top;opacity:.18;pointer-events:none;border-radius:var(--r-xl)">
+        <div class="success-check">✅</div>
+        <div class="success-title">预约成功！</div>
+        <div class="success-sub">您的门诊预约已提交，请准时就诊</div>
+        <div class="summary-card" style="margin-top:var(--sp-5);text-align:left" v-if="lastAppointment">
+          <div class="summary-row"><span class="s-label">医生</span><span class="s-value">{{ lastAppointment.doctor && lastAppointment.doctor.name }}</span></div>
+          <div class="summary-row"><span class="s-label">医院</span><span class="s-value">{{ lastAppointment.doctor && lastAppointment.doctor.hospital && lastAppointment.doctor.hospital.name }}</span></div>
+          <div class="summary-row"><span class="s-label">就诊时间</span><span class="s-value">{{ lastAppointment.date }} {{ lastAppointment.timeSlot }}</span></div>
+          <div class="summary-row"><span class="s-label">就诊人</span><span class="s-value">{{ lastAppointment.patient && lastAppointment.patient.name }}</span></div>
+        </div>
+        <div class="advice-box" style="margin-top:var(--sp-4);font-size:var(--tx-xs)">📋 请携带儿童有效证件与既往检查资料，提前 15 分钟到院。就诊前 24 小时内可在「我的预约」中取消。</div>
+        <div style="display:grid;gap:var(--sp-3);margin-top:var(--sp-5)">
+          <el-button type="primary" style="width:100%;height:48px" @click="go('/my-appointments')">查看我的预约</el-button>
+          <el-button style="width:100%;height:44px" @click="go('/')">返回首页</el-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ MY APPOINTMENTS ══ -->
+    <div v-else-if="route.path==='/my-appointments'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/')">‹</button><h2>我的预约</h2></div>
+      <div class="module-banner mb-sky">
+        <span class="banner-icon">📅</span>
+        <div class="banner-title">我的预约记录</div>
+        <div class="banner-sub">待就诊 · 已完成 · 历史订单管理</div>
+        <img class="banner-deco" src="/css/img/pic/doctor-avatar-13.png" alt="">
+      </div>
+      <div class="chip-row">
+        <span class="chip" :class="{active:appointmentTab==='全部'}" @click="appointmentTab='全部'">全部</span>
+        <span class="chip" :class="{active:appointmentTab==='待就诊'}" @click="appointmentTab='待就诊'">待就诊</span>
+        <span class="chip" :class="{active:appointmentTab==='已完成'}" @click="appointmentTab='已完成'">已完成</span>
+        <span class="chip" :class="{active:appointmentTab==='已取消'}" @click="appointmentTab='已取消'">已取消</span>
+      </div>
+      <div class="card-stack section" v-if="filteredAppointments.length">
+        <div class="appt-card" v-for="item in filteredAppointments" :key="item.id">
+          <div class="appt-header">
+            <div :class="['letter-av', avColor(item.doctor.name)]" :style="docBgStyle(item.doctor)" style="width:44px;height:44px;font-size:17px;flex-shrink:0">{{ item.doctor.name[0] }}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1)">{{ item.doctor.name }}</div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin:2px 0">{{ item.doctor.hospital.name }}</div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-2)">{{ item.date }} {{ item.timeSlot }} · {{ item.patient.name }}</div>
+            </div>
+            <span :class="['chip', item.status==='待就诊'?'green':item.status==='已取消'?'red':'orange']" style="font-size:10px;flex-shrink:0">{{ item.status }}</span>
+          </div>
+          <div class="appt-footer">
+            <span style="font-size:var(--tx-xs);color:var(--c-text-3);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ item.preConsultation.mainIssue }}</span>
+            <div style="display:flex;gap:var(--sp-2);flex-shrink:0">
+              <el-button size="small" @click="showAppointmentDetail(item)">详情</el-button>
+              <el-button v-if="item.canCancel" size="small" type="danger" plain @click="cancelAppointment(item)">取消</el-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-else class="empty-state section"><div class="empty-icon">📅</div><div class="empty-text">暂无预约记录<br>前往「预约」选择医生开始预约</div></div>
+    </div>
+
+    <!-- ══ PROFILE ══ -->
+    <div v-else-if="route.path==='/profile'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/')">‹</button><h2>个人中心</h2></div>
+      <div class="profile-hero">
+        <div class="profile-av">{{ (state.user.name||'用')[0] }}</div>
+        <div><div class="profile-name">{{ state.user.name }}</div><div class="profile-sub">{{ state.user.mobile }}</div></div>
+      </div>
+      <div class="stats-row section">
+        <div class="stat-card" @click="go('/favorites')"><div class="stat-label">我的收藏</div><div class="stat-value">{{ favoriteArticles.length }}</div></div>
+        <div class="stat-card" @click="go('/my-assessments')"><div class="stat-label">测评记录</div><div class="stat-value">{{ state.assessments.length }}</div></div>
+        <div class="stat-card" @click="go('/my-appointments')"><div class="stat-label">待就诊</div><div class="stat-value">{{ pendingAppointments.length }}</div></div>
+      </div>
+      <div class="menu-list section">
+        <div class="menu-row" @click="go('/patients')"><div class="menu-icon" style="background:#EEF4FF">👶</div><span class="menu-text">我的就诊人</span><span class="menu-arrow">›</span></div>
+        <div class="menu-row" @click="go('/favorites')"><div class="menu-icon" style="background:#FFF3E8">⭐</div><span class="menu-text">我的收藏</span><span class="menu-arrow">›</span></div>
+        <div class="menu-row" @click="go('/my-assessments')"><div class="menu-icon" style="background:#E8F9F0">📊</div><span class="menu-text">我的测评</span><span class="menu-arrow">›</span></div>
+        <div class="menu-row" @click="go('/my-appointments')"><div class="menu-icon" style="background:#F0EDFF">📅</div><span class="menu-text">我的预约</span><span class="menu-arrow">›</span></div>
+        <div class="menu-row" @click="go('/reviews')"><div class="menu-icon" style="background:#FFECE8">💬</div><span class="menu-text">我的评价</span><span class="menu-arrow">›</span></div>
+        <a href="/" class="menu-row" style="text-decoration:none"><div class="menu-icon" style="background:#F5F5F5">🏠</div><span class="menu-text" style="color:var(--c-text-3)">返回演示首页</span><span class="menu-arrow">›</span></a>
+      </div>
+    </div>
+
+    <!-- ══ PATIENTS ══ -->
+    <div v-else-if="route.path==='/patients'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/profile')">‹</button><h2>我的就诊人</h2></div>
+      <div class="module-banner mb-indigo">
+        <span class="banner-icon">👶</span>
+        <div class="banner-title">就诊人管理</div>
+        <div class="banner-sub">儿童档案 · 最多添加 5 个就诊人</div>
+        <img class="banner-deco" src="/css/img/pic/doctor-avatar-16.png" alt="">
+      </div>
+      <el-button type="primary" style="width:100%;height:44px;margin-bottom:var(--sp-3)" :disabled="state.patients.length>=5" @click="openPatientDialog()">+ 新增就诊人</el-button>
+      <div v-if="state.patients.length>=5" style="text-align:center;font-size:var(--tx-xs);color:var(--c-text-3);margin-bottom:var(--sp-3)">最多添加 5 个就诊人</div>
+      <div class="card-stack">
+        <div class="card" style="padding:var(--sp-4)" v-for="patient in state.patients" :key="patient.id">
+          <div class="flex-between" style="margin-bottom:var(--sp-2)">
+            <div>
+              <div style="font-size:var(--tx-md);font-weight:var(--fw-sb);color:var(--c-text-1)">{{ patient.name }}</div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-top:3px">{{ patient.gender }} · {{ patient.age }}岁 · {{ patient.grade }} · {{ patient.relationship }}</div>
+            </div>
+            <div style="display:flex;gap:var(--sp-2)">
+              <el-button size="small" @click="openPatientDialog(patient)">编辑</el-button>
+              <el-button size="small" type="danger" plain @click="removePatient(patient)">删除</el-button>
+            </div>
+          </div>
+          <div style="font-size:var(--tx-xs);color:var(--c-text-3)">紧急联系人：{{ patient.emergencyContact }} {{ patient.emergencyPhone }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ FAVORITES ══ -->
+    <div v-else-if="route.path==='/favorites'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/profile')">‹</button><h2>我的收藏</h2></div>
+      <div class="module-banner mb-amber">
+        <span class="banner-icon">⭐</span>
+        <div class="banner-title">我的收藏</div>
+        <div class="banner-sub">收藏科普文章 · 随时查看回顾</div>
+        <img class="banner-deco" src="/css/img/pic/doctor-avatar-17.png" alt="">
+      </div>
+      <div class="card-stack" v-if="favoriteArticles.length">
+        <div class="article-card" v-for="article in favoriteArticles" :key="article.id" @click="openArticle(article.id)">
+          <div style="height:120px;overflow:hidden;background:linear-gradient(135deg,#EEF4FF,#dce9ff)">
+            <img style="width:100%;height:100%;object-fit:cover" :src="article.cover" @error="$event.target.style.opacity=0">
+          </div>
+          <div class="article-body"><span class="eyebrow">{{ article.category }}</span><div class="article-title">{{ article.title }}</div></div>
+        </div>
+      </div>
+      <div v-else class="empty-state"><div class="empty-icon">⭐</div><div class="empty-text">还没有收藏内容<br>浏览科普内容时点击 ☆ 即可收藏</div></div>
+    </div>
+
+    <!-- ══ MY ASSESSMENTS ══ -->
+    <div v-else-if="route.path==='/my-assessments'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/profile')">‹</button><h2>我的测评</h2></div>
+      <div class="module-banner mb-green">
+        <span class="banner-icon">📊</span>
+        <div class="banner-title">测评历史报告</div>
+        <div class="banner-sub">历史记录 · 风险跟踪 · 持续关注</div>
+        <img class="banner-deco" src="/css/img/pic/doctor-avatar-18.png" alt="">
+      </div>
+      <div class="card-stack" v-if="state.assessments.length">
+        <div class="report-card" v-for="item in state.assessments" :key="item.id" @click="openReport(item.id)">
+          <div class="report-card-header" :style="reportCardBg(item.riskLevel)">
+            <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:white;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ item.scaleName }}</div>
+            <span style="background:rgba(255,255,255,.22);color:white;font-size:10px;padding:3px 10px;border-radius:999px;flex-shrink:0;backdrop-filter:blur(4px)">{{ item.riskLevel }}风险</span>
+          </div>
+          <div class="report-card-body">
+            <div style="display:flex;align-items:center;gap:var(--sp-4);margin-bottom:var(--sp-3)">
+              <div>
+                <div style="font-size:var(--tx-xxs);color:var(--c-text-3)">综合得分</div>
+                <div style="font-size:22px;font-weight:var(--fw-b);color:var(--c-text-1);line-height:1.1">{{ item.score }}<span style="font-size:12px;color:var(--c-text-4)">/{{ item.maxScore }}</span></div>
+              </div>
+              <el-progress style="flex:1" :percentage="Math.round((item.score/item.maxScore)*100)" :stroke-width="8" :show-text="false" :color="item.riskLevel==='高'?'#F53F3F':item.riskLevel==='中'?'#FF7D00':'#00B578'"></el-progress>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3)">{{ item.patientName }} · {{ item.createdAt.slice(0,10) }}</div>
+              <span style="font-size:var(--tx-xs);color:var(--c-primary);font-weight:var(--fw-m)">查看报告 ›</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-else class="empty-state"><div class="empty-icon">📊</div><div class="empty-text">暂无测评记录<br>前往「测评」页面开始第一次评测</div></div>
+    </div>
+
+    <!-- ══ REVIEWS ══ -->
+    <div v-else-if="route.path==='/reviews'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/profile')">‹</button><h2>我的评价</h2></div>
+      <div class="module-banner mb-rose">
+        <span class="banner-icon">💬</span>
+        <div class="banner-title">评价与反馈</div>
+        <div class="banner-sub">就诊评价 · 平台建议 · 持续改进</div>
+        <img class="banner-deco" src="/css/img/pic/doctor-avatar-19.png" alt="">
+      </div>
+      <el-tabs v-model="reviewTab">
+        <el-tab-pane label="待评价" name="pending">
+          <div class="card-stack section" v-if="pendingReviewAppointments.length">
+            <div class="review-card" v-for="item in pendingReviewAppointments" :key="item.id" v-if="reviewDrafts[item.id]">
+              <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1)">{{ item.doctor.name }}</div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin:4px 0 var(--sp-3)">{{ item.date }} {{ item.timeSlot }} · {{ item.patient.name }}</div>
+              <el-rate v-model="reviewDrafts[item.id].rating" style="margin-bottom:var(--sp-2)"></el-rate>
+              <el-input v-model="reviewDrafts[item.id].content" type="textarea" :rows="3" placeholder="分享您的就诊体验..."></el-input>
+              <el-button type="primary" style="width:100%;height:40px;margin-top:var(--sp-3)" @click="submitReview(item)">提交评价</el-button>
+            </div>
+          </div>
+          <div v-else class="empty-state section"><div class="empty-icon">💬</div><div class="empty-text">暂无待评价订单</div></div>
+        </el-tab-pane>
+        <el-tab-pane label="已评价" name="history">
+          <div class="card-stack section" v-if="historyReviews.length">
+            <div class="review-card" v-for="item in historyReviews" :key="item.id">
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3)">{{ item.createdAt.slice(0,10) }}</div>
+              <el-rate :model-value="item.rating" disabled style="margin:var(--sp-2) 0"></el-rate>
+              <div style="font-size:var(--tx-base);color:var(--c-text-2);line-height:1.7">{{ item.content }}</div>
+            </div>
+          </div>
+          <div v-else class="empty-state section"><div class="empty-icon">🌟</div><div class="empty-text">暂无评价记录</div></div>
+        </el-tab-pane>
+        <el-tab-pane label="意见留言" name="feedback">
+          <div class="review-card section">
+            <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1);margin-bottom:var(--sp-3)">提交平台建议</div>
+            <el-input v-model="feedbackMessage" type="textarea" :rows="5" placeholder="您的建议将帮助我们改进服务..."></el-input>
+            <el-button type="primary" style="width:100%;height:40px;margin-top:var(--sp-3)" @click="submitFeedback">提交留言</el-button>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+
+    <!-- ══ 404 ══ -->
+    <div v-else class="page">
+      <div class="empty-state" style="padding-top:80px"><div class="empty-icon">🔍</div><div class="empty-text">页面不存在</div></div>
+    </div>
+
+    <!-- ══ Bottom Nav ══ -->
+    <div class="bottom-nav">
+      <div class="nav-item" :class="{active:isHome}" @click="go('/')"><span class="nav-icon">🏠</span><span class="nav-label">首页</span></div>
+      <div class="nav-item" :class="{active:route.path==='/articles'||route.path==='/article'}" @click="go('/articles')"><span class="nav-icon">📖</span><span class="nav-label">科普</span></div>
+      <div class="nav-item" :class="{active:route.path==='/assessments'||route.path==='/quiz'||route.path==='/report'||route.path==='/my-assessments'}" @click="go('/assessments')"><span class="nav-icon">🧠</span><span class="nav-label">测评</span></div>
+      <div class="nav-item" :class="{active:route.path==='/appointment'||route.path==='/doctor'||route.path==='/my-appointments'}" @click="go('/appointment')"><span class="nav-icon">🩺</span><span class="nav-label">预约</span></div>
+      <div class="nav-item" :class="{active:route.path==='/profile'||route.path==='/patients'||route.path==='/favorites'||route.path==='/reviews'}" @click="go('/profile')"><span class="nav-icon">👤</span><span class="nav-label">我的</span></div>
+    </div>
+
+    <!-- ══ Dialogs ══ -->
+    <el-dialog v-model="patientDialogVisible" title="儿童就诊人信息" width="92%" :append-to-body="false">
+      <el-form label-position="top" size="small">
+        <el-form-item label="姓名"><el-input v-model="patientForm.name"></el-input></el-form-item>
+        <el-form-item label="身份证号"><el-input v-model="patientForm.idCard"></el-input></el-form-item>
+        <div class="grid-2">
+          <el-form-item label="出生日期"><el-date-picker v-model="patientForm.birthDate" type="date" value-format="YYYY-MM-DD" style="width:100%"></el-date-picker></el-form-item>
+          <el-form-item label="性别"><el-select v-model="patientForm.gender" style="width:100%"><el-option label="男" value="男"></el-option><el-option label="女" value="女"></el-option></el-select></el-form-item>
+        </div>
+        <div class="grid-2">
+          <el-form-item label="就读年级"><el-input v-model="patientForm.grade"></el-input></el-form-item>
+          <el-form-item label="与本人关系"><el-input v-model="patientForm.relationship"></el-input></el-form-item>
+        </div>
+        <el-form-item label="联系电话"><el-input v-model="patientForm.phone"></el-input></el-form-item>
+        <div class="grid-2">
+          <el-form-item label="紧急联系人"><el-input v-model="patientForm.emergencyContact"></el-input></el-form-item>
+          <el-form-item label="紧急联系电话"><el-input v-model="patientForm.emergencyPhone"></el-input></el-form-item>
+        </div>
+      </el-form>
+      <template #footer>
+        <el-button @click="patientDialogVisible=false">取消</el-button>
+        <el-button type="primary" @click="savePatient">保存</el-button>
+      </template>
+    </el-dialog>
+
+    <el-dialog v-model="appointmentDetailVisible" title="预约详情" width="92%" :append-to-body="false">
+      <div v-if="activeAppointment" style="padding-top:4px">
+        <div class="summary-row"><span class="s-label">医生</span><span class="s-value">{{ activeAppointment.doctor.name }}</span></div>
+        <div class="summary-row"><span class="s-label">医院</span><span class="s-value">{{ activeAppointment.doctor.hospital.name }}</span></div>
+        <div class="summary-row"><span class="s-label">时间</span><span class="s-value">{{ activeAppointment.date }} {{ activeAppointment.timeSlot }}</span></div>
+        <div class="summary-row"><span class="s-label">就诊人</span><span class="s-value">{{ activeAppointment.patient.name }}</span></div>
+        <div class="summary-row"><span class="s-label">主要问题</span><span class="s-value" style="max-width:180px;text-align:right">{{ activeAppointment.preConsultation.mainIssue }}</span></div>
+        <div class="summary-row"><span class="s-label">行为表现</span><span class="s-value" style="max-width:180px;text-align:right">{{ activeAppointment.preConsultation.behavior }}</span></div>
+      </div>
+    </el-dialog>
+
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+<a href="/" class="back-home-btn">← 返回演示首页</a>
+
+<script src="/vendor/vue.js"></script>
+<script src="/vendor/element-plus.js"></script>
+<script>
+const { createApp } = Vue;
+const { ElMessage, ElMessageBox } = ElementPlus;
+
+createApp({
+  data() {
+    return {
+      loading: false, ws: null, clockTime: '--:--',
+      route: { path: '/', query: {} },
+      state: { user:{}, categories:[], articles:[], doctors:[], hospitals:[],
+        scales:[], schedules:[], patients:[], appointments:[], assessments:[], favorites:[], reviews:[] },
+      articleType:'全部', articleCategory:'全部',
+      scaleAgeBand:'全部', scaleProblemType:'全部',
+      quizScale:null, quizIndex:0, quizAnswers:[], quizPatientId:'',
+      articleDetail:null,
+      booking:{ step:1, doctorId:'', scheduleId:'', patientId:'',
+        preConsultation:{ mainIssue:'', duration:'', history:'否', behavior:'', development:'', familyChange:'' } },
+      appointmentTab:'全部', activeAppointment:null, appointmentDetailVisible:false,
+      lastAppointment: null,
+      reviewTab:'pending', reviewDrafts:{}, feedbackMessage:'',
+      patientDialogVisible:false,
+      patientForm:{ id:'', name:'', idCard:'', birthDate:'', gender:'男', grade:'', relationship:'', phone:'', emergencyContact:'', emergencyPhone:'' }
+    };
+  },
+  computed: {
+    isHome(){ return this.route.path==='/'; },
+    featuredArticles(){ return this.state.articles.slice(0,3); },
+    recommendedDoctors(){ return this.state.doctors.slice(0,6); },
+    filteredArticles(){
+      return this.state.articles.filter(a=>
+        (this.articleType==='全部'||a.contentType===this.articleType)&&
+        (this.articleCategory==='全部'||a.category===this.articleCategory));
+    },
+    favoriteArticles(){ return this.state.articles.filter(a=>a.isFavorite); },
+    currentArticle(){
+      if(this.articleDetail&&this.articleDetail.id===this.route.query.id) return this.articleDetail;
+      return this.state.articles.find(a=>a.id===this.route.query.id)||null;
+    },
+    currentDoctor(){ return this.state.doctors.find(d=>d.id===this.route.query.id)||null; },
+    currentDoctorSchedules(){
+      return this.state.schedules.filter(s=>s.doctorId===this.route.query.id&&s.status==='正常')
+        .sort((a,b)=>(a.date+a.timeSlot).localeCompare(b.date+b.timeSlot));
+    },
+    ageBands(){ return[...new Set(this.state.scales.map(s=>s.ageBand))]; },
+    problemTypes(){ return[...new Set(this.state.scales.map(s=>s.problemType))]; },
+    filteredScales(){
+      return this.state.scales.filter(s=>
+        (this.scaleAgeBand==='全部'||s.ageBand===this.scaleAgeBand)&&
+        (this.scaleProblemType==='全部'||s.problemType===this.scaleProblemType));
+    },
+    currentQuizQuestion(){ return this.quizScale?this.quizScale.questions[this.quizIndex]:null; },
+    currentReport(){ return this.state.assessments.find(a=>a.id===this.route.query.id)||null; },
+    selectedDoctor(){ return this.state.doctors.find(d=>d.id===this.booking.doctorId)||null; },
+    selectedSchedule(){ return this.state.schedules.find(s=>s.id===this.booking.scheduleId)||null; },
+    selectedPatient(){ return this.state.patients.find(p=>p.id===this.booking.patientId)||null; },
+    bookingSchedules(){
+      return this.state.schedules.filter(s=>s.doctorId===this.booking.doctorId&&s.availableSlots>0&&s.status==='正常')
+        .sort((a,b)=>(a.date+a.timeSlot).localeCompare(b.date+b.timeSlot));
+    },
+    canGoBookingConfirm(){
+      return !!this.booking.patientId;
+    },
+    filteredAppointments(){ return this.state.appointments.filter(a=>this.appointmentTab==='全部'||a.status===this.appointmentTab); },
+    pendingAppointments(){ return this.state.appointments.filter(a=>a.status==='待就诊'); },
+    pendingReviewAppointments(){
+      const reviewed=this.state.reviews.filter(r=>r.type==='review').map(r=>r.appointmentId);
+      return this.state.appointments.filter(a=>a.status==='已完成'&&!reviewed.includes(a.id));
+    },
+    historyReviews(){ return this.state.reviews.filter(r=>r.type==='review'); },
+    recentActivities(){ return (this.state.dashboard&&this.state.dashboard.activityFeed||[]).slice(0,5); }
+  },
+  methods: {
+    avColor(name){
+      const c=['av-blue','av-teal','av-orange','av-purple','av-pink','av-indigo'];
+      return c[(name||'').charCodeAt(0)%c.length];
+    },
+    docBgStyle(doc){
+      if(!doc||!doc.avatar) return {};
+      return {backgroundImage:`url(${doc.avatar})`,backgroundSize:'cover',backgroundPosition:'top center',color:'transparent'};
+    },
+    actDotColor(action){
+      const m={appointment_created:'act-dot-blue',assessment_completed:'act-dot-purple',
+        favorite_added:'act-dot-orange',appointment_cancelled:'act-dot-red'};
+      return m[action]||'act-dot-blue';
+    },
+    timeAgo(dateStr){
+      const diff=Date.now()-new Date(dateStr).getTime();
+      const d=Math.floor(diff/86400000),h=Math.floor(diff/3600000),m=Math.floor(diff/60000);
+      if(d>0) return d+'天前';
+      if(h>0) return h+'小时前';
+      if(m>0) return m+'分钟前';
+      return '刚刚';
+    },
+    scaleCoverStyle(scale){
+      const overlays={
+        '情绪':'linear-gradient(135deg,rgba(200,20,50,.72),rgba(120,0,25,.85))',
+        '注意力':'linear-gradient(135deg,rgba(14,80,200,.72),rgba(6,40,120,.85))',
+        '行为':'linear-gradient(135deg,rgba(100,30,180,.72),rgba(60,10,130,.85))',
+        '社交':'linear-gradient(135deg,rgba(0,120,100,.72),rgba(0,70,55,.85))',
+        '学习':'linear-gradient(135deg,rgba(185,105,0,.72),rgba(125,65,0,.85))',
+        '睡眠':'linear-gradient(135deg,rgba(0,100,185,.72),rgba(0,60,125,.85))'
+      };
+      const pics={'情绪':'12','注意力':'13','行为':'14','社交':'15','学习':'16','睡眠':'17'};
+      const col=overlays[scale.problemType]||'linear-gradient(135deg,rgba(70,60,200,.72),rgba(40,30,150,.85))';
+      const num=pics[scale.problemType]||'18';
+      return {backgroundImage:`${col},url(/css/img/pic/doctor-avatar-${num}.png)`,backgroundSize:'cover',backgroundPosition:'top center'};
+    },
+    reportCardBg(riskLevel){
+      if(riskLevel==='高') return {background:'linear-gradient(135deg,#F53F3F,#c0392b)'};
+      if(riskLevel==='中') return {background:'linear-gradient(135deg,#FF7D00,#c85a00)'};
+      return {background:'linear-gradient(135deg,#00B578,#008f5a)'};
+    },
+    parseRoute(){
+      const hash=window.location.hash.replace(/^#/,'')||'/';
+      const[pathPart,queryPart]=hash.split('?');
+      const query={};
+      if(queryPart) new URLSearchParams(queryPart).forEach((v,k)=>{query[k]=v;});
+      this.route={path:pathPart||'/',query};
+      if(this.route.path==='/article'&&this.route.query.id) this.fetchArticleDetail(this.route.query.id);
+      if(this.route.path==='/doctor'&&this.route.query.id) this.booking.doctorId=this.route.query.id;
+      if(this.route.path!=='/quiz'){this.quizScale=null;this.quizIndex=0;this.quizAnswers=[];this.quizPatientId='';}
+      if(this.route.path!=='/appointment') this.booking.step=1;
+    },
+    async request(url,opts){
+      const res=await fetch(url,opts);
+      const data=await res.json();
+      if(!res.ok) throw new Error(data.message||'请求失败');
+      return data.data;
+    },
+    async fetchBootstrap(){
+      this.loading=true;
+      try{ const data=await this.request('/api/bootstrap'); this.state={...this.state,...data}; this.ensureReviewDrafts(); }
+      catch(e){ ElMessage.error(e.message); }
+      finally{ this.loading=false; }
+    },
+    ensureReviewDrafts(){
+      this.pendingReviewAppointments.forEach(item=>{
+        if(!this.reviewDrafts[item.id]) this.reviewDrafts[item.id]={rating:5,content:''};
+      });
+    },
+    async fetchArticleDetail(id){ try{ this.articleDetail=await this.request(`/api/articles/${id}`); }catch(e){} },
+    go(path,query={}){
+      const qs=new URLSearchParams(query).toString();
+      window.location.hash=`${path}${qs?'?'+qs:''}`;
+    },
+    historyBack(){ window.history.back(); },
+    openArticle(id){ this.go('/article',{id}); },
+    openDoctor(id){ this.go('/doctor',{id}); },
+    openReport(id){ this.go('/report',{id}); },
+    async toggleFavorite(article){
+      try{
+        const r=await this.request('/api/favorites',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({articleId:article.id})});
+        await this.fetchBootstrap();
+        if(this.articleDetail&&this.articleDetail.id===article.id) this.articleDetail.isFavorite=r.active;
+        ElMessage.success(r.active?'收藏成功':'已取消收藏');
+      }catch(e){ ElMessage.error(e.message); }
+    },
+    startQuiz(scaleId){
+      const scale=this.state.scales.find(s=>s.id===scaleId);
+      this.quizScale=JSON.parse(JSON.stringify(scale));
+      this.quizIndex=0; this.quizAnswers=[];
+      this.quizPatientId=this.state.patients[0]?.id||'';
+      this.go('/quiz',{id:scaleId});
+    },
+    async selectAnswer(opt){
+      if(!this.quizPatientId){ ElMessage.warning('请先选择儿童就诊人'); return; }
+      this.quizAnswers[this.quizIndex]=opt;
+      if(this.quizIndex<this.quizScale.questions.length-1){ this.quizIndex++; return; }
+      try{
+        const r=await this.request('/api/assessments/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({scaleId:this.quizScale.id,patientId:this.quizPatientId,answers:this.quizAnswers})});
+        await this.fetchBootstrap();
+        this.go('/report',{id:r.id});
+        if(r.riskLevel==='高') ElMessageBox.alert('测评结果提示较高风险，建议尽快预约推荐医生。','⚠️ 高风险预警',{type:'error'});
+      }catch(e){ ElMessage.error(e.message); }
+    },
+    recommendBooking(report){
+      const kw=report.scaleName.includes('注意力')?'注意力':report.scaleName.includes('发育')?'发育':'情绪';
+      const doc=this.state.doctors.find(d=>d.specialties.some(t=>t.includes(kw)));
+      if(doc){ this.booking.doctorId=doc.id; this.booking.step=2; this.go('/appointment'); } else this.go('/appointment');
+    },
+    selectDoctor(id){ this.booking.doctorId=id; this.booking.scheduleId=''; },
+    selectSchedule(slot){ this.booking.scheduleId=slot.id; },
+    enterBookingStep3(){
+      if(!this.booking.patientId&&this.state.patients.length)
+        this.booking.patientId=this.state.patients[0].id;
+      const f=this.booking.preConsultation;
+      if(!f.mainIssue) f.mainIssue='注意力不集中，课堂表现明显下降';
+      if(!f.duration) f.duration='约 2 个月';
+      if(!f.behavior) f.behavior='易分心，做作业拖延，情绪容易激动';
+      if(!f.development) f.development='生长发育正常，语言表达流畅';
+      if(!f.familyChange) f.familyChange='近期升入新学校，适应期较难';
+      this.booking.step=3;
+    },
+    bookFromDoctor(slot){ this.booking.doctorId=slot.doctorId; this.booking.scheduleId=slot.id; this.enterBookingStep3(); this.go('/appointment'); },
+    async submitAppointment(){
+      try{
+        const r=await this.request('/api/appointments',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({doctorId:this.booking.doctorId,scheduleId:this.booking.scheduleId,patientId:this.booking.patientId,preConsultation:this.booking.preConsultation})});
+        await this.fetchBootstrap();
+        this.lastAppointment=this.state.appointments.find(a=>a.id===r.id)||r;
+        this.resetBooking(); this.go('/appointment-success');
+      }catch(e){ ElMessage.error(e.message); }
+    },
+    resetBooking(){
+      this.booking={step:1,doctorId:'',scheduleId:'',patientId:'',preConsultation:{mainIssue:'',duration:'',history:'否',behavior:'',development:'',familyChange:''}};
+    },
+    showAppointmentDetail(item){ this.activeAppointment=item; this.appointmentDetailVisible=true; },
+    async cancelAppointment(item){
+      try{
+        await ElMessageBox.confirm('确认取消当前预约？','取消预约',{type:'warning'});
+        await this.request(`/api/appointments/${item.id}/cancel`,{method:'PUT'});
+        await this.fetchBootstrap(); ElMessage.success('已取消预约');
+      }catch(e){ if(e!=='cancel') ElMessage.error(e.message||'操作已取消'); }
+    },
+    openPatientDialog(patient){
+      this.patientForm=patient?{...patient}:{id:'',name:'',idCard:'',birthDate:'',gender:'男',grade:'',relationship:'',phone:'',emergencyContact:'',emergencyPhone:''};
+      this.patientDialogVisible=true;
+    },
+    async savePatient(){
+      try{
+        const url=this.patientForm.id?`/api/patients/${this.patientForm.id}`:'/api/patients';
+        await this.request(url,{method:this.patientForm.id?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(this.patientForm)});
+        this.patientDialogVisible=false; await this.fetchBootstrap(); ElMessage.success('保存成功');
+      }catch(e){ ElMessage.error(e.message); }
+    },
+    async removePatient(patient){
+      try{
+        await ElMessageBox.confirm(`确认删除 ${patient.name}？`,'删除就诊人',{type:'warning'});
+        await this.request(`/api/patients/${patient.id}`,{method:'DELETE'});
+        await this.fetchBootstrap(); ElMessage.success('已删除');
+      }catch(e){ if(e!=='cancel') ElMessage.error(e.message||'操作已取消'); }
+    },
+    async submitReview(appt){
+      const draft=this.reviewDrafts[appt.id];
+      if(!draft.content){ ElMessage.warning('请填写评价内容'); return; }
+      try{
+        await this.request('/api/reviews',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({appointmentId:appt.id,doctorId:appt.doctorId,rating:draft.rating,content:draft.content,type:'review'})});
+        await this.fetchBootstrap(); ElMessage.success('评价已提交');
+      }catch(e){ ElMessage.error(e.message); }
+    },
+    async submitFeedback(){
+      if(!this.feedbackMessage){ ElMessage.warning('请输入留言内容'); return; }
+      try{
+        await this.request('/api/reviews',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'feedback',message:this.feedbackMessage})});
+        this.feedbackMessage=''; ElMessage.success('留言已提交');
+      }catch(e){ ElMessage.error(e.message); }
+    },
+    connectWs(){
+      const p=location.protocol==='https:'?'wss':'ws';
+      this.ws=new WebSocket(`${p}://${location.host}`);
+      this.ws.onmessage=(e)=>{ const d=JSON.parse(e.data); if(d.type!=='connected') this.fetchBootstrap(); };
+    },
+    startClock(){
+      const upd=()=>{
+        const d=new Date();
+        this.clockTime=`${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+      };
+      upd(); setInterval(upd,30000);
+    }
+  },
+  async mounted(){
+    this.startClock();
+    window.addEventListener('hashchange',this.parseRoute);
+    this.parseRoute();
+    await this.fetchBootstrap();
+    const splash=document.getElementById('preloader');
+    if(splash) splash.style.display='none';
+    this.connectWs();
+  },
+  beforeUnmount(){
+    window.removeEventListener('hashchange',this.parseRoute);
+    if(this.ws) this.ws.close();
+  }
+}).use(ElementPlus).mount('#app');
+</script>
+</body>
+</html>

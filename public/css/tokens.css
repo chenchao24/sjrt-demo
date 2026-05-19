@@ -1,0 +1,59 @@
+/* ══ Design Tokens ══ */
+:root {
+  /* Brand */
+  --c-primary:      #165DFF;
+  --c-primary-2:    #4080FF;
+  --c-primary-bg:   #EEF4FF;
+  --c-primary-hover:#1252D3;
+
+  /* Semantic */
+  --c-success:    #00B578;
+  --c-success-bg: #E8F9F0;
+  --c-warning:    #FF7D00;
+  --c-warning-bg: #FFF3E8;
+  --c-danger:     #F53F3F;
+  --c-danger-bg:  #FFECE8;
+  --c-purple:     #7B61FF;
+  --c-purple-bg:  #F0EDFF;
+
+  /* Text */
+  --c-text-1: #1D2129;
+  --c-text-2: #4E5969;
+  --c-text-3: #86909C;
+  --c-text-4: #C9CDD4;
+
+  /* Backgrounds */
+  --c-bg-1:   #FFFFFF;
+  --c-bg-2:   #F4F7FC;
+  --c-bg-3:   #F7F8FA;
+  --c-fill:   #F2F3F5;
+  --c-border: #E5E6EB;
+
+  /* Typography */
+  --font: "PingFang SC","SF Pro Display","Helvetica Neue","Microsoft YaHei",sans-serif;
+  --tx-xl:   20px;
+  --tx-lg:   17px;
+  --tx-md:   15px;
+  --tx-base: 14px;
+  --tx-sm:   13px;
+  --tx-xs:   12px;
+  --tx-xxs:  11px;
+  --fw-r:400; --fw-m:500; --fw-sb:600; --fw-b:700;
+
+  /* Spacing */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px;
+  --sp-5:20px; --sp-6:24px; --sp-8:32px; --sp-10:40px;
+
+  /* Radius */
+  --r-sm:8px; --r-md:12px; --r-lg:16px;
+  --r-xl:20px; --r-2xl:24px; --r-pill:999px;
+
+  /* Shadows */
+  --sh-1: 0 1px 4px rgba(0,0,0,.05);
+  --sh-2: 0 4px 14px rgba(0,0,0,.08);
+  --sh-3: 0 8px 24px rgba(22,93,255,.10);
+  --sh-4: 0 16px 40px rgba(22,93,255,.14);
+
+  /* Transitions */
+  --t-fast:0.12s ease; --t-base:0.2s ease; --t-slow:0.3s ease;
+}

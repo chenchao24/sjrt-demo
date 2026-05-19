@@ -1,0 +1,10 @@
+{
+  "name": "sjrt-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "盛京医疗联盟儿童心理健康服务平台演示工程",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

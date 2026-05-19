@@ -1,0 +1,103 @@
+[
+  {
+    "id": "41b0d7c5-0fa8-4778-a0c0-136b12eda80e",
+    "userId": "parent-001",
+    "doctorId": "doctor-001",
+    "patientId": "patient-001",
+    "scheduleId": "schedule-001",
+    "date": "2026-05-21",
+    "timeSlot": "09:00-09:30",
+    "hospitalId": "hospital-001",
+    "status": "待就诊",
+    "preConsultation": {
+      "mainIssue": "注意力不集中，课堂表现明显下降",
+      "duration": "约 2 个月",
+      "history": "否",
+      "behavior": "易分心，做作业拖延，情绪容易激动",
+      "development": "生长发育正常，语言表达流畅",
+      "familyChange": "近期升入新学校，适应期较难"
+    },
+    "createdAt": "2026-05-19T07:47:59.591Z"
+  },
+  {
+    "id": "fff4d59f-0ea7-436e-9ce8-eb6eefe05f70",
+    "userId": "parent-001",
+    "doctorId": "doctor-010",
+    "patientId": "patient-001",
+    "scheduleId": "schedule-021",
+    "date": "2026-05-30",
+    "timeSlot": "13:30-14:00",
+    "hospitalId": "hospital-005",
+    "status": "待就诊",
+    "preConsultation": {
+      "mainIssue": "注意力不集中，课堂表现明显下降",
+      "duration": "约 2 个月",
+      "history": "否",
+      "behavior": "易分心，做作业拖延，情绪容易激动",
+      "development": "生长发育正常，语言表达流畅",
+      "familyChange": "近期升入新学校，适应期较难"
+    },
+    "createdAt": "2026-05-19T06:15:37.745Z"
+  },
+  {
+    "id": "appointment-001",
+    "userId": "parent-001",
+    "doctorId": "doctor-001",
+    "patientId": "patient-001",
+    "scheduleId": "schedule-002",
+    "date": "2026-05-21",
+    "timeSlot": "14:00-14:30",
+    "hospitalId": "hospital-001",
+    "status": "待就诊",
+    "preConsultation": {
+      "mainIssue": "近两个月频繁焦虑，临睡前明显加重",
+      "duration": "2个月",
+      "history": "否",
+      "behavior": "睡前反复确认第二天事项",
+      "development": "发育正常",
+      "familyChange": "近期升学压力增加"
+    },
+    "createdAt": "2026-05-18T08:30:00.000Z"
+  },
+  {
+    "id": "appointment-002",
+    "userId": "parent-001",
+    "doctorId": "doctor-005",
+    "patientId": "patient-001",
+    "scheduleId": "schedule-006",
+    "date": "2026-05-10",
+    "timeSlot": "09:00-09:30",
+    "hospitalId": "hospital-001",
+    "status": "已完成",
+    "preConsultation": {
+      "mainIssue": "亲子沟通冲突明显",
+      "duration": "3个月",
+      "history": "否",
+      "behavior": "作业期间对抗明显",
+      "development": "发育正常",
+      "familyChange": "搬家适应中"
+    },
+    "createdAt": "2026-05-05T09:30:00.000Z"
+  },
+  {
+    "id": "appointment-003",
+    "userId": "parent-001",
+    "doctorId": "doctor-004",
+    "patientId": "patient-002",
+    "scheduleId": "schedule-005",
+    "date": "2026-05-08",
+    "timeSlot": "13:30-14:00",
+    "hospitalId": "hospital-004",
+    "status": "已取消",
+    "preConsultation": {
+      "mainIssue": "睡眠紊乱",
+      "duration": "1个月",
+      "history": "否",
+      "behavior": "入睡困难",
+      "development": "语言稍慢",
+      "familyChange": "无"
+    },
+    "createdAt": "2026-05-01T08:20:00.000Z",
+    "cancelledAt": "2026-05-06T09:00:00.000Z"
+  }
+]

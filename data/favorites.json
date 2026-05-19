@@ -1,0 +1,14 @@
+[
+  {
+    "id": "favorite-001",
+    "userId": "parent-001",
+    "articleId": "article-001",
+    "createdAt": "2026-05-17T12:00:00.000Z"
+  },
+  {
+    "id": "favorite-002",
+    "userId": "parent-001",
+    "articleId": "article-005",
+    "createdAt": "2026-05-18T13:10:00.000Z"
+  }
+]

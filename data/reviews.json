@@ -1,0 +1,19 @@
+[
+  {
+    "id": "review-001",
+    "userId": "parent-001",
+    "type": "review",
+    "appointmentId": "appointment-002",
+    "doctorId": "doctor-005",
+    "rating": 5,
+    "content": "医生沟通耐心，给出的亲子任务非常具体。",
+    "createdAt": "2026-05-12T16:20:00.000Z"
+  },
+  {
+    "id": "feedback-001",
+    "userId": "parent-001",
+    "type": "feedback",
+    "message": "希望后续增加更多低龄儿童的家庭训练视频。",
+    "createdAt": "2026-05-16T10:10:00.000Z"
+  }
+]

@@ -1,0 +1,104 @@
+[
+  {
+    "id": "scale-001",
+    "name": "儿童情绪风险快速筛查",
+    "ageBand": "6-12岁",
+    "problemType": "情绪",
+    "description": "用于识别孩子近期情绪波动与焦虑风险。",
+    "questions": [
+      {
+        "id": "q1",
+        "title": "孩子最近是否经常无明显原因地紧张、担心？",
+        "options": [{ "label": "几乎没有", "score": 0 }, { "label": "偶尔", "score": 1 }, { "label": "经常", "score": 2 }]
+      },
+      {
+        "id": "q2",
+        "title": "是否因为情绪问题影响上学或日常活动？",
+        "options": [{ "label": "没有影响", "score": 0 }, { "label": "轻度影响", "score": 1 }, { "label": "明显影响", "score": 2 }]
+      },
+      {
+        "id": "q3",
+        "title": "孩子是否常抱怨头痛、肚子痛但查不出明显器质性问题？",
+        "options": [{ "label": "几乎没有", "score": 0 }, { "label": "偶尔出现", "score": 1 }, { "label": "频繁出现", "score": 2 }]
+      },
+      {
+        "id": "q4",
+        "title": "面对分离或陌生环境时，孩子是否明显不安？",
+        "options": [{ "label": "基本不会", "score": 0 }, { "label": "有时会", "score": 1 }, { "label": "经常如此", "score": 2 }]
+      },
+      {
+        "id": "q5",
+        "title": "过去两周睡眠质量如何？",
+        "options": [{ "label": "基本正常", "score": 0 }, { "label": "偶尔受影响", "score": 1 }, { "label": "明显变差", "score": 2 }]
+      }
+    ]
+  },
+  {
+    "id": "scale-002",
+    "name": "学龄儿童注意力表现筛查",
+    "ageBand": "6-12岁",
+    "problemType": "学习",
+    "description": "用于观察注意力、任务维持与冲动表现。",
+    "questions": [
+      {
+        "id": "q1",
+        "title": "孩子做作业时是否容易被周围刺激打断？",
+        "options": [{ "label": "很少", "score": 0 }, { "label": "偶尔", "score": 1 }, { "label": "经常", "score": 2 }]
+      },
+      {
+        "id": "q2",
+        "title": "孩子是否经常遗漏步骤或忘记老师交代的任务？",
+        "options": [{ "label": "几乎不会", "score": 0 }, { "label": "偶尔", "score": 1 }, { "label": "频繁", "score": 2 }]
+      },
+      {
+        "id": "q3",
+        "title": "孩子排队或轮流时是否难以等待？",
+        "options": [{ "label": "可以等待", "score": 0 }, { "label": "偶尔着急", "score": 1 }, { "label": "经常插队或打断", "score": 2 }]
+      },
+      {
+        "id": "q4",
+        "title": "在感兴趣的活动中，孩子能否维持专注？",
+        "options": [{ "label": "能较好维持", "score": 0 }, { "label": "时间一般", "score": 1 }, { "label": "仍明显难以维持", "score": 2 }]
+      },
+      {
+        "id": "q5",
+        "title": "孩子是否常常坐不住或需要不断活动？",
+        "options": [{ "label": "基本不会", "score": 0 }, { "label": "偶尔", "score": 1 }, { "label": "明显频繁", "score": 2 }]
+      }
+    ]
+  },
+  {
+    "id": "scale-003",
+    "name": "幼儿发育与社交沟通观察表",
+    "ageBand": "3-6岁",
+    "problemType": "社交",
+    "description": "用于家长观察幼儿在回应、模仿和社交互动方面的表现。",
+    "questions": [
+      {
+        "id": "q1",
+        "title": "孩子被叫名字时是否能稳定回应？",
+        "options": [{ "label": "基本都能", "score": 0 }, { "label": "有时反应慢", "score": 1 }, { "label": "经常无回应", "score": 2 }]
+      },
+      {
+        "id": "q2",
+        "title": "孩子是否愿意和同龄人一起玩？",
+        "options": [{ "label": "愿意", "score": 0 }, { "label": "需要引导", "score": 1 }, { "label": "明显回避", "score": 2 }]
+      },
+      {
+        "id": "q3",
+        "title": "孩子是否会用手指或眼神主动分享兴趣？",
+        "options": [{ "label": "经常会", "score": 0 }, { "label": "偶尔会", "score": 1 }, { "label": "很少会", "score": 2 }]
+      },
+      {
+        "id": "q4",
+        "title": "孩子是否能模仿大人的动作或简单语言？",
+        "options": [{ "label": "可以", "score": 0 }, { "label": "偶尔", "score": 1 }, { "label": "明显困难", "score": 2 }]
+      },
+      {
+        "id": "q5",
+        "title": "孩子日常是否出现固定重复动作并难以转移？",
+        "options": [{ "label": "很少", "score": 0 }, { "label": "偶尔", "score": 1 }, { "label": "经常", "score": 2 }]
+      }
+    ]
+  }
+]

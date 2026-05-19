@@ -1,0 +1,30 @@
+[
+  {
+    "id": "patient-001",
+    "userId": "parent-001",
+    "name": "王乐乐",
+    "idCard": "210102201603156728",
+    "birthDate": "2016-03-15",
+    "gender": "女",
+    "grade": "四年级",
+    "relationship": "母女",
+    "phone": "13800001111",
+    "emergencyContact": "王晨曦",
+    "emergencyPhone": "13800001111",
+    "createdAt": "2026-05-01T10:00:00.000Z"
+  },
+  {
+    "id": "patient-002",
+    "userId": "parent-001",
+    "name": "王小川",
+    "idCard": "210102202009118516",
+    "birthDate": "2020-09-11",
+    "gender": "男",
+    "grade": "幼儿园中班",
+    "relationship": "母子",
+    "phone": "13800001111",
+    "emergencyContact": "王晨曦",
+    "emergencyPhone": "13800001111",
+    "createdAt": "2026-05-03T10:00:00.000Z"
+  }
+]

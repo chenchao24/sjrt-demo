@@ -1,0 +1,135 @@
+[
+  {
+    "id": "86c78e0b-6703-4394-9ba9-11416db1f4bf",
+    "scaleId": "scale-002",
+    "scaleName": "学龄儿童注意力表现筛查",
+    "patientId": "patient-001",
+    "patientName": "王乐乐",
+    "ageBand": "6-12岁",
+    "score": 6,
+    "maxScore": 10,
+    "riskLevel": "中",
+    "suggestion": "建议持续观察，并结合家庭支持干预。",
+    "answers": [
+      {
+        "label": "很少",
+        "score": 0
+      },
+      {
+        "label": "偶尔",
+        "score": 1
+      },
+      {
+        "label": "经常插队或打断",
+        "score": 2
+      },
+      {
+        "label": "仍明显难以维持",
+        "score": 2
+      },
+      {
+        "label": "偶尔",
+        "score": 1
+      }
+    ],
+    "createdAt": "2026-05-19T07:48:16.354Z"
+  },
+  {
+    "id": "d27b2c9a-13af-400e-9b13-9175cb1a39b6",
+    "scaleId": "scale-001",
+    "scaleName": "儿童情绪风险快速筛查",
+    "patientId": "patient-001",
+    "patientName": "王乐乐",
+    "ageBand": "6-12岁",
+    "score": 2,
+    "maxScore": 10,
+    "riskLevel": "低",
+    "suggestion": "当前风险较低，可继续保持规律观察。",
+    "answers": [
+      {
+        "label": "几乎没有",
+        "score": 0
+      },
+      {
+        "label": "轻度影响",
+        "score": 1
+      },
+      {
+        "label": "几乎没有",
+        "score": 0
+      },
+      {
+        "label": "有时会",
+        "score": 1
+      },
+      {
+        "label": "基本正常",
+        "score": 0
+      }
+    ],
+    "createdAt": "2026-05-19T06:17:01.095Z"
+  },
+  {
+    "id": "7cc465b3-0f11-42ac-99f4-dfd09bff6661",
+    "scaleId": "scale-001",
+    "scaleName": "儿童情绪风险快速筛查",
+    "patientId": "patient-001",
+    "patientName": "王乐乐",
+    "ageBand": "6-12岁",
+    "score": 4,
+    "maxScore": 10,
+    "riskLevel": "中",
+    "suggestion": "建议持续观察，并结合家庭支持干预。",
+    "answers": [
+      {
+        "label": "偶尔",
+        "score": 1
+      },
+      {
+        "label": "没有影响",
+        "score": 0
+      },
+      {
+        "label": "偶尔出现",
+        "score": 1
+      },
+      {
+        "label": "经常如此",
+        "score": 2
+      },
+      {
+        "label": "基本正常",
+        "score": 0
+      }
+    ],
+    "createdAt": "2026-05-19T05:00:46.670Z"
+  },
+  {
+    "id": "assessment-001",
+    "scaleId": "scale-001",
+    "scaleName": "儿童情绪风险快速筛查",
+    "patientId": "patient-001",
+    "patientName": "王乐乐",
+    "ageBand": "6-12岁",
+    "score": 7,
+    "maxScore": 10,
+    "riskLevel": "高",
+    "suggestion": "建议尽快预约儿童心理专科进一步评估。",
+    "answers": [],
+    "createdAt": "2026-05-17T15:20:00.000Z"
+  },
+  {
+    "id": "assessment-002",
+    "scaleId": "scale-002",
+    "scaleName": "学龄儿童注意力表现筛查",
+    "patientId": "patient-001",
+    "patientName": "王乐乐",
+    "ageBand": "6-12岁",
+    "score": 4,
+    "maxScore": 10,
+    "riskLevel": "中",
+    "suggestion": "建议持续观察，并结合家庭支持干预。",
+    "answers": [],
+    "createdAt": "2026-05-14T11:40:00.000Z"
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "id": "doctor-001",
+    "name": "赵舒宁",
+    "title": "主任医师",
+    "hospitalId": "hospital-001",
+    "specialties": ["情绪管理", "亲子关系", "焦虑干预"],
+    "goodAt": "儿童焦虑、情绪行为问题的综合干预",
+    "avatar": "/css/img/header/doctor-avatar-01.png",
+    "intro": "从事儿童青少年心理专科 18 年，擅长门诊评估与家庭干预方案制定。"
+  },
+  {
+    "id": "doctor-002",
+    "name": "周以宁",
+    "title": "副主任医师",
+    "hospitalId": "hospital-002",
+    "specialties": ["学习困难", "注意力", "行为问题"],
+    "goodAt": "学习困难、注意缺陷与行为问题评估",
+    "avatar": "/css/img/header/doctor-avatar-03.png",
+    "intro": "长期服务于学龄儿童心理门诊，重视量表与行为观察结合。"
+  },
+  {
+    "id": "doctor-003",
+    "name": "顾安可",
+    "title": "主任医师",
+    "hospitalId": "hospital-003",
+    "specialties": ["发育评估", "社交沟通", "早期干预"],
+    "goodAt": "0-6岁发育与社交沟通障碍筛查",
+    "avatar": "/css/img/header/doctor-avatar-04.png",
+    "intro": "擅长低龄儿童发育筛查、语言与社交训练指导。"
+  },
+  {
+    "id": "doctor-004",
+    "name": "林初禾",
+    "title": "副主任医师",
+    "hospitalId": "hospital-004",
+    "specialties": ["睡眠", "情绪", "青春期支持"],
+    "goodAt": "睡眠障碍与青春期情绪问题门诊",
+    "avatar": "/css/img/header/doctor-avatar-05.png",
+    "intro": "关注睡眠与情绪的双向影响，临床沟通细腻。"
+  },
+  {
+    "id": "doctor-005",
+    "name": "韩知夏",
+    "title": "主治医师",
+    "hospitalId": "hospital-001",
+    "specialties": ["亲子关系", "行为矫正", "家庭治疗"],
+    "goodAt": "亲子冲突与家庭教养支持",
+    "avatar": "/css/img/header/doctor-avatar-06.png",
+    "intro": "专注于家庭情境中的行为管理与家长训练。"
+  },
+  {
+    "id": "doctor-006",
+    "name": "裴清越",
+    "title": "主任医师",
+    "hospitalId": "hospital-005",
+    "specialties": ["抑郁情绪", "校园适应", "危机评估"],
+    "goodAt": "青少年抑郁焦虑与危机识别",
+    "avatar": "/css/img/header/doctor-avatar-07.png",
+    "intro": "擅长中高风险个案的分级评估与转诊建议。"
+  },
+  {
+    "id": "doctor-007",
+    "name": "程晞月",
+    "title": "副主任医师",
+    "hospitalId": "hospital-003",
+    "specialties": ["发育", "睡眠", "喂养行为"],
+    "goodAt": "婴幼儿睡眠与发育行为咨询",
+    "avatar": "/css/img/header/doctor-avatar-08.png",
+    "intro": "面向0-3岁儿童家庭，擅长睡眠与喂养行为指导。"
+  },
+  {
+    "id": "doctor-008",
+    "name": "沈望舒",
+    "title": "主治医师",
+    "hospitalId": "hospital-002",
+    "specialties": ["社交支持", "情绪", "学校适应"],
+    "goodAt": "社交退缩与学校适应困难评估",
+    "avatar": "/css/img/header/doctor-avatar-09.png",
+    "intro": "重视学校场景与家庭场景的联合干预。"
+  },
+  {
+    "id": "doctor-009",
+    "name": "陆星沅",
+    "title": "副主任医师",
+    "hospitalId": "hospital-004",
+    "specialties": ["注意力", "学习", "睡眠"],
+    "goodAt": "学龄期注意力问题与睡眠管理",
+    "avatar": "/css/img/header/doctor-avatar-10.png",
+    "intro": "善于把量表结果转化为家庭与学校的可执行建议。"
+  },
+  {
+    "id": "doctor-010",
+    "name": "姜叙白",
+    "title": "主任医师",
+    "hospitalId": "hospital-005",
+    "specialties": ["亲子关系", "情绪", "学习困难"],
+    "goodAt": "复杂型儿童心理问题综合门诊",
+    "avatar": "/css/img/header/doctor-avatar-11.png",
+    "intro": "擅长跨问题共病场景下的综合评估与多学科协同。"
+  }
+]
