@@ -135,8 +135,11 @@
     "cover": "/css/img/pic/doctor-avatar-12.png",
     "content": "视频内容示意：座位安排、任务拆解与及时强化。",
     "videoUrl": "https://www.w3schools.com/html/movie.mp4",
-    "status": "待审核",
+    "status": "已发布",
     "views": 810,
-    "publishedAt": ""
+    "publishedAt": "2026-05-20T07:27:53.524Z",
+    "favoriteCount": 0,
+    "isFavorite": false,
+    "updatedAt": "2026-05-20T07:27:58.964Z"
   }
 ]

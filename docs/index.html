@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>盛京联盟儿童精神心理服务平台</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+      background:radial-gradient(ellipse at 20% 10%,rgba(64,128,255,.25),transparent 45%),
+                 radial-gradient(ellipse at 80% 90%,rgba(100,50,200,.2),transparent 45%),
+                 linear-gradient(150deg,#030b1f 0%,#081638 45%,#0e2260 100%);
+      color:#fff;display:flex;align-items:center;justify-content:center;padding:40px 24px}
+
+    .wrap{width:min(1060px,100%);display:grid;grid-template-columns:1fr 320px;gap:64px;align-items:center}
+    @media(max-width:780px){.wrap{grid-template-columns:1fr}.phone-preview{display:none}}
+
+    .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(8px);
+      border-radius:999px;padding:7px 16px;font-size:13px;color:rgba(255,255,255,.8);margin-bottom:28px}
+    .badge-dot{width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 8px #34D399;flex-shrink:0}
+    h1{margin:0 0 20px;font-size:clamp(32px,4vw,52px);font-weight:700;line-height:1.18;letter-spacing:-.5px}
+    h1 span{background:linear-gradient(90deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .desc{margin:0 0 48px;font-size:17px;line-height:1.9;color:rgba(255,255,255,.65);max-width:520px}
+
+    .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:480px){.cards{grid-template-columns:1fr}}
+
+    .entry-card{display:flex;flex-direction:column;gap:12px;text-decoration:none;
+      padding:28px;border-radius:24px;border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);backdrop-filter:blur(12px);
+      transition:transform .18s,box-shadow .18s,border-color .18s;cursor:pointer}
+    .entry-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.3);
+      box-shadow:0 24px 56px rgba(0,0,0,.5)}
+    .entry-card.primary{background:linear-gradient(135deg,#165DFF,#4080ff);border-color:transparent;
+      box-shadow:0 16px 48px rgba(22,93,255,.55)}
+    .entry-card.primary:hover{box-shadow:0 24px 64px rgba(22,93,255,.75)}
+    .icon-wrap{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;
+      justify-content:center;font-size:26px;background:rgba(255,255,255,.12)}
+    .entry-card.primary .icon-wrap{background:rgba(255,255,255,.2)}
+    .entry-name{font-size:18px;font-weight:600;color:#fff}
+    .entry-desc{font-size:13px;line-height:1.7;color:rgba(255,255,255,.6)}
+    .entry-card.primary .entry-desc{color:rgba(255,255,255,.75)}
+    .entry-arr{font-size:18px;color:rgba(255,255,255,.35);align-self:flex-end;margin-top:auto}
+    .entry-card.primary .entry-arr{color:rgba(255,255,255,.6)}
+
+    .features{display:flex;gap:24px;margin-top:48px;flex-wrap:wrap}
+    .feat{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.55)}
+    .feat::before{content:'✓';background:rgba(52,211,153,.15);color:#34D399;border-radius:50%;
+      width:20px;height:20px;display:flex;align-items:center;justify-content:center;
+      font-size:11px;font-weight:700;flex-shrink:0}
+
+    /* Phone preview */
+    .phone-preview{position:relative;display:flex;justify-content:center}
+    .p-outer{width:220px;height:476px;background:#111;border-radius:38px;position:relative;
+      transform:rotate(3deg);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),
+                 0 0 0 6px #1a1a1a,0 0 0 7px #2c2c2c,
+                 0 40px 80px rgba(0,0,0,.8),0 0 50px rgba(22,93,255,.15);overflow:hidden}
+    .p-notch{position:absolute;top:7px;left:50%;transform:translateX(-50%);
+      width:70px;height:21px;background:#000;border-radius:11px;z-index:9}
+    .p-screen{position:absolute;inset:0;background:linear-gradient(165deg,#0f172a,#1e293b);
+      border-radius:38px;overflow:hidden;display:flex;flex-direction:column;padding-top:36px}
+    .p-status{height:20px;padding:0 14px;display:flex;justify-content:space-between;
+      align-items:center;font-size:8px;color:rgba(255,255,255,.5)}
+    .p-hero{background:linear-gradient(135deg,#165DFF,#7C3AED);margin:10px;border-radius:14px;
+      padding:14px;color:#fff}
+    .p-hero-badge{font-size:6px;background:rgba(255,255,255,.2);border-radius:99px;padding:3px 8px;
+      display:inline-block;margin-bottom:8px}
+    .p-hero-title{font-size:11px;font-weight:700;margin-bottom:4px}
+    .p-hero-sub{font-size:7px;opacity:.75}
+    .p-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 10px;margin-top:8px}
+    .p-cell{background:rgba(255,255,255,.05);border-radius:10px;padding:8px;
+      display:flex;flex-direction:column;gap:3px}
+    .p-cell-icon{font-size:14px}
+    .p-cell-name{font-size:7px;font-weight:600;color:#fff}
+    .p-cell-sub{font-size:6px;color:rgba(255,255,255,.45)}
+    .p-nav{margin-top:auto;display:flex;border-top:1px solid rgba(255,255,255,.07);padding:6px 0 8px}
+    .p-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+      font-size:6px;color:rgba(255,255,255,.4)}
+    .p-nav-item.active{color:#60a5fa}
+    .p-nav-icon{font-size:12px}
+    .p-glow{position:absolute;top:-30px;right:-30px;width:160px;height:160px;
+      background:radial-gradient(rgba(99,102,241,.35),transparent 70%);pointer-events:none}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <div class="badge"><div class="badge-dot"></div>平台已上线 · 服务持续更新中</div>
+    <h1>盛京联盟儿童<br><span>精神心理服务平台</span></h1>
+    <p class="desc">盛京医疗联盟携手儿童心理专家团队，为家长提供专业科普、智能测评、绿色预约通道与全程随访服务，守护每一个孩子的心理健康。</p>
+    <div class="cards">
+      <a href="/mobile/" class="entry-card primary">
+        <div class="icon-wrap">📱</div>
+        <div class="entry-name">家长服务端</div>
+        <div class="entry-desc">科普资讯 · 心理测评<br>门诊预约 · 个人中心</div>
+        <div class="entry-arr">→</div>
+      </a>
+      <a href="/admin/" class="entry-card">
+        <div class="icon-wrap">🖥</div>
+        <div class="entry-name">管理后台</div>
+        <div class="entry-desc">医生号源 · 数据看板<br>内容审核 · 系统配置</div>
+        <div class="entry-arr">→</div>
+      </a>
+    </div>
+    <div class="features">
+      <div class="feat">儿童专属量表筛查</div>
+      <div class="feat">三步绿色预约通道</div>
+      <div class="feat">实时推送与随访</div>
+      <div class="feat">医院 · 医生双维度管理</div>
+    </div>
+  </div>
+
+  <div class="phone-preview">
+    <div class="p-outer">
+      <div class="p-notch"></div>
+      <div class="p-screen">
+        <div class="p-status"><span>09:41</span><span>▲▲ 🔋</span></div>
+        <div class="p-hero">
+          <div class="p-hero-badge">盛京医疗联盟 · 儿童心理健康</div>
+          <div class="p-hero-title">你好，王女士</div>
+          <div class="p-hero-sub">科普 · 测评 · 预约 · 随访全程服务</div>
+        </div>
+        <div class="p-grid">
+          <div class="p-cell"><div class="p-cell-icon">📖</div><div class="p-cell-name">心理科普</div><div class="p-cell-sub">图文视频·收藏</div></div>
+          <div class="p-cell"><div class="p-cell-icon">🩺</div><div class="p-cell-name">门诊预约</div><div class="p-cell-sub">三步绿色通道</div></div>
+          <div class="p-cell"><div class="p-cell-icon">🧠</div><div class="p-cell-name">心理测评</div><div class="p-cell-sub">量表筛查·报告</div></div>
+          <div class="p-cell"><div class="p-cell-icon">📅</div><div class="p-cell-name">我的预约</div><div class="p-cell-sub">订单查看·取消</div></div>
+        </div>
+        <div class="p-nav">
+          <div class="p-nav-item active"><div class="p-nav-icon">🏠</div>首页</div>
+          <div class="p-nav-item"><div class="p-nav-icon">📖</div>科普</div>
+          <div class="p-nav-item"><div class="p-nav-icon">🧠</div>测评</div>
+          <div class="p-nav-item"><div class="p-nav-icon">🩺</div>预约</div>
+          <div class="p-nav-item"><div class="p-nav-icon">👤</div>我的</div>
+        </div>
+      </div>
+      <div class="p-glow"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

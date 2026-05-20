@@ -108,7 +108,14 @@ function getAgeBand(age) {
 
 function toDateTime(date, timeSlot) {
   const timePart = String(timeSlot || '').split('-')[0] || '09:00';
-  return new Date(`${date}T${timePart}:00`);
+  const cleanTime = /^\d{2}:\d{2}$/.test(timePart) ? timePart : '09:00';
+  return new Date(`${date}T${cleanTime}:00`);
+}
+
+function getPeriod(timeSlot) {
+  const hourStr = String(timeSlot || '').split(':')[0];
+  const hour = parseInt(hourStr, 10);
+  return isNaN(hour) ? '上午' : hour < 12 ? '上午' : '下午';
 }
 
 function canCancel(appointment) {
@@ -175,7 +182,7 @@ function enrichAppointments(appointments, doctors, hospitals, patients) {
       ...appointment,
       doctor: doctor ? withHospital(doctor, hospitals) : null,
       patient: patient ? { ...patient, age: getAge(patient.birthDate) } : null,
-      canCancel: appointment.status === '待就诊' ? canCancel(appointment) : false
+      canCancel: ['已审核', '待接诊'].includes(appointment.status) ? canCancel(appointment) : false
     };
   });
 }
@@ -267,7 +274,7 @@ function buildBootstrap(scope = 'mobile') {
   const doctors = doctorsRaw.map((doctor) => withHospital(doctor, hospitals));
   const schedules = readData('schedules').map((s) => {
     const doc = doctorsRaw.find((d) => d.id === s.doctorId);
-    return { ...s, doctorName: doc ? doc.name : s.doctorId };
+    return { ...s, doctorName: doc ? doc.name : s.doctorId, period: s.period || getPeriod(s.timeSlot) };
   });
   const appointments = enrichAppointments(readData('appointments'), readData('doctors'), hospitals, readData('patients'));
   const patients = readData('patients').map((item) => ({ ...item, age: getAge(item.birthDate), ageBand: getAgeBand(getAge(item.birthDate)) }));
@@ -618,7 +625,8 @@ async function handleApi(req, res, url) {
         date: schedule.date,
         timeSlot: schedule.timeSlot,
         hospitalId: doctor.hospitalId,
-        status: '待就诊',
+        status: '待接诊',
+        period: schedule.period || getPeriod(schedule.timeSlot),
         preConsultation: body.preConsultation,
         createdAt: nowIso()
       };
@@ -644,7 +652,7 @@ async function handleApi(req, res, url) {
         return;
       }
       const appointment = appointments[index];
-      if (appointment.status !== '待就诊') {
+      if (!['已审核', '待接诊'].includes(appointment.status)) {
         sendJson(res, 400, { code: 400, message: '当前状态不可取消' });
         return;
       }
@@ -853,6 +861,58 @@ async function handleApi(req, res, url) {
 
     if (method === 'GET' && pathname === '/api/admin/appointments') {
       sendJson(res, 200, response(enrichAppointments(readData('appointments'), readData('doctors'), readData('hospitals'), readData('patients'))));
+      return;
+    }
+
+    const adminAppointmentReviewMatch = matchRoute(pathname, /^\/api\/admin\/appointments\/([^/]+)\/review$/);
+    if (adminAppointmentReviewMatch && method === 'PUT') {
+      const appointments = readData('appointments');
+      const schedules = readData('schedules');
+      const doctors = readData('doctors');
+      const hospitals = readData('hospitals');
+      const patients = readData('patients');
+      const index = appointments.findIndex((item) => item.id === adminAppointmentReviewMatch[1]);
+      if (index === -1) {
+        sendJson(res, 404, { code: 404, message: '预约不存在' });
+        return;
+      }
+      const appointment = appointments[index];
+      if (appointment.status !== '待接诊') {
+        sendJson(res, 400, { code: 400, message: '仅可审核状态为待接诊的预约' });
+        return;
+      }
+      const { action, adjustedDate, adjustedPeriod, note } = body;
+      if (action === 'reject') {
+        appointments[index] = { ...appointment, status: '已取消', reviewNote: note || '', cancelledAt: nowIso() };
+        writeData('appointments', appointments);
+        addActivity('appointment_rejected', '拒绝接诊申请', `${appointment.id} 已被拒绝`);
+        broadcast('appointment:updated', appointments[index]);
+        sendJson(res, 200, response(enrichAppointments([appointments[index]], doctors, hospitals, patients)[0], '已拒绝'));
+      } else {
+        const updatedFields = { status: '已审核', reviewNote: note || '', reviewedAt: nowIso() };
+        if (adjustedDate) { updatedFields.date = adjustedDate; updatedFields.period = adjustedPeriod || '上午'; }
+        appointments[index] = { ...appointment, ...updatedFields };
+        writeData('appointments', appointments);
+        addActivity('appointment_approved', '批准接诊申请', `${appointment.id} 已审核，状态变为已审核${adjustedDate ? '，日期调整为 '+adjustedDate : ''}`);
+        broadcast('appointment:updated', appointments[index]);
+        sendJson(res, 200, response(enrichAppointments([appointments[index]], doctors, hospitals, patients)[0], '已审核'));
+      }
+      return;
+    }
+
+    const appointmentConfirmMatch = matchRoute(pathname, /^\/api\/appointments\/([^/]+)\/confirm$/);
+    if (appointmentConfirmMatch && method === 'PUT') {
+      const appointments = readData('appointments');
+      const schedules = readData('schedules');
+      const doctors = readData('doctors');
+      const hospitals = readData('hospitals');
+      const patients = readData('patients');
+      const index = appointments.findIndex((item) => item.id === appointmentConfirmMatch[1]);
+      if (index === -1) {
+        sendJson(res, 404, { code: 404, message: '预约不存在' });
+        return;
+      }
+      sendJson(res, 400, { code: 400, message: '此接口已停用' });
       return;
     }
 
