@@ -587,7 +587,13 @@
     // ── Admin Login ──
     if (method === 'POST' && path === '/api/admin/login') {
       if (!body.password) return fail(400, '请输入密码');
-      return ok({ id: 'admin-001', role: 'admin', institutionName: '盛京儿童心理中心', institutionId: 'hospital-001', name: '管理员', account: body.account || 'admin' }, '登录成功');
+      var adminAccounts = [
+        { id: 'AU001', account: 'admin',    password: '123456', role: 'admin',    institutionId: 'hospital-001',    institutionName: '盛京医院（主院）',   name: '管理员' },
+        { id: 'AU002', account: 'alliance', password: '123456', role: 'alliance', institutionId: 'hospital-dalian', institutionName: '大连市儿童医院心理科', name: '联盟管理员' }
+      ];
+      var matched = adminAccounts.find(function(u) { return u.account === body.account && u.password === body.password; });
+      if (!matched) return fail(401, '账号或密码错误，演示账号 admin 或 alliance / 密码 123456');
+      return ok(matched, '登录成功');
     }
 
     // ── Admin Article actions ──
