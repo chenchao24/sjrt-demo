@@ -107,6 +107,25 @@
       {"id":"activity-002","action":"assessment_completed","title":"完成心理测评","detail":"王乐乐 完成 儿童情绪风险快速筛查，结果 高 风险","createdAt":"2026-05-17T15:20:00.000Z"},
       {"id":"activity-003","action":"favorite_added","title":"收藏科普内容","detail":"内容 article-005 已加入收藏","createdAt":"2026-05-18T13:10:00.000Z"},
       {"id":"activity-004","action":"review_created","title":"提交就诊评价","detail":"医生沟通耐心，给出的亲子任务非常具体。","createdAt":"2026-05-12T16:20:00.000Z"}
+    ],
+    teachers: [
+      {"id":"teacher-001","account":"teacher01","password":"123456","name":"刘晓婷","school":"盛京实验小学","role":"teacher"},
+      {"id":"teacher-002","account":"teacher02","password":"123456","name":"张浩然","school":"联盟路中学","role":"teacher"}
+    ],
+    greenChannels: [
+      {"id":"gc-001","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"李小明","studentGrade":"初二(3)班","studentGender":"男","problem":"近期情绪低落，不愿意上学，有自伤倾向","contact":"138****5678","status":"待审核","createdAt":"2026-05-20T09:00:00.000Z"},
+      {"id":"gc-002","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"王晓雨","studentGrade":"初一(2)班","studentGender":"女","problem":"与同学发生冲突后情绪失控，家长反映在家也有明显变化","contact":"138****9999","status":"已接受","createdAt":"2026-05-18T10:30:00.000Z"}
+    ],
+    followUps: [
+      {"id":"fu-001","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"王梦瑶","studentGrade":"小学五年级","visitDate":"2026-05-15","visitResult":"焦虑评估中风险，已建议家长预约专科","followUpStatus":"关注中","followUpNote":"家长已预约赵舒宁医生，下次随访5月底","createdAt":"2026-05-16T08:00:00.000Z"}
+    ],
+    announcements: [
+      {"id":"ann-001","title":"关于开展春季儿童心理健康筛查的通知","content":"各校心理老师：盛京医疗联盟将于2026年5月28日至6月5日开展春季儿童心理健康集中筛查活动，请各校积极组织学生参与。","publishedAt":"2026-05-20T10:00:00.000Z","status":"已发布"},
+      {"id":"ann-002","title":"系统升级公告","content":"本平台将于2026年5月27日凌晨2:00-4:00进行系统升级维护，届时平台暂停使用，请知悉。","publishedAt":"","status":"草稿"}
+    ],
+    artworks: [
+      {"id":"aw-001","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"陈思宇","studentGrade":"小学三年级","title":"我的心情彩虹","description":"用七种颜色画出自己一周的心情变化，分享给同学。","imageUrl":"","status":"待审核","createdAt":"2026-05-21T14:00:00.000Z"},
+      {"id":"aw-002","teacherId":"teacher-002","teacherName":"张浩然","school":"联盟路中学","studentName":"林佳妮","studentGrade":"初一(1)班","title":"压力小怪物","description":"把压力画成一个可爱的小怪物，再想个方法打败它。","imageUrl":"","status":"已通过","createdAt":"2026-05-19T10:00:00.000Z"}
     ]
   };
 
@@ -263,7 +282,11 @@
         reviews: db.reviews,
         categories: ['情绪', '学习', '亲子', '发育', '睡眠'],
         dashboard: getDashboardSnapshot(),
-        assessmentAnalytics: getAssessmentAnalytics()
+        assessmentAnalytics: getAssessmentAnalytics(),
+        greenChannels: db.greenChannels,
+        followUps: db.followUps,
+        announcements: db.announcements,
+        artworks: db.artworks
       };
       return ok(payload);
     }
@@ -518,6 +541,154 @@
 
     // ── Admin Assessments ──
     if (method === 'GET' && path === '/api/admin/assessments') { return ok(getAssessmentAnalytics()); }
+
+    // ── Admin Login ──
+    if (method === 'POST' && path === '/api/admin/login') {
+      if (!body.password) return fail(400, '请输入密码');
+      return ok({ id: 'admin-001', role: 'admin', institutionName: '盛京儿童心理中心', institutionId: 'hospital-001', name: '管理员', account: body.account || 'admin' }, '登录成功');
+    }
+
+    // ── Admin Article actions ──
+    m = path.match(/^\/api\/admin\/articles\/([^/]+)\/publish$/);
+    if (m && method === 'POST') {
+      var aidx = db.articles.findIndex(function (a) { return a.id === m[1]; });
+      if (aidx === -1) return fail(404, '内容不存在');
+      db.articles[aidx] = Object.assign({}, db.articles[aidx], { status: '已发布', publishedAt: nowIso() });
+      return ok(db.articles[aidx], '已发布');
+    }
+    m = path.match(/^\/api\/admin\/articles\/([^/]+)$/);
+    if (m && method === 'DELETE') {
+      var aidx2 = db.articles.findIndex(function (a) { return a.id === m[1]; });
+      if (aidx2 === -1) return fail(404, '内容不存在');
+      db.articles.splice(aidx2, 1);
+      return ok(null, '已删除');
+    }
+
+    // ── Admin Doctor/Hospital delete ──
+    m = path.match(/^\/api\/admin\/doctors\/([^/]+)$/);
+    if (m && method === 'DELETE') {
+      var didx = db.doctors.findIndex(function (d) { return d.id === m[1]; });
+      if (didx === -1) return fail(404, '医生不存在');
+      db.doctors.splice(didx, 1);
+      return ok(null, '已删除');
+    }
+    m = path.match(/^\/api\/admin\/hospitals\/([^/]+)$/);
+    if (m && method === 'DELETE') {
+      var hidx = db.hospitals.findIndex(function (h) { return h.id === m[1]; });
+      if (hidx === -1) return fail(404, '医院不存在');
+      db.hospitals.splice(hidx, 1);
+      return ok(null, '已删除');
+    }
+
+    // ── Admin Appointment review ──
+    m = path.match(/^\/api\/admin\/appointments\/([^/]+)\/review$/);
+    if (m && method === 'PUT') {
+      var aridx = db.appointments.findIndex(function (a) { return a.id === m[1]; });
+      if (aridx === -1) return fail(404, '预约不存在');
+      db.appointments[aridx] = Object.assign({}, db.appointments[aridx], { status: body.action === 'approve' ? '已审核' : '已拒绝', reviewNote: body.note || '' });
+      return ok(enrichAppointments([db.appointments[aridx]])[0], '审核完成');
+    }
+
+    // ── Mobile Appointment confirm ──
+    m = path.match(/^\/api\/appointments\/([^/]+)\/confirm$/);
+    if (m && method === 'PUT') {
+      var acidx = db.appointments.findIndex(function (a) { return a.id === m[1]; });
+      if (acidx === -1) return fail(404, '预约不存在');
+      db.appointments[acidx] = Object.assign({}, db.appointments[acidx], { status: body.confirmed ? '已审核' : '已拒绝' });
+      return ok(enrichAppointments([db.appointments[acidx]])[0], '操作成功');
+    }
+
+    // ── Admin Green Channels ──
+    if (method === 'GET' && path === '/api/admin/green-channels') { return ok(db.greenChannels); }
+    m = path.match(/^\/api\/admin\/green-channels\/([^/]+)\/review$/);
+    if (m && method === 'PUT') {
+      var gcidx = db.greenChannels.findIndex(function (g) { return g.id === m[1]; });
+      if (gcidx === -1) return fail(404, '记录不存在');
+      db.greenChannels[gcidx] = Object.assign({}, db.greenChannels[gcidx], { status: body.action === 'approve' ? '已接受' : '已拒绝', reviewNote: body.note || '', reviewedAt: nowIso() });
+      return ok(db.greenChannels[gcidx], '审核完成');
+    }
+
+    // ── Admin Follow-ups ──
+    if (method === 'GET' && path === '/api/admin/follow-ups') { return ok(db.followUps); }
+
+    // ── Admin Announcements ──
+    if (method === 'GET' && path === '/api/admin/announcements') { return ok(db.announcements); }
+    m = path.match(/^\/api\/admin\/announcements\/([^/]+)\/publish$/);
+    if (m && method === 'POST') {
+      var annidx = db.announcements.findIndex(function (a) { return a.id === m[1]; });
+      if (annidx === -1) return fail(404, '公告不存在');
+      db.announcements[annidx] = Object.assign({}, db.announcements[annidx], { status: '已发布', publishedAt: nowIso() });
+      return ok(db.announcements[annidx], '已发布');
+    }
+    m = path.match(/^\/api\/admin\/announcements\/([^/]+)\/unpublish$/);
+    if (m && method === 'POST') {
+      var annidx2 = db.announcements.findIndex(function (a) { return a.id === m[1]; });
+      if (annidx2 === -1) return fail(404, '公告不存在');
+      db.announcements[annidx2] = Object.assign({}, db.announcements[annidx2], { status: '草稿', publishedAt: '' });
+      return ok(db.announcements[annidx2], '已下架');
+    }
+    m = path.match(/^\/api\/admin\/announcements\/([^/]+)$/);
+    if (m && method === 'DELETE') {
+      var annidx3 = db.announcements.findIndex(function (a) { return a.id === m[1]; });
+      if (annidx3 === -1) return fail(404, '公告不存在');
+      db.announcements.splice(annidx3, 1);
+      return ok(null, '已删除');
+    }
+
+    // ── Admin Artworks ──
+    if (method === 'GET' && path === '/api/admin/artworks') { return ok(db.artworks); }
+    m = path.match(/^\/api\/admin\/artworks\/([^/]+)\/review$/);
+    if (m && method === 'PUT') {
+      var awidx = db.artworks.findIndex(function (a) { return a.id === m[1]; });
+      if (awidx === -1) return fail(404, '作品不存在');
+      db.artworks[awidx] = Object.assign({}, db.artworks[awidx], { status: body.action === 'approve' ? '已通过' : '已拒绝', reviewNote: body.note || '', reviewedAt: nowIso() });
+      return ok(db.artworks[awidx], '审核完成');
+    }
+
+    // ── Teacher Login ──
+    if (method === 'POST' && path === '/api/teacher/login') {
+      var tc = db.teachers.find(function (t) { return t.account === body.account && t.password === body.password; });
+      if (!tc) return fail(401, '账号或密码错误，演示账号 teacher01 / 密码 123456');
+      return ok(tc, '登录成功');
+    }
+
+    // ── Teacher Green Channels ──
+    if (method === 'GET' && path === '/api/teacher/green-channels') {
+      var tcid = u.searchParams.get('teacherId');
+      return ok(db.greenChannels.filter(function (g) { return !tcid || g.teacherId === tcid; }));
+    }
+    if (method === 'POST' && path === '/api/teacher/green-channels') {
+      var ngc = Object.assign({ id: 'gc-' + makeId(), status: '待审核', createdAt: nowIso() }, body);
+      db.greenChannels.unshift(ngc);
+      return ok(ngc, '提交成功');
+    }
+
+    // ── Teacher Follow-ups ──
+    if (method === 'GET' && path === '/api/teacher/follow-ups') {
+      var fuid = u.searchParams.get('teacherId');
+      return ok(db.followUps.filter(function (f) { return !fuid || f.teacherId === fuid; }));
+    }
+    if (method === 'POST' && path === '/api/teacher/follow-ups') {
+      var nfu = Object.assign({ id: 'fu-' + makeId(), createdAt: nowIso() }, body);
+      db.followUps.unshift(nfu);
+      return ok(nfu, '提交成功');
+    }
+
+    // ── Teacher Announcements ──
+    if (method === 'GET' && path === '/api/teacher/announcements') {
+      return ok(db.announcements.filter(function (a) { return a.status === '已发布'; }));
+    }
+
+    // ── Teacher Artworks ──
+    if (method === 'GET' && path === '/api/teacher/artworks') {
+      var awuid = u.searchParams.get('teacherId');
+      return ok(db.artworks.filter(function (a) { return !awuid || a.teacherId === awuid; }));
+    }
+    if (method === 'POST' && path === '/api/teacher/artworks') {
+      var naw = Object.assign({ id: 'aw-' + makeId(), status: '待审核', createdAt: nowIso() }, body);
+      db.artworks.unshift(naw);
+      return ok(naw, '提交成功');
+    }
 
     return fail(404, 'Mock: 未找到接口 ' + path);
   }
