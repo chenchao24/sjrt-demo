@@ -4,7 +4,11 @@
     "name": "赵舒宁",
     "title": "主任医师",
     "hospitalId": "hospital-001",
-    "specialties": ["情绪管理", "亲子关系", "焦虑干预"],
+    "specialties": [
+      "情绪管理",
+      "亲子关系",
+      "焦虑干预"
+    ],
     "goodAt": "儿童焦虑、情绪行为问题的综合干预",
     "avatar": "/css/img/header/doctor-avatar-01.png",
     "intro": "从事儿童青少年心理专科 18 年，擅长门诊评估与家庭干预方案制定。"
@@ -14,7 +18,11 @@
     "name": "周以宁",
     "title": "副主任医师",
     "hospitalId": "hospital-002",
-    "specialties": ["学习困难", "注意力", "行为问题"],
+    "specialties": [
+      "学习困难",
+      "注意力",
+      "行为问题"
+    ],
     "goodAt": "学习困难、注意缺陷与行为问题评估",
     "avatar": "/css/img/header/doctor-avatar-03.png",
     "intro": "长期服务于学龄儿童心理门诊，重视量表与行为观察结合。"
@@ -24,7 +32,11 @@
     "name": "顾安可",
     "title": "主任医师",
     "hospitalId": "hospital-003",
-    "specialties": ["发育评估", "社交沟通", "早期干预"],
+    "specialties": [
+      "发育评估",
+      "社交沟通",
+      "早期干预"
+    ],
     "goodAt": "0-6岁发育与社交沟通障碍筛查",
     "avatar": "/css/img/header/doctor-avatar-04.png",
     "intro": "擅长低龄儿童发育筛查、语言与社交训练指导。"
@@ -34,7 +46,11 @@
     "name": "林初禾",
     "title": "副主任医师",
     "hospitalId": "hospital-004",
-    "specialties": ["睡眠", "情绪", "青春期支持"],
+    "specialties": [
+      "睡眠",
+      "情绪",
+      "青春期支持"
+    ],
     "goodAt": "睡眠障碍与青春期情绪问题门诊",
     "avatar": "/css/img/header/doctor-avatar-05.png",
     "intro": "关注睡眠与情绪的双向影响，临床沟通细腻。"
@@ -44,7 +60,11 @@
     "name": "韩知夏",
     "title": "主治医师",
     "hospitalId": "hospital-001",
-    "specialties": ["亲子关系", "行为矫正", "家庭治疗"],
+    "specialties": [
+      "亲子关系",
+      "行为矫正",
+      "家庭治疗"
+    ],
     "goodAt": "亲子冲突与家庭教养支持",
     "avatar": "/css/img/header/doctor-avatar-06.png",
     "intro": "专注于家庭情境中的行为管理与家长训练。"
@@ -54,7 +74,11 @@
     "name": "裴清越",
     "title": "主任医师",
     "hospitalId": "hospital-005",
-    "specialties": ["抑郁情绪", "校园适应", "危机评估"],
+    "specialties": [
+      "抑郁情绪",
+      "校园适应",
+      "危机评估"
+    ],
     "goodAt": "青少年抑郁焦虑与危机识别",
     "avatar": "/css/img/header/doctor-avatar-07.png",
     "intro": "擅长中高风险个案的分级评估与转诊建议。"
@@ -64,7 +88,11 @@
     "name": "程晞月",
     "title": "副主任医师",
     "hospitalId": "hospital-003",
-    "specialties": ["发育", "睡眠", "喂养行为"],
+    "specialties": [
+      "发育",
+      "睡眠",
+      "喂养行为"
+    ],
     "goodAt": "婴幼儿睡眠与发育行为咨询",
     "avatar": "/css/img/header/doctor-avatar-08.png",
     "intro": "面向0-3岁儿童家庭，擅长睡眠与喂养行为指导。"
@@ -74,7 +102,11 @@
     "name": "沈望舒",
     "title": "主治医师",
     "hospitalId": "hospital-002",
-    "specialties": ["社交支持", "情绪", "学校适应"],
+    "specialties": [
+      "社交支持",
+      "情绪",
+      "学校适应"
+    ],
     "goodAt": "社交退缩与学校适应困难评估",
     "avatar": "/css/img/header/doctor-avatar-09.png",
     "intro": "重视学校场景与家庭场景的联合干预。"
@@ -84,7 +116,11 @@
     "name": "陆星沅",
     "title": "副主任医师",
     "hospitalId": "hospital-004",
-    "specialties": ["注意力", "学习", "睡眠"],
+    "specialties": [
+      "注意力",
+      "学习",
+      "睡眠"
+    ],
     "goodAt": "学龄期注意力问题与睡眠管理",
     "avatar": "/css/img/header/doctor-avatar-10.png",
     "intro": "善于把量表结果转化为家庭与学校的可执行建议。"
@@ -94,9 +130,132 @@
     "name": "姜叙白",
     "title": "主任医师",
     "hospitalId": "hospital-005",
-    "specialties": ["亲子关系", "情绪", "学习困难"],
+    "specialties": [
+      "亲子关系",
+      "情绪",
+      "学习困难"
+    ],
     "goodAt": "复杂型儿童心理问题综合门诊",
     "avatar": "/css/img/header/doctor-avatar-11.png",
     "intro": "擅长跨问题共病场景下的综合评估与多学科协同。"
+  },
+  {
+    "id": "d-nhu-001",
+    "name": "李明辉",
+    "title": "主治医师",
+    "hospitalId": "hospital-nanhu",
+    "department": "儿童心理门诊",
+    "price": 12,
+    "availablePeriod": "全天",
+    "specialties": [
+      "情绪调节",
+      "焦虑抑郁",
+      "行为问题"
+    ],
+    "goodAt": "儿童情绪与行为问题的门诊评估与干预",
+    "avatar": "/css/img/header/doctor-avatar-01.png",
+    "intro": "从事儿童青少年心理门诊工作8年，擅长情绪障碍及行为问题的综合评估。"
+  },
+  {
+    "id": "d-nhu-002",
+    "name": "张晓芳",
+    "title": "副主任医师",
+    "hospitalId": "hospital-nanhu",
+    "department": "儿童心理门诊",
+    "price": 12,
+    "availablePeriod": "上午",
+    "specialties": [
+      "学习障碍",
+      "注意力",
+      "社交困难"
+    ],
+    "goodAt": "学龄期儿童注意力缺陷与学习困难评估",
+    "avatar": "/css/img/header/doctor-avatar-02.png",
+    "intro": "专注学龄期儿童心理健康，擅长注意缺陷多动障碍的系统诊疗。"
+  },
+  {
+    "id": "d-nhu-003",
+    "name": "王德明",
+    "title": "主任医师",
+    "hospitalId": "hospital-nanhu",
+    "department": "专家专科门诊",
+    "price": 50,
+    "availablePeriod": "全天",
+    "specialties": [
+      "青少年抑郁",
+      "亲子冲突",
+      "危机干预"
+    ],
+    "goodAt": "青少年抑郁、情绪危机的专家级评估与干预",
+    "avatar": "/css/img/header/doctor-avatar-03.png",
+    "intro": "从事儿童青少年精神心理专科20年，主持多项省级科研课题，擅长复杂情绪障碍。"
+  },
+  {
+    "id": "d-nhu-004",
+    "name": "陈丽华",
+    "title": "主任医师",
+    "hospitalId": "hospital-nanhu",
+    "department": "专家专科门诊",
+    "price": 50,
+    "availablePeriod": "下午",
+    "specialties": [
+      "自闭症谱系",
+      "发育障碍",
+      "家庭治疗"
+    ],
+    "goodAt": "自闭症谱系障碍及发育迟缓的专家会诊",
+    "avatar": "/css/img/header/doctor-avatar-04.png",
+    "intro": "国内自闭症谱系障碍领域知名专家，曾赴美国进修，主导多项国际合作研究。"
+  },
+  {
+    "id": "d-nhu-005",
+    "name": "刘志远",
+    "title": "主治医师",
+    "hospitalId": "hospital-nanhu",
+    "department": "儿童心理门诊",
+    "price": 12,
+    "availablePeriod": "晚上",
+    "specialties": [
+      "睡眠问题",
+      "考试焦虑",
+      "情绪疏导"
+    ],
+    "goodAt": "青少年考试焦虑与睡眠障碍的心理疏导",
+    "avatar": "/css/img/header/doctor-avatar-05.png",
+    "intro": "擅长以认知行为疗法结合正念技术，帮助青少年缓解学业压力及睡眠困扰。"
+  },
+  {
+    "id": "d-dl-001",
+    "name": "孙宇航",
+    "title": "副主任医师",
+    "hospitalId": "hospital-dalian",
+    "department": "儿童心理科",
+    "price": 30,
+    "availablePeriod": "全天",
+    "specialties": [
+      "情绪管理",
+      "亲子关系",
+      "焦虑干预"
+    ],
+    "goodAt": "儿童情绪管理与家庭关系调适",
+    "avatar": "/css/img/header/doctor-avatar-01.png",
+    "intro": "大连市儿童医院心理科骨干，擅长儿童情绪及亲子关系问题的门诊诊疗。"
+  },
+  {
+    "id": "d-dl-002",
+    "name": "林雨轩",
+    "title": "主治医师",
+    "hospitalId": "hospital-dalian",
+    "department": "儿童心理科",
+    "price": 30,
+    "availablePeriod": "上午",
+    "specialties": [
+      "发育评估",
+      "语言发育",
+      "社交训练"
+    ],
+    "goodAt": "学龄前儿童发育筛查与社交技能训练",
+    "avatar": "/css/img/header/doctor-avatar-02.png",
+    "intro": "专注0-6岁儿童发育评估与早期干预，积累丰富临床经验。"
   }
 ]

@@ -7,262 +7,363 @@
     <link rel="stylesheet" href="/vendor/element-plus.css" />
     <style>
       :root {
-        --blue-start: #4080ff;
-        --blue-end: #165dff;
-        --soft-bg: #f5f7fa;
         --text-strong: #1d2129;
-        --text-main: #4e5969;
-        --text-soft: #86909c;
-        --shadow: 0 16px 40px rgba(24, 62, 124, 0.09);
+        --text-main:   #4e5969;
+        --text-soft:   #86909c;
+        --border:      #edf0f7;
+        --bg-page:     #eef1f8;
+        --sh:          0 2px 12px rgba(24,62,124,.07),0 1px 3px rgba(0,0,0,.04);
+        --sh-lg:       0 8px 32px rgba(22,93,255,.11),0 2px 8px rgba(0,0,0,.06);
+        --tr:          0.2s cubic-bezier(.4,0,.2,1);
       }
-
-      * {
-        box-sizing: border-box;
-      }
-
+      *,*::before,*::after { box-sizing: border-box; }
       body {
         margin: 0;
-        background: linear-gradient(180deg, #f7faff 0%, #f5f7fa 100%);
-        font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        background: var(--bg-page);
+        font-family: "PingFang SC","Microsoft YaHei",sans-serif;
         color: var(--text-main);
+        -webkit-font-smoothing: antialiased;
       }
+      #app { min-height: 100vh; }
+      [v-cloak] { display: none !important; }
 
-      #app {
-        min-height: 100vh;
-      }
-
+      /* ──────── Shell ──────── */
       .admin-shell {
         display: grid;
-        grid-template-columns: 248px minmax(0, 1fr);
-        min-height: 100vh;
+        grid-template-columns: 252px minmax(0,1fr);
+        height: 100vh;
+        overflow: hidden;
       }
 
+      /* ──────── Sidebar ──────── */
       .sidebar {
-        background: linear-gradient(180deg, #0f3b93 0%, #165dff 100%);
+        background: linear-gradient(175deg,#071e5b 0%,#0d3186 40%,#1450c8 100%);
         color: white;
-        padding: 28px 20px;
-        position: sticky;
-        top: 0;
         height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
       }
+      .sidebar::-webkit-scrollbar { width: 3px; }
+      .sidebar::-webkit-scrollbar-thumb { background:rgba(255,255,255,.2);border-radius:3px; }
 
       .brand {
-        padding: 16px;
-        border-radius: 24px;
-        background: rgba(255, 255, 255, 0.12);
+        padding: 22px 20px 18px;
+        border-bottom: 1px solid rgba(255,255,255,.1);
+        flex-shrink: 0;
       }
-
       .brand h1 {
         margin: 0;
-        font-size: 22px;
+        font-size: 16.5px;
+        font-weight: 800;
         line-height: 1.4;
+        letter-spacing: -.3px;
+        color: white;
       }
-
       .brand p {
-        margin: 10px 0 0;
-        font-size: 13px;
-        line-height: 1.7;
-        color: rgba(255, 255, 255, 0.82);
+        margin: 6px 0 0;
+        font-size: 11.5px;
+        line-height: 1.65;
+        color: rgba(255,255,255,.58);
       }
 
       .menu {
-        margin-top: 26px;
-        display: grid;
-        gap: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 12px 10px;
       }
+      .menu::-webkit-scrollbar { width: 3px; }
+      .menu::-webkit-scrollbar-thumb { background:rgba(255,255,255,.15);border-radius:3px; }
 
       .menu-item {
-        padding: 14px 16px;
-        border-radius: 18px;
+        padding: 11px 14px;
+        border-radius: 12px;
         cursor: pointer;
-        transition: 0.2s ease;
+        transition: var(--tr);
+        font-size: 13.5px;
+        font-weight: 500;
+        color: rgba(255,255,255,.72);
+        position: relative;
+        letter-spacing: .1px;
       }
-
       .menu-item.active {
-        background: rgba(255, 255, 255, 0.22);
-        font-weight: 600;
-        box-shadow: inset 3px 0 0 rgba(255,255,255,0.8);
+        background: rgba(255,255,255,.18);
+        font-weight: 700;
+        color: white;
+        box-shadow: 0 2px 14px rgba(0,0,0,.16);
       }
-
+      .menu-item.active::before {
+        content: '';
+        position: absolute;
+        left: 0; top: 50%;
+        transform: translateY(-50%);
+        width: 3px; height: 58%;
+        background: rgba(255,255,255,.9);
+        border-radius: 0 3px 3px 0;
+      }
       .menu-item:hover:not(.active) {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255,255,255,.09);
+        color: rgba(255,255,255,.92);
       }
 
+      /* ──────── Main area ──────── */
       .main {
         padding: 24px;
+        height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
       }
+      .main::-webkit-scrollbar { width: 5px; }
+      .main::-webkit-scrollbar-thumb { background:rgba(22,93,255,.14);border-radius:3px; }
 
+      /* ──────── Topbar ──────── */
       .topbar {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 16px;
-        margin-bottom: 18px;
+        margin: -24px -24px 24px;
+        padding: 18px 28px 16px;
+        background: white;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: -24px;
+        z-index: 50;
       }
-
       .topbar h2 {
         margin: 0;
-        font-size: 28px;
+        font-size: 23px;
+        font-weight: 800;
         color: var(--text-strong);
+        letter-spacing: -.5px;
       }
-
       .subline {
-        margin-top: 6px;
-        font-size: 13px;
+        margin-top: 3px;
+        font-size: 12px;
         color: var(--text-soft);
       }
 
+      /* ──────── Cards / Panels ──────── */
       .panel,
       .card,
       .metric-card,
       .feed-item,
       .schedule-card {
         background: white;
-        border-radius: 24px;
-        box-shadow: var(--shadow);
+        border-radius: 18px;
+        box-shadow: var(--sh);
+        border: 1px solid var(--border);
       }
+      .panel { padding: 22px; }
 
-      .panel {
-        padding: 20px;
-      }
-
+      /* ──────── Metric cards ──────── */
       .metrics {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 16px;
+        grid-template-columns: repeat(4,minmax(0,1fr));
+        gap: 14px;
       }
-
       .metric-card {
-        padding: 18px;
-        background: linear-gradient(180deg, #ffffff, #f7faff);
-        border-top: 3px solid transparent;
+        padding: 22px 20px;
+        transition: var(--tr);
+        overflow: hidden;
+        position: relative;
       }
-
-      .metric-card:nth-child(1) { border-top-color: #165dff; }
-      .metric-card:nth-child(2) { border-top-color: #00b578; }
-      .metric-card:nth-child(3) { border-top-color: #ff7d00; }
-      .metric-card:nth-child(4) { border-top-color: #7b61ff; }
-
+      .metric-card::after {
+        content: '';
+        position: absolute;
+        right: -14px; bottom: -18px;
+        width: 80px; height: 80px;
+        border-radius: 50%;
+        opacity: .07;
+        background: currentColor;
+      }
+      .metric-card:hover { transform: translateY(-3px); box-shadow: var(--sh-lg); }
+      .metric-card:nth-child(1) { border-left:3px solid #165dff; color:#165dff; }
+      .metric-card:nth-child(2) { border-left:3px solid #00b578; color:#00b578; }
+      .metric-card:nth-child(3) { border-left:3px solid #ff7d00; color:#ff7d00; }
+      .metric-card:nth-child(4) { border-left:3px solid #7b61ff; color:#7b61ff; }
+      .metric-card .tiny { color: var(--text-soft); font-size:12.5px; font-weight:500; }
       .metric-card strong {
         display: block;
         margin-top: 10px;
-        font-size: 30px;
+        font-size: 34px;
+        font-weight: 800;
         color: var(--text-strong);
+        letter-spacing: -1.5px;
+        line-height: 1;
       }
 
+      /* ──────── Dashboard layout ──────── */
       .dashboard-grid {
-        margin-top: 18px;
+        margin-top: 16px;
         display: grid;
-        grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.9fr);
-        gap: 18px;
+        grid-template-columns: minmax(0,1.55fr) minmax(290px,1fr);
+        gap: 16px;
       }
+      .chart-box { height: 320px; margin-top: 6px; }
+      .panel > .row-head + .chart-box { margin-top: 0; }
 
-      .chart-box {
-        height: 320px;
-      }
+      /* ──────── Feed ──────── */
+      .feed-list { display:grid; gap:8px; max-height:430px; overflow:auto; }
+      .feed-item  { padding:13px 16px; transition:var(--tr); }
+      .feed-item:hover { transform:translateX(2px); }
 
-      .feed-list {
-        display: grid;
-        gap: 12px;
-        max-height: 400px;
-        overflow: auto;
-      }
-
-      .feed-item {
-        padding: 14px;
-      }
-
-      .tiny {
-        color: var(--text-soft);
-        font-size: 12px;
-        line-height: 1.8;
-      }
+      /* ──────── Misc ──────── */
+      .tiny { color:var(--text-soft); font-size:12px; line-height:1.8; }
 
       .row-head {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 16px;
-        margin-bottom: 14px;
+        margin-bottom: 16px;
       }
+      .row-head h3 { margin:0; font-size:15px; font-weight:700; color:var(--text-strong); }
 
-      .row-head h3 {
-        margin: 0;
-        color: var(--text-strong);
-      }
+      .two-col { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:16px; }
 
-      .two-col {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: 18px;
-      }
+      .badge { display:inline-flex; align-items:center; padding:4px 10px; border-radius:999px; font-size:11px; font-weight:700; }
+      .badge.blue   { color:#165dff; background:rgba(22,93,255,.1); }
+      .badge.orange { color:#ff7d00; background:rgba(255,125,0,.12); }
+      .badge.red    { color:#f53f3f; background:rgba(245,63,63,.1); }
 
-      .badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 6px 10px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 600;
-      }
+      .schedule-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+      .schedule-card { padding:16px 18px; transition:var(--tr); }
+      .schedule-card:hover { transform:translateY(-2px); box-shadow:var(--sh-lg); }
 
-      .badge.blue {
-        color: #165dff;
-        background: rgba(22, 93, 255, 0.1);
-      }
+      .toolbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
 
-      .badge.orange {
-        color: #ff7d00;
-        background: rgba(255, 125, 0, 0.12);
-      }
-
-      .badge.red {
-        color: #f53f3f;
-        background: rgba(245, 63, 63, 0.1);
-      }
-
-      .schedule-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 14px;
-      }
-
-      .schedule-card {
-        padding: 16px;
-      }
-
-      .toolbar {
+      /* ──────── Login page ──────── */
+      .login-wrap {
+        min-height: 100vh;
         display: flex;
-        gap: 12px;
         align-items: center;
-        flex-wrap: wrap;
+        justify-content: center;
+        background: linear-gradient(135deg,#071e5b 0%,#1250c5 55%,#2970ff 100%);
+        padding: 24px;
+        position: relative;
+        overflow: hidden;
       }
+      .login-wrap::before {
+        content:'';position:absolute;
+        width:500px;height:500px;border-radius:50%;
+        background:rgba(255,255,255,.05);
+        top:-160px;right:-120px;pointer-events:none;
+      }
+      .login-wrap::after {
+        content:'';position:absolute;
+        width:320px;height:320px;border-radius:50%;
+        background:rgba(255,255,255,.04);
+        bottom:-80px;left:-70px;pointer-events:none;
+      }
+      .login-card {
+        width: 400px;
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 32px 80px rgba(0,0,0,.28);
+        padding: 44px 40px;
+        position: relative;
+        z-index: 1;
+      }
+      .login-logo {
+        width: 64px; height: 64px;
+        background: linear-gradient(135deg,#4080ff,#165dff);
+        border-radius: 18px;
+        margin: 0 auto 20px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 28px; font-weight: 800; color: white;
+        box-shadow: 0 8px 24px rgba(22,93,255,.38);
+        letter-spacing: -.5px;
+      }
+      .login-title {
+        text-align: center;
+        font-size: 22px;
+        font-weight: 800;
+        color: #1d2129;
+        margin-bottom: 4px;
+        letter-spacing: -.4px;
+      }
+      .login-sub {
+        text-align: center;
+        font-size: 13px;
+        color: #86909c;
+        margin-bottom: 32px;
+      }
+      .login-demo {
+        margin-top: 20px;
+        padding: 14px 16px;
+        background: #f7faff;
+        border-radius: 12px;
+        font-size: 12px;
+        color: #555;
+        line-height: 2;
+        border: 1px solid #dce8ff;
+      }
+      .login-demo-title { font-weight:700; color:#1d2129; margin-bottom:2px; font-size:12.5px; }
 
-      @media (max-width: 1200px) {
-        .metrics,
-        .schedule-grid,
-        .two-col,
-        .dashboard-grid {
-          grid-template-columns: 1fr;
-        }
+      @media (max-width:1200px) {
+        .metrics,.schedule-grid,.two-col,.dashboard-grid { grid-template-columns:1fr; }
       }
     </style>
   </head>
   <body>
     <div id="app">
-      <div class="admin-shell" v-loading="loading">
+      <!-- 登录页 -->
+      <div v-if="!adminUser" class="login-wrap">
+        <div class="login-card">
+          <div class="login-logo">医</div>
+          <div class="login-title">盛京联盟管理平台</div>
+          <div class="login-sub">儿童心理健康服务联盟 · 后台管理系统</div>
+          <el-form label-position="top">
+            <el-form-item label="登录机构">
+              <el-select v-model="adminLoginForm.institution" style="width:100%">
+                <el-option label="盛京医院（主院）— admin" value="admin"></el-option>
+                <el-option label="大连市儿童医院（联盟机构）— alliance" value="alliance"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="密码">
+              <el-input v-model="adminLoginForm.password" type="password" show-password placeholder="请输入密码" @keyup.enter="adminLogin"></el-input>
+            </el-form-item>
+            <el-button type="primary" style="width:100%;height:46px;margin-top:10px;font-size:15px;border-radius:12px!important" :loading="adminLoginLoading" @click="adminLogin">登 录</el-button>
+          </el-form>
+          <div class="login-demo">
+            <div class="login-demo-title">演示账号</div>
+            <div>· 盛京主院：admin / 123456（完整权限）</div>
+            <div>· 联盟机构：alliance / 123456（医生 + 号源管理）</div>
+          </div>
+        </div>
+      </div>
+      <!-- 管理后台 -->
+      <div v-else class="admin-shell" v-loading="loading">
         <aside class="sidebar">
           <div class="brand">
-            <h1>儿童心理健康服务平台</h1>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#4080ff,#165dff);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:white;flex-shrink:0;box-shadow:0 4px 12px rgba(22,93,255,.4)">医</div>
+              <h1>儿童心理健康服务平台</h1>
+            </div>
             <p>后台管理演示端，展示内容运营、号源管理、订单联动与量表分析。</p>
           </div>
           <div class="menu">
-            <div class="menu-item" :class="{ active: currentMenu === 'dashboard' }" @click="switchMenu('dashboard')">实时运营仪表盘</div>
-            <div class="menu-item" :class="{ active: currentMenu === 'articles' }" @click="switchMenu('articles')">科普知识内容管理</div>
+            <div v-if="adminUser&&adminUser.role==='admin'" class="menu-item" :class="{ active: currentMenu === 'dashboard' }" @click="switchMenu('dashboard')">实时运营仪表盘</div>
+            <div v-if="adminUser&&adminUser.role==='admin'" class="menu-item" :class="{ active: currentMenu === 'articles' }" @click="switchMenu('articles')">科普知识内容管理</div>
             <div class="menu-item" :class="{ active: currentMenu === 'resources' }" @click="switchMenu('resources')">医生 / 医院管理</div>
             <div class="menu-item" :class="{ active: currentMenu === 'schedules' }" @click="switchMenu('schedules')">出诊号源管理</div>
-            <div class="menu-item" :class="{ active: currentMenu === 'appointments' }" @click="switchMenu('appointments')">预约订单管理</div>
-            <div class="menu-item" :class="{ active: currentMenu === 'analytics' }" @click="switchMenu('analytics')">心理测评分析</div>
+            <div v-if="adminUser&&adminUser.role==='admin'" class="menu-item" :class="{ active: currentMenu === 'appointments' }" @click="switchMenu('appointments')">预约订单管理</div>
+            <div v-if="adminUser&&adminUser.role==='admin'" class="menu-item" :class="{ active: currentMenu === 'analytics' }" @click="switchMenu('analytics')">心理测评分析</div>
+            <div v-if="adminUser&&adminUser.role==='admin'" style="border-top:1px solid rgba(255,255,255,.12);margin:8px 0"></div>
+            <div v-if="adminUser&&adminUser.role==='admin'" style="font-size:11px;color:rgba(255,255,255,.5);padding:0 16px;margin-bottom:4px">心理老师管理</div>
+            <div v-if="adminUser&&adminUser.role==='admin'" class="menu-item" :class="{ active: currentMenu === 'green-channel' }" @click="switchMenu('green-channel')">绶色通道审核</div>
+            <div v-if="adminUser&&adminUser.role==='admin'" class="menu-item" :class="{ active: currentMenu === 'follow-up-admin' }" @click="switchMenu('follow-up-admin')">随访反馈管理</div>
+            <div v-if="adminUser&&adminUser.role==='admin'" class="menu-item" :class="{ active: currentMenu === 'announcements-admin' }" @click="switchMenu('announcements-admin')">通知公告管理</div>
+            <div v-if="adminUser&&adminUser.role==='admin'" class="menu-item" :class="{ active: currentMenu === 'artwork-admin' }" @click="switchMenu('artwork-admin')">活动作品管理</div>
+            <div v-if="adminUser" style="padding:12px 0 20px;border-top:1px solid rgba(255,255,255,.15);margin-top:4px;flex-shrink:0">
+              <div style="font-size:11px;color:rgba(255,255,255,.55);margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">🏥 {{ adminUser.institutionName }}</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.45);cursor:pointer;display:inline-flex;align-items:center;gap:4px" @click="adminLogout">退出登录 →</div>
+            </div>
           </div>
         </aside>
 
@@ -276,6 +377,8 @@
               <el-tag type="primary">WebSocket 已接入</el-tag>
               <el-button @click="refreshAll">手动刷新</el-button>
               <el-button type="primary" plain @click="goHome">返回演示首页</el-button>
+              <span v-if="adminUser" style="font-size:12px;color:#666;padding:0 4px;border-left:1px solid #e5e5e5;margin-left:4px;line-height:1.4">{{ adminUser.institutionName }}</span>
+              <el-button v-if="adminUser" type="danger" plain size="small" @click="adminLogout">退出</el-button>
             </div>
           </div>
 
@@ -368,7 +471,7 @@
                 <h3>医生管理</h3>
                 <el-button type="primary" @click="openDoctorDialog()">新增医生</el-button>
               </div>
-              <el-table :data="state.doctors" border height="560">
+              <el-table :data="manageDoctors" border height="560">
                 <el-table-column prop="name" label="姓名" width="110"></el-table-column>
                 <el-table-column prop="title" label="职称" width="120"></el-table-column>
                 <el-table-column label="医院" min-width="180">
@@ -422,7 +525,7 @@
                   <div class="tiny">总号源 {{ slot.totalSlots }} / 已预约 {{ slot.bookedSlots }} / 余号 {{ slot.availableSlots }}</div>
                 </div>
               </div>
-              <el-table :data="state.schedules" border>
+              <el-table :data="manageSchedules" border>
                 <el-table-column prop="doctorName" label="医生" width="120"></el-table-column>
                 <el-table-column prop="date" label="日期" width="120"></el-table-column>
                 <el-table-column label="出诊时段" width="100">
@@ -523,6 +626,98 @@
                 <el-table-column prop="createdAt" label="测评时间" min-width="180"></el-table-column>
               </el-table>
             </div>
+          </section>
+
+          <!-- GREEN CHANNEL REVIEW -->
+          <section v-else-if="currentMenu === 'green-channel'" class="panel">
+            <div class="row-head">
+              <h3>绿色通道申请审核</h3>
+              <el-select v-model="gcStatusFilter" style="width:130px" size="small">
+                <el-option label="全部" value="全部"></el-option><el-option label="待审核" value="pending"></el-option><el-option label="已通过" value="approved"></el-option><el-option label="已拒绝" value="rejected"></el-option>
+              </el-select>
+            </div>
+            <el-table :data="filteredGreenChannels" border>
+              <el-table-column prop="applyTime" label="申请时间" width="150"><template #default="scope">{{ formatDateTime(scope.row.applyTime) }}</template></el-table-column>
+              <el-table-column prop="teacherName" label="申请老师" width="90"></el-table-column>
+              <el-table-column prop="school" label="学校" min-width="160"></el-table-column>
+              <el-table-column prop="studentName" label="学生" width="80"></el-table-column>
+              <el-table-column prop="studentGrade" label="年级" width="80"></el-table-column>
+              <el-table-column label="状态" width="90"><template #default="scope"><el-tag :type="gcStatusType(scope.row.status)" size="small">{{ gcStatusLabel(scope.row.status) }}</el-tag></template></el-table-column>
+              <el-table-column label="问题描述" min-width="200"><template #default="scope"><span style="font-size:12px">{{ scope.row.problem }}</span></template></el-table-column>
+              <el-table-column label="操作" width="160" fixed="right">
+                <template #default="scope">
+                  <div v-if="scope.row.status==='pending'" style="display:flex;gap:4px">
+                    <el-button size="small" type="success" @click="openGcReviewDialog(scope.row,'approve')">通过</el-button>
+                    <el-button size="small" type="danger" @click="openGcReviewDialog(scope.row,'reject')">拒绝</el-button>
+                  </div>
+                  <span v-else style="color:#999;font-size:12px">{{ scope.row.appointmentDate || '已处理' }}</span>
+                </template>
+              </el-table-column>
+            </el-table>
+          </section>
+
+          <!-- FOLLOW-UP ADMIN -->
+          <section v-else-if="currentMenu === 'follow-up-admin'" class="panel">
+            <div class="row-head"><h3>随访反馈记录</h3><span style="font-size:13px;color:#666">共 {{ (state.followUps||[]).length }} 条</span></div>
+            <el-table :data="state.followUps||[]" border>
+              <el-table-column prop="followUpDate" label="随访时间" width="150"><template #default="scope">{{ formatDateTime(scope.row.followUpDate) }}</template></el-table-column>
+              <el-table-column prop="teacherName" label="老师" width="90"></el-table-column>
+              <el-table-column prop="school" label="学校" min-width="160"></el-table-column>
+              <el-table-column prop="studentName" label="学生" width="80"></el-table-column>
+              <el-table-column prop="studentGrade" label="年级" width="80"></el-table-column>
+              <el-table-column prop="visitStatus" label="复诊情况" width="100"></el-table-column>
+              <el-table-column label="情绪状态" min-width="180"><template #default="scope"><span style="font-size:12px">{{ scope.row.emotionStatus }}</span></template></el-table-column>
+              <el-table-column label="操作" width="80" fixed="right"><template #default="scope"><el-button size="small" @click="openFollowUpDetail(scope.row)">详情</el-button></template></el-table-column>
+            </el-table>
+          </section>
+
+          <!-- ANNOUNCEMENTS ADMIN -->
+          <section v-else-if="currentMenu === 'announcements-admin'" class="panel">
+            <div class="row-head"><h3>通知公告管理</h3><el-button type="primary" @click="openAnnouncementDialog(null)">新增公告</el-button></div>
+            <el-table :data="state.announcements||[]" border>
+              <el-table-column prop="title" label="标题" min-width="200"></el-table-column>
+              <el-table-column label="类型" width="110"><template #default="scope"><el-tag :type="scope.row.type==='system'?'info':''" size="small">{{ scope.row.type==='system'?'系统通知':'培训通知' }}</el-tag></template></el-table-column>
+              <el-table-column prop="publisher" label="发布人" width="140"></el-table-column>
+              <el-table-column prop="publishTime" label="时间" width="150"><template #default="scope">{{ formatDateTime(scope.row.publishTime) }}</template></el-table-column>
+              <el-table-column label="状态" width="90"><template #default="scope"><el-tag :type="scope.row.status==='published'?'success':'info'" size="small">{{ scope.row.status==='published'?'已发布':'草稿' }}</el-tag></template></el-table-column>
+              <el-table-column prop="readCount" label="阅读" width="70"></el-table-column>
+              <el-table-column label="操作" width="210" fixed="right">
+                <template #default="scope">
+                  <el-button size="small" @click="openAnnouncementDialog(scope.row)">编辑</el-button>
+                  <el-button v-if="scope.row.status!=='published'" size="small" type="success" @click="publishAnnouncement(scope.row)">发布</el-button>
+                  <el-button v-else size="small" type="warning" @click="unpublishAnnouncement(scope.row)">下架</el-button>
+                  <el-button size="small" type="danger" @click="deleteAnnouncement(scope.row)">删除</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </section>
+
+          <!-- ARTWORK ADMIN -->
+          <section v-else-if="currentMenu === 'artwork-admin'" class="panel">
+            <div class="row-head">
+              <h3>活动作品管理</h3>
+              <el-select v-model="artworkStatusFilter" style="width:130px" size="small">
+                <el-option label="全部" value="全部"></el-option><el-option label="待审核" value="pending"></el-option><el-option label="已通过" value="approved"></el-option><el-option label="已退回" value="rejected"></el-option>
+              </el-select>
+            </div>
+            <el-table :data="filteredArtworks" border>
+              <el-table-column prop="submitTime" label="上传时间" width="150"><template #default="scope">{{ formatDateTime(scope.row.submitTime) }}</template></el-table-column>
+              <el-table-column prop="teacherName" label="老师" width="90"></el-table-column>
+              <el-table-column prop="school" label="学校" min-width="150"></el-table-column>
+              <el-table-column prop="studentName" label="学生" width="80"></el-table-column>
+              <el-table-column prop="artworkName" label="作品名称" min-width="140"></el-table-column>
+              <el-table-column prop="description" label="描述" min-width="180"><template #default="scope"><span style="font-size:12px">{{ scope.row.description }}</span></template></el-table-column>
+              <el-table-column label="状态" width="90"><template #default="scope"><el-tag :type="gcStatusType(scope.row.status)" size="small">{{ awStatusLabel(scope.row.status) }}</el-tag></template></el-table-column>
+              <el-table-column label="操作" width="150" fixed="right">
+                <template #default="scope">
+                  <div v-if="scope.row.status==='pending'" style="display:flex;gap:4px">
+                    <el-button size="small" type="success" @click="reviewArtwork(scope.row,'approve')">通过</el-button>
+                    <el-button size="small" type="danger" @click="reviewArtwork(scope.row,'reject')">退回</el-button>
+                  </div>
+                  <span v-else style="color:#999;font-size:12px">已处理</span>
+                </template>
+              </el-table-column>
+            </el-table>
           </section>
         </main>
 
@@ -633,6 +828,63 @@
             <el-button type="primary" @click="saveSchedule">保存</el-button>
           </template>
         </el-dialog>
+
+        <!-- GC Review Dialog -->
+        <el-dialog v-model="gcReviewDialogVisible" :title="gcReviewAction==='approve'?'通过申请 - 安排就诊':'拒绝申请'" width="520px">
+          <div v-if="gcReviewingItem" style="margin-bottom:16px;padding:14px;background:#f5f7fa;border-radius:8px;border-left:4px solid var(--primary)">
+            <div style="font-weight:600;font-size:15px">{{ gcReviewingItem.studentName }} · {{ gcReviewingItem.studentGrade }} ({{ gcReviewingItem.school }})</div>
+            <div style="font-size:13px;color:#666;margin-top:6px">{{ gcReviewingItem.problem }}</div>
+          </div>
+          <el-form label-position="top">
+            <template v-if="gcReviewAction==='approve'">
+              <el-form-item label="预约日期"><el-date-picker v-model="gcReviewForm.appointmentDate" type="date" value-format="YYYY-MM-DD" style="width:100%" placeholder="请选择就诊日期"></el-date-picker></el-form-item>
+              <el-form-item label="预约时段"><el-select v-model="gcReviewForm.appointmentTime" style="width:100%"><el-option label="上午 08:30-09:00" value="上午 08:30-09:00"></el-option><el-option label="上午 09:00-09:30" value="上午 09:00-09:30"></el-option><el-option label="上午 10:00-10:30" value="上午 10:00-10:30"></el-option><el-option label="下午 14:00-14:30" value="下午 14:00-14:30"></el-option><el-option label="下午 15:00-15:30" value="下午 15:00-15:30"></el-option></el-select></el-form-item>
+            </template>
+            <el-form-item :label="gcReviewAction==='approve'?'备注（可选）':'拒绝原因'"><el-input v-model="gcReviewForm.note" type="textarea" :rows="2" :placeholder="gcReviewAction==='approve'?'如有特殊说明请填写':'请填写拒绝原因'"></el-input></el-form-item>
+          </el-form>
+          <template #footer>
+            <el-button @click="gcReviewDialogVisible=false">取消</el-button>
+            <el-button :type="gcReviewAction==='approve'?'success':'danger'" @click="submitGcReview">{{ gcReviewAction==='approve'?'确认通过':'确认拒绝' }}</el-button>
+          </template>
+        </el-dialog>
+
+        <!-- Follow-up Detail Dialog -->
+        <el-dialog v-model="followUpDetailVisible" title="随访记录详情" width="620px">
+          <div v-if="activeFollowUp" style="padding-top:4px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin-bottom:16px">
+              <div><span style="color:#999;font-size:12px">学生</span><div style="font-weight:600">{{ activeFollowUp.studentName }} · {{ activeFollowUp.studentGrade }}</div></div>
+              <div><span style="color:#999;font-size:12px">学校</span><div>{{ activeFollowUp.school }}</div></div>
+              <div><span style="color:#999;font-size:12px">复诊情况</span><div>{{ activeFollowUp.visitStatus }}</div></div>
+              <div><span style="color:#999;font-size:12px">随访时间</span><div>{{ formatDateTime(activeFollowUp.followUpDate) }}</div></div>
+            </div>
+            <el-divider></el-divider>
+            <div style="display:grid;gap:12px">
+              <div><div style="color:#999;font-size:12px;margin-bottom:4px">情绪状态反馈</div><div style="font-size:14px">{{ activeFollowUp.emotionStatus }}</div></div>
+              <div v-if="activeFollowUp.behaviorChange"><div style="color:#999;font-size:12px;margin-bottom:4px">行为变化</div><div style="font-size:14px">{{ activeFollowUp.behaviorChange }}</div></div>
+              <div v-if="activeFollowUp.medicationCompliance"><div style="color:#999;font-size:12px;margin-bottom:4px">用药情况</div><div style="font-size:14px">{{ activeFollowUp.medicationCompliance }}</div></div>
+              <div v-if="activeFollowUp.schoolPerformance"><div style="color:#999;font-size:12px;margin-bottom:4px">学校表现</div><div style="font-size:14px">{{ activeFollowUp.schoolPerformance }}</div></div>
+              <div v-if="activeFollowUp.parentFeedback"><div style="color:#999;font-size:12px;margin-bottom:4px">家长反馈</div><div style="font-size:14px">{{ activeFollowUp.parentFeedback }}</div></div>
+              <div v-if="activeFollowUp.teacherSuggestion"><div style="color:#999;font-size:12px;margin-bottom:4px">老师建议</div><div style="font-size:14px">{{ activeFollowUp.teacherSuggestion }}</div></div>
+            </div>
+          </div>
+          <template #footer><el-button @click="followUpDetailVisible=false">关闭</el-button></template>
+        </el-dialog>
+
+        <!-- Announcement Edit Dialog -->
+        <el-dialog v-model="announcementDialogVisible" title="通知公告" width="720px">
+          <el-form label-position="top">
+            <el-form-item label="标题"><el-input v-model="announcementForm.title"></el-input></el-form-item>
+            <div class="two-col">
+              <el-form-item label="类型"><el-select v-model="announcementForm.type" style="width:100%"><el-option label="培训通知" value="training"></el-option><el-option label="系统通知" value="system"></el-option></el-select></el-form-item>
+              <el-form-item label="发布人"><el-input v-model="announcementForm.publisher"></el-input></el-form-item>
+            </div>
+            <el-form-item label="内容"><el-input v-model="announcementForm.content" type="textarea" :rows="8" placeholder="请输入公告内容..."></el-input></el-form-item>
+          </el-form>
+          <template #footer>
+            <el-button @click="announcementDialogVisible=false">取消</el-button>
+            <el-button type="primary" @click="saveAnnouncement">保存</el-button>
+          </template>
+        </el-dialog>
       </div>
     </div>
 
@@ -647,6 +899,9 @@
         data() {
           return {
             loading: false,
+            adminUser: null,
+            adminLoginForm: { institution: 'admin', password: '123456' },
+            adminLoginLoading: false,
             ws: null,
             dashboardChart: null,
             assessmentChart: null,
@@ -657,7 +912,11 @@
               resources: '医生 / 医院管理',
               schedules: '出诊号源管理',
               appointments: '预约订单管理',
-              analytics: '心理测评分析'
+              analytics: '心理测评分析',
+              'green-channel': '绿色通道审核',
+              'follow-up-admin': '随访反馈管理',
+              'announcements-admin': '通知公告管理',
+              'artwork-admin': '活动作品管理'
             },
             articleStatusFilter: '全部',
             orderStatusFilter: '全部',
@@ -671,7 +930,8 @@
               assessments: [],
               reviews: [],
               dashboard: { cards: {}, trends: [], activityFeed: [], todos: [] },
-              assessmentAnalytics: { overview: {}, highRiskList: [], trends: [] }
+              assessmentAnalytics: { overview: {}, highRiskList: [], trends: [] },
+              greenChannels: [], followUps: [], announcements: [], artworks: []
             },
             articleDialogVisible: false,
             doctorDialogVisible: false,
@@ -683,7 +943,13 @@
             scheduleForm: { id: '', doctorId: '', date: '', period: '上午', timeSlot: '', totalSlots: 8, bookedSlots: 0, status: '正常' },
             reviewDialogVisible: false,
             reviewingAppointment: null,
-            reviewForm: { decision: 'approve', adjustedDate: '', adjustedPeriod: '上午', remark: '' }
+            reviewForm: { decision: 'approve', adjustedDate: '', adjustedPeriod: '上午', remark: '' },
+            gcStatusFilter: '全部', artworkStatusFilter: '全部',
+            gcReviewDialogVisible: false, gcReviewingItem: null, gcReviewAction: 'approve',
+            gcReviewForm: { appointmentDate: '', appointmentTime: '上午 09:00-09:30', note: '' },
+            followUpDetailVisible: false, activeFollowUp: null,
+            announcementDialogVisible: false,
+            announcementForm: { id: '', title: '', type: 'training', content: '', publisher: '盛京医院儿童心理科' }
           };
         },
         computed: {
@@ -694,7 +960,24 @@
             return this.state.appointments.filter((item) => this.orderStatusFilter === '全部' || item.status === this.orderStatusFilter);
           },
           scheduleCards() {
-            return this.state.schedules.slice(0, this.scheduleView === '周视图' ? 6 : 9);
+            return this.manageSchedules.slice(0, this.scheduleView === '周视图' ? 6 : 9);
+          },
+          filteredGreenChannels() {
+            const f = this.gcStatusFilter;
+            return (this.state.greenChannels || []).filter(g => f === '全部' || g.status === f);
+          },
+          filteredArtworks() {
+            const f = this.artworkStatusFilter;
+            return (this.state.artworks || []).filter(a => f === '全部' || a.status === f);
+          },
+          manageDoctors() {
+            if(!this.adminUser||this.adminUser.role==='admin') return this.state.doctors||[];
+            return (this.state.doctors||[]).filter(d=>d.hospitalId===this.adminUser.institutionId);
+          },
+          manageSchedules() {
+            if(!this.adminUser||this.adminUser.role==='admin') return this.state.schedules||[];
+            const ids=new Set(this.manageDoctors.map(d=>d.id));
+            return (this.state.schedules||[]).filter(s=>ids.has(s.doctorId));
           }
         },
         methods: {
@@ -705,6 +988,21 @@
               throw new Error(data.message || '请求失败');
             }
             return data.data;
+          },
+          async adminLogin(){
+            if(!this.adminLoginForm.password){ ElMessage.warning('请输入密码'); return; }
+            this.adminLoginLoading=true;
+            try{
+              const user=await this.request('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({account:this.adminLoginForm.institution,password:this.adminLoginForm.password})});
+              sessionStorage.setItem('adminUser',JSON.stringify(user));
+              this.adminUser=user;
+              await this.fetchBootstrap();
+            }catch(e){ ElMessage.error(e.message||'登录失败'); }
+            finally{ this.adminLoginLoading=false; }
+          },
+          adminLogout(){
+            this.adminUser=null;
+            sessionStorage.removeItem('adminUser');
           },
           async fetchBootstrap() {
             this.loading = true;
@@ -731,32 +1029,34 @@
             return String(value || '').replace('T', ' ').slice(0, 16);
           },
           renderCharts() {
-            if (document.getElementById('dashboardChart')) {
-              if (!this.dashboardChart) {
-                this.dashboardChart = echarts.init(document.getElementById('dashboardChart'));
-              }
+            // 用 getInstanceByDom 兼容 v-if 销毁重建场景，避免旧实例失效
+            const dashEl = document.getElementById('dashboardChart');
+            if (dashEl) {
+              this.dashboardChart = echarts.getInstanceByDom(dashEl) || echarts.init(dashEl);
               this.dashboardChart.setOption({
-                tooltip: { trigger: 'axis' },
-                legend: { data: ['预约量', '测评量'] },
-                xAxis: { type: 'category', data: this.state.dashboard.trends.map((item) => item.date.slice(5)) },
-                yAxis: { type: 'value' },
+                tooltip: { trigger: 'axis', backgroundColor: '#fff', borderColor: '#e5e5e5', borderWidth: 1, textStyle: { color: '#1d2129' } },
+                legend: { data: ['预约量', '测评量'], top: 4, right: 0, itemHeight: 10, textStyle: { color: '#4e5969', fontSize: 12 } },
+                grid: { left: 36, right: 12, top: 36, bottom: 20, containLabel: true },
+                xAxis: { type: 'category', data: this.state.dashboard.trends.map((item) => item.date.slice(5)), axisTick: { show: false }, axisLine: { lineStyle: { color: '#e8e8e8' } }, axisLabel: { color: '#86909c', fontSize: 12 } },
+                yAxis: { type: 'value', minInterval: 1, splitLine: { lineStyle: { color: '#f2f3f5' } }, axisLabel: { color: '#86909c', fontSize: 12 } },
                 series: [
-                  { name: '预约量', type: 'line', smooth: true, data: this.state.dashboard.trends.map((item) => item.appointments), color: '#165DFF' },
-                  { name: '测评量', type: 'line', smooth: true, data: this.state.dashboard.trends.map((item) => item.assessments), color: '#00B578' }
+                  { name: '预约量', type: 'line', smooth: true, symbol: 'circle', symbolSize: 6, data: this.state.dashboard.trends.map((item) => item.appointments), color: '#165DFF', lineStyle: { width: 2.5 }, areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(22,93,255,.14)' }, { offset: 1, color: 'rgba(22,93,255,0)' }] } } },
+                  { name: '测评量', type: 'line', smooth: true, symbol: 'circle', symbolSize: 6, data: this.state.dashboard.trends.map((item) => item.assessments), color: '#00B578', lineStyle: { width: 2.5 }, areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(0,181,120,.12)' }, { offset: 1, color: 'rgba(0,181,120,0)' }] } } }
                 ]
               });
             }
-            if (document.getElementById('assessmentChart')) {
-              if (!this.assessmentChart) {
-                this.assessmentChart = echarts.init(document.getElementById('assessmentChart'));
-              }
+            const assEl = document.getElementById('assessmentChart');
+            if (assEl) {
+              this.assessmentChart = echarts.getInstanceByDom(assEl) || echarts.init(assEl);
               this.assessmentChart.setOption({
-                tooltip: { trigger: 'axis' },
-                xAxis: { type: 'category', data: this.state.assessmentAnalytics.trends.map((item) => item.date.slice(5)) },
-                yAxis: { type: 'value' },
+                tooltip: { trigger: 'axis', backgroundColor: '#fff', borderColor: '#e5e5e5', borderWidth: 1, textStyle: { color: '#1d2129' } },
+                legend: { data: ['测评总量', '高风险'], top: 4, right: 0, itemHeight: 10, textStyle: { color: '#4e5969', fontSize: 12 } },
+                grid: { left: 36, right: 12, top: 36, bottom: 20, containLabel: true },
+                xAxis: { type: 'category', data: this.state.assessmentAnalytics.trends.map((item) => item.date.slice(5)), axisTick: { show: false }, axisLine: { lineStyle: { color: '#e8e8e8' } }, axisLabel: { color: '#86909c', fontSize: 11, rotate: 30 } },
+                yAxis: { type: 'value', minInterval: 1, splitLine: { lineStyle: { color: '#f2f3f5' } }, axisLabel: { color: '#86909c', fontSize: 12 } },
                 series: [
-                  { name: '总量', type: 'bar', data: this.state.assessmentAnalytics.trends.map((item) => item.total), color: '#4080FF' },
-                  { name: '高风险', type: 'line', smooth: true, data: this.state.assessmentAnalytics.trends.map((item) => item.high), color: '#F53F3F' }
+                  { name: '测评总量', type: 'bar', data: this.state.assessmentAnalytics.trends.map((item) => item.total), color: '#4080FF', barMaxWidth: 24, itemStyle: { borderRadius: [4, 4, 0, 0] } },
+                  { name: '高风险', type: 'line', smooth: true, symbol: 'circle', symbolSize: 6, data: this.state.assessmentAnalytics.trends.map((item) => item.high), color: '#F53F3F', lineStyle: { width: 2 } }
                 ]
               });
             }
@@ -941,9 +1241,64 @@
                 await this.fetchBootstrap();
               }
             };
+          },
+          // ─ Teacher zone helpers ─
+          gcStatusLabel(s) { return { pending: '待审核', approved: '已通过', rejected: '已拒绝' }[s] || s; },
+          gcStatusType(s) { return { pending: 'warning', approved: 'success', rejected: 'danger' }[s] || ''; },
+          awStatusLabel(s) { return { pending: '待审核', approved: '已通过', rejected: '已退回' }[s] || s; },
+          awStatusType(s) { return { pending: 'warning', approved: 'success', rejected: 'danger' }[s] || ''; },
+          openGcReviewDialog(row, action) {
+            this.gcReviewingItem = row;
+            this.gcReviewAction = action;
+            this.gcReviewForm = { appointmentDate: '', appointmentTime: '上卉00:00-09:30', note: '' };
+            this.gcReviewDialogVisible = true;
+          },
+          async submitGcReview() {
+            try {
+              await this.request(`/api/admin/green-channels/${this.gcReviewingItem.id}/review`, {
+                method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: this.gcReviewAction, ...this.gcReviewForm })
+              });
+              this.gcReviewDialogVisible = false;
+              await this.fetchBootstrap();
+              ElMessage.success(this.gcReviewAction === 'approve' ? '已通过申请' : '已拒绝申请');
+            } catch (e) { ElMessage.error(e.message); }
+          },
+          openFollowUpDetail(row) { this.activeFollowUp = row; this.followUpDetailVisible = true; },
+          openAnnouncementDialog(row) {
+            this.announcementForm = row ? { ...row } : { id: '', title: '', type: 'training', content: '', publisher: '盛京医院儿童心理科' };
+            this.announcementDialogVisible = true;
+          },
+          async saveAnnouncement() {
+            if (!this.announcementForm.title || !this.announcementForm.content) { ElMessage.warning('请填写标题和内容'); return; }
+            try {
+              const url = this.announcementForm.id ? `/api/admin/announcements/${this.announcementForm.id}` : '/api/admin/announcements';
+              await this.request(url, { method: this.announcementForm.id ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(this.announcementForm) });
+              this.announcementDialogVisible = false; await this.fetchBootstrap(); ElMessage.success('保存成功');
+            } catch (e) { ElMessage.error(e.message); }
+          },
+          async publishAnnouncement(row) {
+            try { await this.request(`/api/admin/announcements/${row.id}/publish`, { method: 'POST' }); await this.fetchBootstrap(); ElMessage.success('已发布'); } catch (e) { ElMessage.error(e.message); }
+          },
+          async unpublishAnnouncement(row) {
+            try { await this.request(`/api/admin/announcements/${row.id}/unpublish`, { method: 'POST' }); await this.fetchBootstrap(); ElMessage.success('已下架'); } catch (e) { ElMessage.error(e.message); }
+          },
+          async deleteAnnouncement(row) {
+            try {
+              await ElMessageBox.confirm(`确认删除《${row.title}》？`, '删除公告', { type: 'warning' });
+              await this.request(`/api/admin/announcements/${row.id}`, { method: 'DELETE' }); await this.fetchBootstrap(); ElMessage.success('已删除');
+            } catch (e) { if (e !== 'cancel') ElMessage.error(e.message || '操作已取消'); }
+          },
+          async reviewArtwork(row, action) {
+            try {
+              await this.request(`/api/admin/artworks/${row.id}/review`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action }) });
+              await this.fetchBootstrap(); ElMessage.success(action === 'approve' ? '已通过' : '已退回');
+            } catch (e) { ElMessage.error(e.message); }
           }
         },
         async mounted() {
+          const saved=sessionStorage.getItem('adminUser');
+          if(saved){ try{ this.adminUser=JSON.parse(saved); }catch(e){} }
           await this.fetchBootstrap();
           this.connectWs();
           window.addEventListener('resize', this.renderCharts);

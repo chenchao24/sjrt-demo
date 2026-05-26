@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Template Test</title>
+<link rel="stylesheet" href="../vendor/element-plus.css">
+<style>[v-cloak]{display:none}</style>
+</head>
+<body>
+<div id="preloader">Testing... Check console for errors</div>
+<div id="app" v-cloak>
+  <!-- Test 1: step indicator with ternary :style -->
+  <div :style="{background:step>=1?'var(--c-primary)':'var(--c-fill)',color:step>=1?'#fff':'var(--c-text-3)'}">{{ step }}</div>
+  <!-- Test 2: border string concat -->
+  <div :style="{border:'2px solid '+(payMethod==='alipay'?'var(--c-primary)':'var(--c-fill)')}">border test</div>
+  <!-- Test 3: @click with string assignment -->
+  <div @click="payMethod='alipay'">click alipay</div>
+  <div @click="payMethod='wechat'">click wechat</div>
+  <!-- Test 4: Chinese string in directive -->
+  <div :class="{selected:department==='儿童心理门诊'}">dept</div>
+  <!-- Test 5: template v-for -->
+  <template v-for="p in periods" :key="p.key">
+    <div>{{ p.label }}</div>
+  </template>
+  <!-- Test 6: emoji in static text -->
+  <div>💙 💚 👨‍⚕️</div>
+  <!-- Test 7: complex :class array with empty strings -->
+  <div :class="['btn', scheduleId===1?'selected':'', slots===0?'full':'']">slot</div>
+  <!-- Test 8: :disabled binding -->
+  <button :disabled="paying||!patientId">pay</button>
+</div>
+<script src="../vendor/vue.js"></script>
+<script src="../vendor/element-plus.js"></script>
+<script>
+window.addEventListener('error', function(e){
+  document.getElementById('preloader').textContent = 'ERROR: ' + e.message + ' at ' + e.filename + ':' + e.lineno;
+  console.error('COMPILE ERROR:', e.message, e);
+});
+const app = Vue.createApp({
+  data() { return { step:1, payMethod:'alipay', department:'', periods:[{key:'m',label:'上午'},{key:'a',label:'下午'}], scheduleId:null, slots:5, paying:false, patientId:null }; }
+});
+app.use(ElementPlus).mount('#app');
+document.getElementById('preloader').textContent = 'Mounted OK!';
+</script>
+</body>
+</html>

@@ -23,6 +23,33 @@
     .el-rate{height:auto!important}
     .el-loading-mask{border-radius:54px}
     [v-cloak]{display:none!important}
+    .teacher-entry-card{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:var(--r-xl);padding:16px 18px;box-shadow:var(--sh-2);gap:12px;cursor:pointer;transition:var(--t-base);border:1.5px solid #E0EAFF}
+    .teacher-entry-card:active{transform:scale(.98);border-color:var(--c-primary)}
+    /* ─ Register flow ──────────────────────────────────────────── */
+    .reg-dept-card{background:linear-gradient(135deg,#f0f7ff 0%,#eaf5fe 100%);border-radius:var(--r-xl);padding:22px 18px;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;border:2px solid transparent;box-shadow:var(--sh-1)}
+    .reg-dept-card:active{transform:scale(.97)}
+    .reg-dept-card.selected{border-color:var(--c-primary);box-shadow:0 4px 18px rgba(22,93,255,.18)}
+    .reg-date-tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 0 12px;scrollbar-width:none}
+    .reg-date-tabs::-webkit-scrollbar{display:none}
+    .reg-date-tab{flex-shrink:0;min-width:70px;background:#fff;border:1.5px solid var(--c-fill);border-radius:10px;padding:8px 10px;text-align:center;cursor:pointer;transition:all .15s}
+    .reg-date-tab.active{background:var(--c-primary);border-color:var(--c-primary);color:#fff}
+    .reg-date-hint{font-size:10px;margin-top:2px;color:#ef4444}
+    .reg-date-tab.active .reg-date-hint{color:rgba(255,255,255,.85)}
+    .reg-date-tab.full-tab .reg-date-hint{color:#165DFF}
+    .reg-date-tab.active.full-tab .reg-date-hint{color:rgba(255,255,255,.9)}
+    .reg-doctor-card{background:#fff;border-radius:var(--r-xl);padding:14px 16px;box-shadow:0 2px 10px rgba(0,0,0,.06);margin-bottom:10px;cursor:pointer;transition:transform .12s}
+    .reg-doctor-card:active{transform:scale(.985)}
+    .reg-tag-orange{background:#fff7ed;color:#f97316;border-radius:6px;padding:2px 7px;font-size:11px;font-weight:600}
+    .reg-full-btn{background:#f97316;color:#fff;border:none;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600}
+    .reg-avail-btn{background:#e6f9f0;color:#00b578;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600}
+    .reg-price{color:#f97316;font-size:15px;font-weight:700}
+    .reg-slot-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 14px;border-radius:8px;border:1.5px solid var(--c-fill);background:#fff;cursor:pointer;font-size:13px;transition:all .15s;min-width:82px}
+    .reg-slot-btn.selected{border-color:var(--c-primary);background:var(--c-primary-bg);color:var(--c-primary);font-weight:600}
+    .reg-slot-btn.full{background:#f5f5f5;border-color:var(--c-fill);color:#ccc;cursor:not-allowed}
+    .reg-pay-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:50px;border-radius:12px;border:none;cursor:pointer;font-size:15px;font-weight:700;color:#fff;transition:opacity .15s}
+    .reg-pay-btn:active{opacity:.82}
+    .nanhu-card{border:2px solid #165DFF!important;background:linear-gradient(135deg,#f0f7ff 0%,#fff 70%)!important}
+    .nanhu-badge{background:#165DFF;color:#fff;border-radius:6px;padding:2px 7px;font-size:10px;font-weight:700;margin-left:5px}
   </style>
 </head>
 <body>
@@ -33,6 +60,7 @@
   <div class="phone-preloader" id="preloader">
     <div class="preloader-spinner"></div>
     <div style="margin-top:12px;font-size:12px;color:var(--c-text-3)">加载中...</div>
+    <div id="preloader-err" style="display:none;margin-top:16px;padding:10px 14px;background:#fff3f0;border-radius:8px;font-size:11px;color:#d32f2f;max-width:260px;word-break:break-all;text-align:left"></div>
   </div>
   <div id="app" v-cloak>
   <div class="mobile-shell" v-loading="loading">
@@ -40,16 +68,32 @@
     <!-- Status bar (desktop decorative) -->
     <div class="status-bar" :class="isHome ? 'on-dark' : 'on-light'">
       <span class="status-time">{{ clockTime }}</span>
-      <span class="status-icons">▲▲▲ 🔋</span>
+      <span class="status-icons">▲▲▲ </span>
     </div>
 
     <!-- ══ HOME ══ -->
     <div v-if="isHome" class="page" style="padding-top:0">
-      <div class="hero" style="margin-top:-52px;padding-top:66px;padding-bottom:8px">
+
+      <!-- System Banner -->
+      <div class="sys-banner">
+        <div class="sys-banner-inner">
+          <div class="sys-banner-emblem">盛京<br>联盟</div>
+          <div>
+            <div class="sys-banner-sub">盛京医疗联盟</div>
+            <div class="sys-banner-name">儿童心理精神健康服务平台</div>
+            <div class="sys-banner-tag">
+              <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm.5 10.5h-1v-5h1v5zm0-6.5h-1V4h1v1z"/></svg>
+              专业 · 权威 · 全程陪伴
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero" style="padding-top:var(--sp-5);padding-bottom:8px;margin-top:-12px;z-index:1">
         <div class="hero-title-row">
           <div class="hero-text-col">
             <div class="hero-badge">盛京医疗联盟 · 儿童心理健康</div>
-            <div class="hero-title">👋 你好，{{ state.user.name || '家长' }}</div>
+            <div class="hero-title"> 你好，{{ state.user.name || '家长' }}</div>
             <div class="hero-sub">为您的孩子提供科普 · 测评 · 预约 · 随访全程服务</div>
           </div>
           <div class="hero-img-cluster">
@@ -64,7 +108,7 @@
           <div class="hero-stat" @click="go('/articles')"><div class="hs-val">{{ featuredArticles.length }}+</div><div class="hs-label">科普文章</div></div>
         </div>
         <div class="hero-row">
-          <div class="hero-pill">👩 {{ state.user.mobile || '已登录' }}</div>
+          <div class="hero-pill"> {{ state.user.mobile || '已登录' }}</div>
           <div class="hero-pill danger">☎ 紧急求助</div>
         </div>
       </div>
@@ -78,26 +122,40 @@
 
       <div class="section grid-2">
         <div class="svc-card" @click="go('/articles')">
-          <div class="svc-icon" style="background:#EEF4FF">📖</div>
+          <div class="svc-icon" style="background:#EEF4FF"><svg viewBox="0 0 24 24" width="22" height="22" fill="#165DFF"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 15H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
           <div><div class="svc-name">心理科普</div><div class="svc-desc">图文视频 · 分类收藏</div></div>
         </div>
         <div class="svc-card" @click="go('/appointment')">
-          <div class="svc-icon" style="background:#E8F9F0">🩺</div>
+          <div class="svc-icon" style="background:#E8F9F0"><svg viewBox="0 0 24 24" width="22" height="22" fill="#00B578"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg></div>
           <div><div class="svc-name">门诊预约</div><div class="svc-desc">实时号源 · 绿色通道</div></div>
         </div>
         <div class="svc-card" @click="go('/assessments')">
-          <div class="svc-icon" style="background:#FFF3E8">🧠</div>
+          <div class="svc-icon" style="background:#FFF3E8"><svg viewBox="0 0 24 24" width="22" height="22" fill="#FF7D00"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
           <div><div class="svc-name">心理测评</div><div class="svc-desc">量表筛查 · 智能报告</div></div>
         </div>
         <div class="svc-card" @click="go('/my-appointments')">
-          <div class="svc-icon" style="background:#F0EDFF">📅</div>
+          <div class="svc-icon" style="background:#F0EDFF"><svg viewBox="0 0 24 24" width="22" height="22" fill="#7B61FF"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg></div>
           <div><div class="svc-name">我的预约</div><div class="svc-desc">订单查看与取消</div></div>
+        </div>
+      </div>
+
+      <!-- Teacher Zone Entry -->
+      <div class="section" style="padding-top:0">
+        <div class="teacher-entry-card" @click="go('/teacher-login')">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="svc-icon" style="background:#EBF3E8;width:46px;height:46px;flex-shrink:0"><svg viewBox="0 0 24 24" width="24" height="24" fill="#3DA14B"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg></div>
+            <div>
+              <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1)">心理老师专区</div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-top:2px">绿色通道 · 随访反馈 · 活动作品上传</div>
+            </div>
+          </div>
+          <span style="color:var(--c-primary);font-size:20px;flex-shrink:0">›</span>
         </div>
       </div>
 
       <!-- Pending appointment reminder -->
       <div class="appt-reminder section" v-if="activeAppointments.length" @click="go('/my-appointments')">
-        <span style="font-size:24px">🗓️</span>
+        <span style="font-size:24px"></span>
         <div style="flex:1;min-width:0">
           <div style="font-size:var(--tx-sm);font-weight:var(--fw-sb);color:var(--c-primary)">{{ activeAppointments.length }} 个预约中</div>
           <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-top:2px">{{ activeAppointments[0].date }} {{ activeAppointments[0].period || activeAppointments[0].timeSlot }} · {{ activeAppointments[0].doctor.name }}</div>
@@ -140,7 +198,7 @@
     <div v-else-if="route.path==='/articles'" class="page">
       <div class="top-bar"><button class="back-btn" @click="go('/')">‹</button><h2>儿童心理科普</h2></div>
       <div class="module-banner mb-blue">
-        <span class="banner-icon">📖</span>
+        <span class="banner-icon"></span>
         <div class="banner-title">儿童心理科普</div>
         <div class="banner-sub">图文 · 视频 · 专家解读 · 分类收藏</div>
         <img class="banner-deco" src="/css/img/pic/doctor-avatar-14.png" alt="">
@@ -174,7 +232,7 @@
     </div>
 
     <!-- ══ ARTICLE DETAIL ══ -->
-    <div v-else-if="route.path==='/article' && currentArticle" class="page" style="padding:0;padding-bottom:96px">
+    <div v-else-if="route.path==='/article'  &&  currentArticle" class="page" style="padding:0;padding-bottom:96px">
       <div style="position:relative;height:240px;background:linear-gradient(135deg,#EEF4FF,#dce9ff);overflow:hidden">
         <img style="width:100%;height:100%;object-fit:cover;display:block" :src="currentArticle.cover" @error="$event.target.style.opacity=0">
         <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.24) 0%,transparent 45%,rgba(0,0,0,.6) 100%)"></div>
@@ -210,7 +268,7 @@
     </div>
 
     <!-- ══ DOCTOR DETAIL ══ -->
-    <div v-else-if="route.path==='/doctor' && currentDoctor" class="page">
+    <div v-else-if="route.path==='/doctor'  &&  currentDoctor" class="page">
       <div class="top-bar"><button class="back-btn" @click="historyBack()">‹</button><h2>医生详情</h2></div>
       <div class="card" style="padding:var(--sp-5)">
         <div style="display:flex;gap:var(--sp-4);align-items:flex-start">
@@ -232,24 +290,24 @@
           <div v-for="opt in currentDoctorDateOptions" :key="opt.date" class="card" style="padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-3)">
             <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1);margin-bottom:var(--sp-3)">{{ opt.date }}</div>
             <div style="display:flex;gap:var(--sp-3)">
-              <div @click="opt.morning&&opt.morning.availableSlots>0&&bookFromDoctor(opt.morning)"
+              <div @click="opt.morning && opt.morning.availableSlots>0 && bookFromDoctor(opt.morning)"
                 style="flex:1;text-align:center;padding:var(--sp-3);border-radius:var(--r-md);cursor:pointer"
-                :style="opt.morning&&opt.morning.availableSlots>0?'background:var(--c-primary-bg);border:2px solid var(--c-primary)':'background:var(--c-fill);border:2px solid var(--c-fill);opacity:0.5'">
-                <div style="font-size:16px;margin-bottom:3px">🌅</div>
-                <div style="font-size:var(--tx-sm);font-weight:var(--fw-sb)" :style="opt.morning&&opt.morning.availableSlots>0?'color:var(--c-primary)':'color:var(--c-text-3)'">上午</div>
-                <div style="font-size:var(--tx-xxs);margin-top:2px" :style="opt.morning&&opt.morning.availableSlots>0?'color:var(--c-primary)':'color:var(--c-text-3)'">{{ !opt.morning?'无排班':opt.morning.availableSlots===0?'已满':'可预约' }}</div>
+                :style="opt.morning && opt.morning.availableSlots>0?'background:var(--c-primary-bg);border:2px solid var(--c-primary)':'background:var(--c-fill);border:2px solid var(--c-fill);opacity:0.5'">
+                <div style="font-size:16px;margin-bottom:3px"></div>
+                <div style="font-size:var(--tx-sm);font-weight:var(--fw-sb)" :style="opt.morning && opt.morning.availableSlots>0?'color:var(--c-primary)':'color:var(--c-text-3)'">上午</div>
+                <div style="font-size:var(--tx-xxs);margin-top:2px" :style="opt.morning && opt.morning.availableSlots>0?'color:var(--c-primary)':'color:var(--c-text-3)'">{{ !opt.morning?'无排班':opt.morning.availableSlots===0?'已满':'可预约' }}</div>
               </div>
-              <div @click="opt.afternoon&&opt.afternoon.availableSlots>0&&bookFromDoctor(opt.afternoon)"
+              <div @click="opt.afternoon && opt.afternoon.availableSlots>0 && bookFromDoctor(opt.afternoon)"
                 style="flex:1;text-align:center;padding:var(--sp-3);border-radius:var(--r-md);cursor:pointer"
-                :style="opt.afternoon&&opt.afternoon.availableSlots>0?'background:var(--c-primary-bg);border:2px solid var(--c-primary)':'background:var(--c-fill);border:2px solid var(--c-fill);opacity:0.5'">
-                <div style="font-size:16px;margin-bottom:3px">🌇</div>
-                <div style="font-size:var(--tx-sm);font-weight:var(--fw-sb)" :style="opt.afternoon&&opt.afternoon.availableSlots>0?'color:var(--c-primary)':'color:var(--c-text-3)'">下午</div>
-                <div style="font-size:var(--tx-xxs);margin-top:2px" :style="opt.afternoon&&opt.afternoon.availableSlots>0?'color:var(--c-primary)':'color:var(--c-text-3)'">{{ !opt.afternoon?'无排班':opt.afternoon.availableSlots===0?'已满':'可预约' }}</div>
+                :style="opt.afternoon && opt.afternoon.availableSlots>0?'background:var(--c-primary-bg);border:2px solid var(--c-primary)':'background:var(--c-fill);border:2px solid var(--c-fill);opacity:0.5'">
+                <div style="font-size:16px;margin-bottom:3px"></div>
+                <div style="font-size:var(--tx-sm);font-weight:var(--fw-sb)" :style="opt.afternoon && opt.afternoon.availableSlots>0?'color:var(--c-primary)':'color:var(--c-text-3)'">下午</div>
+                <div style="font-size:var(--tx-xxs);margin-top:2px" :style="opt.afternoon && opt.afternoon.availableSlots>0?'color:var(--c-primary)':'color:var(--c-text-3)'">{{ !opt.afternoon?'无排班':opt.afternoon.availableSlots===0?'已满':'可预约' }}</div>
               </div>
             </div>
           </div>
         </div>
-        <div v-else class="empty-state" style="padding:var(--sp-8)"><div class="empty-icon">📅</div><div class="empty-text">暂无可预约出诊日期</div></div>
+        <div v-else class="empty-state" style="padding:var(--sp-8)"><div class="empty-icon"></div><div class="empty-text">暂无可预约出诊日期</div></div>
       </div>
     </div>
 
@@ -257,7 +315,7 @@
     <div v-else-if="route.path==='/assessments'" class="page">
       <div class="top-bar"><button class="back-btn" @click="go('/')">‹</button><h2>儿童心理测评</h2></div>
       <div class="module-banner mb-purple">
-        <span class="banner-icon">🧠</span>
+        <span class="banner-icon"></span>
         <div class="banner-title">心理测评中心</div>
         <div class="banner-sub">专业量表 · 智能评分 · 风险预警</div>
         <img class="banner-deco" src="/css/img/pic/doctor-avatar-15.png" alt="">
@@ -294,7 +352,7 @@
     </div>
 
     <!-- ══ QUIZ ══ -->
-    <div v-else-if="route.path==='/quiz' && quizScale" class="page">
+    <div v-else-if="route.path==='/quiz'  &&  quizScale" class="page">
       <div class="top-bar"><button class="back-btn" @click="go('/assessments')">‹</button><h2>{{ quizScale.name }}</h2></div>
       <div class="card" style="padding:var(--sp-4);margin-bottom:var(--sp-4)">
         <div class="flex-between" style="margin-bottom:var(--sp-3)">
@@ -317,7 +375,7 @@
     </div>
 
     <!-- ══ REPORT ══ -->
-    <div v-else-if="route.path==='/report' && currentReport" class="page">
+    <div v-else-if="route.path==='/report'  &&  currentReport" class="page">
       <div class="top-bar"><button class="back-btn" @click="go('/assessments')">‹</button><h2>测评报告</h2></div>
       <div class="card" style="padding:var(--sp-6);text-align:center">
         <div :class="['score-ring', currentReport.riskLevel==='高'?'high':currentReport.riskLevel==='中'?'mid':'low']">
@@ -327,10 +385,10 @@
         <div style="font-size:var(--tx-xl);font-weight:var(--fw-b);color:var(--c-text-1);margin-bottom:var(--sp-2)">{{ currentReport.scaleName }}</div>
         <div style="font-size:var(--tx-sm);color:var(--c-text-3);margin-bottom:var(--sp-4)">{{ currentReport.patientName }}</div>
         <span :class="['risk-badge', currentReport.riskLevel==='高'?'risk-high':currentReport.riskLevel==='中'?'risk-mid':'risk-low']">
-          {{ currentReport.riskLevel==='高'?'⚠️':currentReport.riskLevel==='中'?'⚡':'✅' }} {{ currentReport.riskLevel }}风险
+          {{ currentReport.riskLevel==='高'?'⚠':currentReport.riskLevel==='中'?'⚡':'✅' }} {{ currentReport.riskLevel }}风险
         </span>
       </div>
-      <div v-if="currentReport.riskLevel==='高'" class="alert-box section">⚠️ 当前结果提示较高风险，建议尽快预约儿童心理专科进一步评估。</div>
+      <div v-if="currentReport.riskLevel==='高'" class="alert-box section">⚠ 当前结果提示较高风险，建议尽快预约儿童心理专科进一步评估。</div>
       <div class="advice-box section">{{ currentReport.suggestion }}</div>
       <div class="section"><el-button type="primary" style="width:100%;height:48px;font-size:var(--tx-base)" @click="recommendBooking(currentReport)">一键预约推荐专家</el-button></div>
     </div>
@@ -339,7 +397,7 @@
     <div v-else-if="route.path==='/appointment'" class="page">
       <div class="top-bar"><button class="back-btn" @click="go('/')">‹</button><h2>门诊预约</h2></div>
       <div class="module-banner mb-teal">
-        <span class="banner-icon">🩺</span>
+        <span class="banner-icon"></span>
         <div class="banner-title">门诊预约绿色通道</div>
         <div class="banner-sub">实时号源 · 五步流程 · 预问诊随访</div>
         <img class="banner-deco" src="/css/img/pic/doctor-avatar-12.png" alt="">
@@ -377,19 +435,23 @@
       <div v-if="booking.step===1">
         <div style="font-size:var(--tx-sm);color:var(--c-text-3);margin-bottom:var(--sp-3)">已按距离自动排序，请选择就诊院区</div>
         <div class="card-stack">
-          <div v-for="hospital in hospitalsByDistance" :key="hospital.id"
-            :class="['doctor-select-card', booking.hospitalId===hospital.id?'selected':'']"
+        <div v-for="hospital in hospitalsByDistance" :key="hospital.id"
+            :class="['doctor-select-card', booking.hospitalId===hospital.id && !hospital.specialFlow?'selected':'', hospital.specialFlow?'nanhu-card':'']" 
             @click="selectHospital(hospital.id)">
-            <div style="width:52px;height:52px;background:var(--c-primary-bg);border-radius:var(--r-xl);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">🏥</div>
+            <div :style="{width:'52px',height:'52px',background:hospital.specialFlow?'#dbeafe':'var(--c-primary-bg)',borderRadius:'var(--r-xl)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'24px',flexShrink:0}"></div>
             <div style="flex:1;min-width:0">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
                 <span style="font-size:var(--tx-base);font-weight:var(--fw-b);color:var(--c-text-1)">{{ hospital.name }}</span>
-                <span v-if="booking.hospitalId===hospital.id" style="color:var(--c-success);font-size:20px;font-weight:700">✓</span>
+                <div style="display:flex;align-items:center;gap:4px">
+                  <span v-if="hospital.specialFlow" class="nanhu-badge">专属通道</span>
+                  <span v-else-if="booking.hospitalId===hospital.id" style="color:var(--c-success);font-size:20px;font-weight:700">✓</span>
+                </div>
               </div>
               <div style="font-size:var(--tx-sm);color:var(--c-text-3);margin-bottom:var(--sp-2)">{{ hospital.address }}</div>
               <div style="display:flex;align-items:center;gap:var(--sp-2)">
-                <span class="chip" style="font-size:10px;padding:2px 8px;background:var(--c-primary-bg);color:var(--c-primary);border:none">📍 {{ hospital.distance }} km</span>
-                <span style="font-size:var(--tx-xs);color:var(--c-text-3)">{{ hospital.phone }}</span>
+                <span class="chip" style="font-size:10px;padding:2px 8px;background:var(--c-primary-bg);color:var(--c-primary);border:none"> {{ hospital.distance }} km</span>
+                <span v-if="hospital.specialFlow" style="font-size:var(--tx-xs);color:var(--c-primary);font-weight:600">点击进入专属挂号流程 →</span>
+                <span v-else style="font-size:var(--tx-xs);color:var(--c-text-3)">{{ hospital.phone }}</span>
               </div>
             </div>
           </div>
@@ -402,10 +464,10 @@
       <!-- Step 2: Select Doctor (filtered by hospital) -->
       <div v-else-if="booking.step===2">
         <div v-if="selectedHospitalForBooking" class="card" style="padding:var(--sp-3) var(--sp-4);display:flex;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-3)">
-          <div style="font-size:22px;flex-shrink:0">🏥</div>
+          <div style="font-size:22px;flex-shrink:0"></div>
           <div>
             <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1)">{{ selectedHospitalForBooking.name }}</div>
-            <div style="font-size:var(--tx-xs);color:var(--c-text-3)">📍 {{ selectedHospitalForBooking.distance }} km</div>
+            <div style="font-size:var(--tx-xs);color:var(--c-text-3)"> {{ selectedHospitalForBooking.distance }} km</div>
           </div>
         </div>
         <div style="font-size:var(--tx-sm);color:var(--c-text-3);margin-bottom:var(--sp-3)">共 {{ filteredDoctorsByHospital.length }} 位儿童心理专家，点击选择</div>
@@ -450,35 +512,35 @@
             <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1);margin-bottom:var(--sp-3)">{{ opt.date }}</div>
             <div style="display:flex;gap:var(--sp-3)">
               <div v-if="opt.morning"
-                @click="opt.morning.availableSlots>0 && selectDatePeriod(opt.date,'上午',opt.morning.id)"
+                @click="opt.morning.availableSlots>0  &&  selectDatePeriod(opt.date,'上午',opt.morning.id)"
                 style="flex:1;text-align:center;padding:var(--sp-3);border-radius:var(--r-md);border:2px solid;cursor:pointer;transition:var(--t-fast)"
                 :style="booking.scheduleId===opt.morning.id?'border-color:var(--c-primary);background:var(--c-primary-bg)':opt.morning.availableSlots===0?'border-color:var(--c-fill);background:var(--c-fill);opacity:0.5':'border-color:var(--c-fill);background:var(--c-bg-1)'">
-                <div style="font-size:18px;margin-bottom:4px">🌅</div>
+                <div style="font-size:18px;margin-bottom:4px"></div>
                 <div style="font-size:var(--tx-sm);font-weight:var(--fw-sb)" :style="booking.scheduleId===opt.morning.id?'color:var(--c-primary)':''">上午</div>
                 <div style="font-size:var(--tx-xxs);color:var(--c-text-3);margin-top:2px">{{ opt.morning.availableSlots===0?'已满':'可预约' }}</div>
               </div>
               <div v-else style="flex:1;text-align:center;padding:var(--sp-3);border-radius:var(--r-md);border:2px solid var(--c-fill);background:var(--c-fill);opacity:0.4">
-                <div style="font-size:18px;margin-bottom:4px">🌅</div>
+                <div style="font-size:18px;margin-bottom:4px"></div>
                 <div style="font-size:var(--tx-sm);color:var(--c-text-3)">上午</div>
                 <div style="font-size:var(--tx-xxs);color:var(--c-text-3);margin-top:2px">无排班</div>
               </div>
               <div v-if="opt.afternoon"
-                @click="opt.afternoon.availableSlots>0 && selectDatePeriod(opt.date,'下午',opt.afternoon.id)"
+                @click="opt.afternoon.availableSlots>0  &&  selectDatePeriod(opt.date,'下午',opt.afternoon.id)"
                 style="flex:1;text-align:center;padding:var(--sp-3);border-radius:var(--r-md);border:2px solid;cursor:pointer;transition:var(--t-fast)"
                 :style="booking.scheduleId===opt.afternoon.id?'border-color:var(--c-primary);background:var(--c-primary-bg)':opt.afternoon.availableSlots===0?'border-color:var(--c-fill);background:var(--c-fill);opacity:0.5':'border-color:var(--c-fill);background:var(--c-bg-1)'">
-                <div style="font-size:18px;margin-bottom:4px">🌇</div>
+                <div style="font-size:18px;margin-bottom:4px"></div>
                 <div style="font-size:var(--tx-sm);font-weight:var(--fw-sb)" :style="booking.scheduleId===opt.afternoon.id?'color:var(--c-primary)':''">下午</div>
                 <div style="font-size:var(--tx-xxs);color:var(--c-text-3);margin-top:2px">{{ opt.afternoon.availableSlots===0?'已满':'可预约' }}</div>
               </div>
               <div v-else style="flex:1;text-align:center;padding:var(--sp-3);border-radius:var(--r-md);border:2px solid var(--c-fill);background:var(--c-fill);opacity:0.4">
-                <div style="font-size:18px;margin-bottom:4px">🌇</div>
+                <div style="font-size:18px;margin-bottom:4px"></div>
                 <div style="font-size:var(--tx-sm);color:var(--c-text-3)">下午</div>
                 <div style="font-size:var(--tx-xxs);color:var(--c-text-3);margin-top:2px">无排班</div>
               </div>
             </div>
           </div>
         </div>
-        <div v-else class="empty-state" style="padding:var(--sp-8)"><div class="empty-icon">📅</div><div class="empty-text">该医生暂无可预约出诊日期<br>请返回选择其他医生</div></div>
+        <div v-else class="empty-state" style="padding:var(--sp-8)"><div class="empty-icon"></div><div class="empty-text">该医生暂无可预约出诊日期<br>请返回选择其他医生</div></div>
         <div style="position:sticky;bottom:0;background:white;padding:10px 0 4px;border-top:1px solid var(--c-fill);margin-top:var(--sp-3);z-index:10">
           <div class="grid-2">
             <el-button style="height:44px" @click="booking.step=2">← 返回选医生</el-button>
@@ -528,14 +590,14 @@
       <div v-else-if="booking.step===5">
         <div class="summary-card">
           <div style="font-size:var(--tx-lg);font-weight:var(--fw-b);color:var(--c-text-1);margin-bottom:var(--sp-4)">确认预约信息</div>
-          <div class="summary-row"><span class="s-label">医生</span><span class="s-value">{{ selectedDoctor && selectedDoctor.name }}</span></div>
-          <div class="summary-row"><span class="s-label">职称</span><span class="s-value">{{ selectedDoctor && selectedDoctor.title }}</span></div>
-          <div class="summary-row"><span class="s-label">医院</span><span class="s-value">{{ selectedDoctor && selectedDoctor.hospital.name }}</span></div>
+          <div class="summary-row"><span class="s-label">医生</span><span class="s-value">{{ selectedDoctor  &&  selectedDoctor.name }}</span></div>
+          <div class="summary-row"><span class="s-label">职称</span><span class="s-value">{{ selectedDoctor  &&  selectedDoctor.title }}</span></div>
+          <div class="summary-row"><span class="s-label">医院</span><span class="s-value">{{ selectedDoctor  &&  selectedDoctor.hospital.name }}</span></div>
           <div class="summary-row"><span class="s-label">预约时间</span><span class="s-value">{{ booking.date }} {{ booking.period }}</span></div>
-          <div class="summary-row"><span class="s-label">就诊人</span><span class="s-value">{{ selectedPatient && selectedPatient.name }}</span></div>
-          <div class="summary-row"><span class="s-label">儿童年龄</span><span class="s-value">{{ selectedPatient && selectedPatient.age }} 岁</span></div>
+          <div class="summary-row"><span class="s-label">就诊人</span><span class="s-value">{{ selectedPatient  &&  selectedPatient.name }}</span></div>
+          <div class="summary-row"><span class="s-label">儿童年龄</span><span class="s-value">{{ selectedPatient  &&  selectedPatient.age }} 岁</span></div>
         </div>
-        <div class="advice-box section" style="font-size:var(--tx-xs)">📋 请携带儿童有效证件与既往检查资料，提前 15 分钟到院。就诊前 24 小时内可在「我的预约」中取消。</div>
+        <div class="advice-box section" style="font-size:var(--tx-xs)"> 请携带儿童有效证件与既往检查资料，提前 15 分钟到院。就诊前 24 小时内可在「我的预约」中取消。</div>
         <div class="grid-2 section">
           <el-button style="height:44px" @click="booking.step=4">← 上一步</el-button>
           <el-button type="primary" style="height:44px" @click="submitAppointment">确认提交</el-button>
@@ -548,16 +610,16 @@
       <div class="top-bar"><button class="back-btn" @click="go('/')">‹</button><h2>预约结果</h2></div>
       <div class="success-page" style="position:relative;overflow:hidden">
         <img src="/css/img/pic/doctor-avatar-12.png" style="position:absolute;right:-20px;top:20px;height:210px;width:auto;object-fit:cover;object-position:top;opacity:.18;pointer-events:none;border-radius:var(--r-xl)">
-        <div class="success-check">📋</div>
+        <div class="success-check"></div>
         <div class="success-title">预约申请已提交！</div>
         <div class="success-sub">已进入审核队列，审核通过后状态将变为“已审核”</div>
         <div class="summary-card" style="margin-top:var(--sp-5);text-align:left" v-if="lastAppointment">
-          <div class="summary-row"><span class="s-label">医生</span><span class="s-value">{{ lastAppointment.doctor && lastAppointment.doctor.name }}</span></div>
-          <div class="summary-row"><span class="s-label">医院</span><span class="s-value">{{ lastAppointment.doctor && lastAppointment.doctor.hospital && lastAppointment.doctor.hospital.name }}</span></div>
+          <div class="summary-row"><span class="s-label">医生</span><span class="s-value">{{ lastAppointment.doctor  &&  lastAppointment.doctor.name }}</span></div>
+          <div class="summary-row"><span class="s-label">医院</span><span class="s-value">{{ lastAppointment.doctor  &&  lastAppointment.doctor.hospital  &&  lastAppointment.doctor.hospital.name }}</span></div>
           <div class="summary-row"><span class="s-label">就诊时间</span><span class="s-value">{{ lastAppointment.date }} {{ lastAppointment.period }}</span></div>
-          <div class="summary-row"><span class="s-label">就诊人</span><span class="s-value">{{ lastAppointment.patient && lastAppointment.patient.name }}</span></div>
+          <div class="summary-row"><span class="s-label">就诊人</span><span class="s-value">{{ lastAppointment.patient  &&  lastAppointment.patient.name }}</span></div>
         </div>
-        <div class="advice-box" style="margin-top:var(--sp-4);font-size:var(--tx-xs)">📋 请携带儿童有效证件与既往检查资料，提前 15 分钟到院。就诊前 24 小时内可在「我的预约」中取消。</div>
+        <div class="advice-box" style="margin-top:var(--sp-4);font-size:var(--tx-xs)"> 请携带儿童有效证件与既往检查资料，提前 15 分钟到院。就诊前 24 小时内可在「我的预约」中取消。</div>
         <div style="display:grid;gap:var(--sp-3);margin-top:var(--sp-5)">
           <el-button type="primary" style="width:100%;height:48px" @click="go('/my-appointments')">查看我的预约</el-button>
           <el-button style="width:100%;height:44px" @click="go('/')">返回首页</el-button>
@@ -569,7 +631,7 @@
     <div v-else-if="route.path==='/my-appointments'" class="page">
       <div class="top-bar"><button class="back-btn" @click="go('/')">‹</button><h2>我的预约</h2></div>
       <div class="module-banner mb-sky">
-        <span class="banner-icon">📅</span>
+        <span class="banner-icon"></span>
         <div class="banner-title">我的预约记录</div>
         <div class="banner-sub">已审核 · 已完成 · 历史订单管理</div>
         <img class="banner-deco" src="/css/img/pic/doctor-avatar-13.png" alt="">
@@ -601,7 +663,7 @@
           </div>
         </div>
       </div>
-      <div v-else class="empty-state section"><div class="empty-icon">📅</div><div class="empty-text">暂无预约记录<br>前往「预约」选择医生开始预约</div></div>
+      <div v-else class="empty-state section"><div class="empty-icon"></div><div class="empty-text">暂无预约记录<br>前往「预约」选择医生开始预约</div></div>
     </div>
 
     <!-- ══ PROFILE ══ -->
@@ -617,12 +679,12 @@
         <div class="stat-card" @click="go('/my-appointments')"><div class="stat-label">预约中</div><div class="stat-value">{{ activeAppointments.length }}</div></div>
       </div>
       <div class="menu-list section">
-        <div class="menu-row" @click="go('/patients')"><div class="menu-icon" style="background:#EEF4FF">👶</div><span class="menu-text">我的就诊人</span><span class="menu-arrow">›</span></div>
-        <div class="menu-row" @click="go('/favorites')"><div class="menu-icon" style="background:#FFF3E8">⭐</div><span class="menu-text">我的收藏</span><span class="menu-arrow">›</span></div>
-        <div class="menu-row" @click="go('/my-assessments')"><div class="menu-icon" style="background:#E8F9F0">📊</div><span class="menu-text">我的测评</span><span class="menu-arrow">›</span></div>
-        <div class="menu-row" @click="go('/my-appointments')"><div class="menu-icon" style="background:#F0EDFF">📅</div><span class="menu-text">我的预约</span><span class="menu-arrow">›</span></div>
-        <div class="menu-row" @click="go('/reviews')"><div class="menu-icon" style="background:#FFECE8">💬</div><span class="menu-text">我的评价</span><span class="menu-arrow">›</span></div>
-        <a href="/" class="menu-row" style="text-decoration:none"><div class="menu-icon" style="background:#F5F5F5">🏠</div><span class="menu-text" style="color:var(--c-text-3)">返回演示首页</span><span class="menu-arrow">›</span></a>
+        <div class="menu-row" @click="go('/patients')"><div class="menu-icon" style="background:#EEF4FF"><svg viewBox="0 0 24 24" width="18" height="18" fill="#165DFF"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div><span class="menu-text">我的就诊人</span><span class="menu-arrow">›</span></div>
+        <div class="menu-row" @click="go('/favorites')"><div class="menu-icon" style="background:#FFF3E8"><svg viewBox="0 0 24 24" width="18" height="18" fill="#FF7D00"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div><span class="menu-text">我的收藏</span><span class="menu-arrow">›</span></div>
+        <div class="menu-row" @click="go('/my-assessments')"><div class="menu-icon" style="background:#E8F9F0"><svg viewBox="0 0 24 24" width="18" height="18" fill="#00B578"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div><span class="menu-text">我的测评</span><span class="menu-arrow">›</span></div>
+        <div class="menu-row" @click="go('/my-appointments')"><div class="menu-icon" style="background:#F0EDFF"><svg viewBox="0 0 24 24" width="18" height="18" fill="#7B61FF"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg></div><span class="menu-text">我的预约</span><span class="menu-arrow">›</span></div>
+        <div class="menu-row" @click="go('/reviews')"><div class="menu-icon" style="background:#FFECE8"><svg viewBox="0 0 24 24" width="18" height="18" fill="#F76560"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg></div><span class="menu-text">我的评价</span><span class="menu-arrow">›</span></div>
+        <a href="/" class="menu-row" style="text-decoration:none"><div class="menu-icon" style="background:#F5F5F5"><svg viewBox="0 0 24 24" width="18" height="18" fill="#86909c"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></div><span class="menu-text" style="color:var(--c-text-3)">返回演示首页</span><span class="menu-arrow">›</span></a>
       </div>
     </div>
 
@@ -630,7 +692,7 @@
     <div v-else-if="route.path==='/patients'" class="page">
       <div class="top-bar"><button class="back-btn" @click="go('/profile')">‹</button><h2>我的就诊人</h2></div>
       <div class="module-banner mb-indigo">
-        <span class="banner-icon">👶</span>
+        <span class="banner-icon"></span>
         <div class="banner-title">就诊人管理</div>
         <div class="banner-sub">儿童档案 · 最多添加 5 个就诊人</div>
         <img class="banner-deco" src="/css/img/pic/doctor-avatar-16.png" alt="">
@@ -678,7 +740,7 @@
     <div v-else-if="route.path==='/my-assessments'" class="page">
       <div class="top-bar"><button class="back-btn" @click="go('/profile')">‹</button><h2>我的测评</h2></div>
       <div class="module-banner mb-green">
-        <span class="banner-icon">📊</span>
+        <span class="banner-icon"></span>
         <div class="banner-title">测评历史报告</div>
         <div class="banner-sub">历史记录 · 风险跟踪 · 持续关注</div>
         <img class="banner-deco" src="/css/img/pic/doctor-avatar-18.png" alt="">
@@ -704,14 +766,14 @@
           </div>
         </div>
       </div>
-      <div v-else class="empty-state"><div class="empty-icon">📊</div><div class="empty-text">暂无测评记录<br>前往「测评」页面开始第一次评测</div></div>
+      <div v-else class="empty-state"><div class="empty-icon"></div><div class="empty-text">暂无测评记录<br>前往「测评」页面开始第一次评测</div></div>
     </div>
 
     <!-- ══ REVIEWS ══ -->
     <div v-else-if="route.path==='/reviews'" class="page">
       <div class="top-bar"><button class="back-btn" @click="go('/profile')">‹</button><h2>我的评价</h2></div>
       <div class="module-banner mb-rose">
-        <span class="banner-icon">💬</span>
+        <span class="banner-icon"></span>
         <div class="banner-title">评价与反馈</div>
         <div class="banner-sub">就诊评价 · 平台建议 · 持续改进</div>
         <img class="banner-deco" src="/css/img/pic/doctor-avatar-19.png" alt="">
@@ -727,7 +789,7 @@
               <el-button type="primary" style="width:100%;height:40px;margin-top:var(--sp-3)" @click="submitReview(item)">提交评价</el-button>
             </div>
           </div>
-          <div v-else class="empty-state section"><div class="empty-icon">💬</div><div class="empty-text">暂无待评价订单</div></div>
+          <div v-else class="empty-state section"><div class="empty-icon"></div><div class="empty-text">暂无待评价订单</div></div>
         </el-tab-pane>
         <el-tab-pane label="已评价" name="history">
           <div class="card-stack section" v-if="historyReviews.length">
@@ -737,7 +799,7 @@
               <div style="font-size:var(--tx-base);color:var(--c-text-2);line-height:1.7">{{ item.content }}</div>
             </div>
           </div>
-          <div v-else class="empty-state section"><div class="empty-icon">🌟</div><div class="empty-text">暂无评价记录</div></div>
+          <div v-else class="empty-state section"><div class="empty-icon"></div><div class="empty-text">暂无评价记录</div></div>
         </el-tab-pane>
         <el-tab-pane label="意见留言" name="feedback">
           <div class="review-card section">
@@ -749,18 +811,475 @@
       </el-tabs>
     </div>
 
+    <!-- ══ TEACHER LOGIN ══ -->
+    <div v-else-if="route.path==='/teacher-login'" class="page" style="padding:0;background:var(--c-bg-0)">
+      <!-- Banner -->
+      <div style="position:relative;overflow:hidden;padding:72px 24px 58px;color:#fff">
+        <div style="position:absolute;inset:0;background:url('/css/img/bg.png') center 28%/cover no-repeat"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(16,58,210,.68) 0%,rgba(22,93,255,.52) 50%,rgba(10,40,190,.64) 100%)"></div>
+        <button class="back-btn" style="position:absolute;top:16px;left:12px;z-index:2;color:#fff;background:rgba(255,255,255,.15);border-radius:50%" @click="go('/')">‹</button>
+        <div style="position:relative;z-index:1;text-align:center">
+          <div style="width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:1.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px;font-weight:700;color:#fff">师</div>
+          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.76);font-weight:500;margin-bottom:7px">盛京医疗联盟</div>
+          <div style="font-size:22px;font-weight:700;letter-spacing:1px;text-shadow:0 2px 12px rgba(0,0,0,.3)">心理老师专区</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.8);margin-top:7px;letter-spacing:.5px">专业医生团队 · 全程心理服务</div>
+        </div>
+      </div>
+      <!-- Login card -->
+      <div style="margin:-24px 0 0;position:relative;z-index:2;background:#fff;border-radius:24px 24px 0 0;padding:14px 20px 48px;min-height:calc(100vh - 230px)">
+        <div style="width:36px;height:4px;border-radius:2px;background:#e4e4e4;margin:0 auto 26px"></div>
+        <div style="font-size:var(--tx-lg);font-weight:var(--fw-sb);color:var(--c-text-1);margin-bottom:4px">账号登录</div>
+        <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-bottom:22px">请使用管理员分配的专属账号</div>
+        <el-form label-position="top">
+          <el-form-item label="账号"><el-input v-model="loginForm.account" placeholder="请输入账号" size="large"></el-input></el-form-item>
+          <el-form-item label="密码" style="margin-top:14px"><el-input v-model="loginForm.password" type="password" show-password placeholder="请输入密码" size="large"></el-input></el-form-item>
+          <el-button type="primary" size="large" style="width:100%;margin-top:22px;height:46px;font-size:15px" @click="teacherLogin">登 录</el-button>
+        </el-form>
+        <div style="text-align:center;margin-top:16px;font-size:var(--tx-xs);color:var(--c-text-3)">演示账号：teacher / 123456</div>
+      </div>
+    </div>
+
+    <!-- ══ TEACHER HOME ══ -->
+    <div v-else-if="route.path==='/teacher-home'" class="page" style="padding-top:0">
+      <div style="background:linear-gradient(135deg,#165DFF,#0e42c8);padding:20px 32px 36px;color:#fff;margin:0 -16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding-top:52px">
+          <div>
+            <div style="font-size:var(--tx-xs);opacity:.8;margin-bottom:4px">心理老师专区</div>
+            <div style="font-size:var(--tx-xl);font-weight:var(--fw-sb)">{{ teacher ? teacher.name : '' }}</div>
+            <div style="font-size:var(--tx-sm);opacity:.85;margin-top:3px">{{ teacher ? teacher.school : '' }}</div>
+          </div>
+          <div style="width:64px;height:64px;background:rgba(255,255,255,.18);border-radius:18px;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="36" height="36" fill="white"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg></div>
+        </div>
+      </div>
+      <div class="section grid-2" style="margin-top:-20px;position:relative;z-index:1">
+        <div class="svc-card" @click="go('/teacher-green-channel')">
+          <div class="svc-icon" style="background:#E8F9F0"><svg viewBox="0 0 24 24" width="22" height="22" fill="#00B578"><path d="M7.58 16.89l5.77-4.07c.56-.4.56-1.24 0-1.63L7.58 7.11C6.91 6.65 6 7.12 6 7.93v8.14c0 .81.91 1.28 1.58.82zM16 7v10c0 .55.45 1 1 1s1-.45 1-1V7c0-.55-.45-1-1-1s-1 .45-1 1z"/></svg></div>
+          <div><div class="svc-name">专科门诊绿色通道</div><div class="svc-desc">学生预约·审核反馈</div></div>
+        </div>
+        <div class="svc-card" @click="go('/articles')">
+          <div class="svc-icon" style="background:#EEF4FF"><svg viewBox="0 0 24 24" width="22" height="22" fill="#165DFF"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 15H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
+          <div><div class="svc-name">心理科普</div><div class="svc-desc">图文视频·分类收藏</div></div>
+        </div>
+        <div class="svc-card" @click="go('/assessments')">
+          <div class="svc-icon" style="background:#FFF3E8"><svg viewBox="0 0 24 24" width="22" height="22" fill="#FF7D00"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
+          <div><div class="svc-name">心理测评</div><div class="svc-desc">量表筛查·智能报告</div></div>
+        </div>
+        <div class="svc-card" @click="go('/teacher-follow-up')">
+          <div class="svc-icon" style="background:#F3F0FF"><svg viewBox="0 0 24 24" width="22" height="22" fill="#7B61FF"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+          <div><div class="svc-name">随访反馈</div><div class="svc-desc">就诊跟踪·记录管理</div></div>
+        </div>
+        <div class="svc-card" @click="go('/teacher-announcements')">
+          <div class="svc-icon" style="background:#FFF0F0"><svg viewBox="0 0 24 24" width="22" height="22" fill="#F53F3F"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></div>
+          <div><div class="svc-name">通知公告</div><div class="svc-desc">系统通知·培训公告</div></div>
+        </div>
+        <div class="svc-card" @click="go('/teacher-artwork')">
+          <div class="svc-icon" style="background:#FFFBE8"><svg viewBox="0 0 24 24" width="22" height="22" fill="#FF9300"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></div>
+          <div><div class="svc-name">活动作品上传</div><div class="svc-desc">绘画作品·比赛活动</div></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-head"><h3>精选科普</h3><span class="see-all" @click="go('/articles')">全部 ›</span></div>
+        <div class="card-stack">
+          <div class="article-card" v-for="article in featuredArticles" :key="article.id" @click="openArticle(article.id)">
+            <div class="article-thumb" style="height:140px">
+              <img :src="article.cover" :alt="article.title" @error="$event.target.style.opacity=0" style="width:100%;height:100%;object-fit:cover;display:block">
+              <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,.38));pointer-events:none"></div>
+              <span style="position:absolute;bottom:8px;left:10px;font-size:10px;font-weight:600;background:rgba(22,93,255,.9);color:#fff;padding:3px 8px;border-radius:999px">{{ article.contentType }}</span>
+            </div>
+            <div class="article-body">
+              <span class="eyebrow">{{ article.category }}</span>
+              <div class="article-title">{{ article.title }}</div>
+              <div class="article-meta">{{ article.author }} · {{ article.views }}次浏览</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section" style="padding-top:4px">
+        <el-button @click="teacherLogout" style="width:100%" plain size="small">退出登录</el-button>
+      </div>
+    </div>
+
+    <!-- ══ TEACHER GREEN CHANNEL ══ -->
+    <div v-else-if="route.path==='/teacher-green-channel'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/teacher-home')">‹</button><h2>专科门诊绿色通道</h2></div>
+      <el-tabs v-model="teacherGreenChannelTab" class="section">
+        <el-tab-pane label="登记申请" name="apply">
+          <el-form label-position="top" style="padding-top:8px">
+            <el-form-item label="学生姓名"><el-input v-model="gcForm.studentName" placeholder="请输入学生姓名"></el-input></el-form-item>
+            <div class="grid-2">
+              <el-form-item label="就读年级"><el-input v-model="gcForm.studentGrade" placeholder="如：初二"></el-input></el-form-item>
+              <el-form-item label="性别"><el-select v-model="gcForm.studentGender" style="width:100%"><el-option label="男" value="男"></el-option><el-option label="女" value="女"></el-option></el-select></el-form-item>
+            </div>
+            <el-form-item label="主要问题描述"><el-input v-model="gcForm.problem" type="textarea" :rows="4" placeholder="请描述学生心理健康问题、症状表现及持续时间..."></el-input></el-form-item>
+            <el-form-item label="家长联系电话"><el-input v-model="gcForm.contact" placeholder="请输入家长联系电话"></el-input></el-form-item>
+            <el-button type="primary" style="width:100%;height:44px;margin-top:8px" @click="submitGreenChannel">提交申请</el-button>
+          </el-form>
+        </el-tab-pane>
+        <el-tab-pane label="申请记录" name="records">
+          <div style="padding-top:8px">
+            <div v-if="!teacherGreenChannels.length" class="empty-state"><div class="empty-icon"></div><div class="empty-text">暂无申请记录</div></div>
+            <div v-for="item in teacherGreenChannels" :key="item.id" class="review-card" style="margin-bottom:12px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+                <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1)">{{ item.studentName }} · {{ item.studentGrade }}</div>
+                <el-tag :type="gcStatusType(item.status)" size="small">{{ gcStatusLabel(item.status) }}</el-tag>
+              </div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-bottom:6px">申请时间：{{ (item.applyTime||'').slice(0,10) }}</div>
+              <div style="font-size:var(--tx-sm);color:var(--c-text-2);line-height:1.6">{{ item.problem }}</div>
+              <div v-if="item.status==='approved' && item.appointmentDate" style="margin-top:10px;padding:8px 12px;background:#E8F9F0;border-radius:8px;font-size:var(--tx-sm);color:#00B578">✅ 已安排：{{ item.appointmentDate }} {{ item.appointmentTime }}</div>
+              <div v-if="item.reviewNote" style="margin-top:6px;font-size:var(--tx-xs);color:var(--c-text-3)">审核备注：{{ item.reviewNote }}</div>
+            </div>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+
+    <!-- ══ TEACHER FOLLOW-UP ══ -->
+    <div v-else-if="route.path==='/teacher-follow-up'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/teacher-home')">‹</button><h2>随访反馈</h2></div>
+      <el-tabs v-model="teacherFollowUpTab" class="section">
+        <el-tab-pane label="随访学生" name="list">
+          <div style="padding-top:8px">
+            <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-bottom:10px">已通过绿色通道就诊的学生，点击填写随访</div>
+            <div v-if="!teacherGreenChannels.filter(g=>g.status==='approved').length" class="empty-state"><div class="empty-icon"></div><div class="empty-text">暂无需随访学生</div></div>
+            <div v-for="item in teacherGreenChannels.filter(g=>g.status==='approved')" :key="item.id" class="svc-card" style="margin-bottom:10px" @click="fuSelectedStudent=item;teacherFollowUpTab='form'">
+              <div class="svc-icon" style="background:#F3F0FF;width:40px;height:40px"><svg viewBox="0 0 24 24" width="20" height="20" fill="#7B61FF"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+              <div style="flex:1">
+                <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1)">{{ item.studentName }}</div>
+                <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-top:2px">{{ item.studentGrade }} · 就诊：{{ item.appointmentDate }}</div>
+              </div>
+              <span style="color:var(--c-primary)">›</span>
+            </div>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="填写随访" name="form">
+          <div style="padding-top:8px">
+            <div v-if="!fuSelectedStudent" class="empty-state"><div class="empty-icon"></div><div class="empty-text">请先从「随访学生」选择学生</div></div>
+            <div v-else>
+              <div style="background:var(--c-bg-2);border-radius:10px;padding:12px 14px;margin-bottom:14px">
+                <div style="font-size:var(--tx-sm);font-weight:var(--fw-sb);color:var(--c-text-1)">{{ fuSelectedStudent.studentName }} · {{ fuSelectedStudent.studentGrade }}</div>
+                <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-top:3px">就诊日期：{{ fuSelectedStudent.appointmentDate }}</div>
+              </div>
+              <el-form label-position="top">
+                <el-form-item label="复诊情况"><el-select v-model="fuForm.visitStatus" style="width:100%"><el-option label="按时复诊" value="按时复诊"></el-option><el-option label="未复诊" value="未复诊"></el-option><el-option label="拒绝复诊" value="拒绝复诊"></el-option></el-select></el-form-item>
+                <el-form-item label="情绪状态反馈"><el-input v-model="fuForm.emotionStatus" type="textarea" :rows="2" placeholder="描述学生近期情绪状态变化..."></el-input></el-form-item>
+                <el-form-item label="行为变化"><el-input v-model="fuForm.behaviorChange" type="textarea" :rows="2" placeholder="描述学生行为方面的改变..."></el-input></el-form-item>
+                <el-form-item label="用药情况"><el-input v-model="fuForm.medicationCompliance" placeholder="如：按时服药，无副作用"></el-input></el-form-item>
+                <el-form-item label="学校表现"><el-input v-model="fuForm.schoolPerformance" type="textarea" :rows="2" placeholder="出勤情况、课堂表现..."></el-input></el-form-item>
+                <el-form-item label="家长反馈"><el-input v-model="fuForm.parentFeedback" type="textarea" :rows="2" placeholder="家长反映的情况..."></el-input></el-form-item>
+                <el-form-item label="老师建议"><el-input v-model="fuForm.teacherSuggestion" type="textarea" :rows="2" placeholder="老师的跟进建议..."></el-input></el-form-item>
+                <el-button type="primary" style="width:100%;height:44px" @click="submitFollowUp">提交随访记录</el-button>
+              </el-form>
+            </div>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="随访记录" name="records">
+          <div style="padding-top:8px">
+            <div v-if="!teacherFollowUps.length" class="empty-state"><div class="empty-icon"></div><div class="empty-text">暂无随访记录</div></div>
+            <div v-for="item in teacherFollowUps" :key="item.id" class="review-card" style="margin-bottom:12px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1)">{{ item.studentName }} · {{ item.studentGrade }}</div>
+                <el-tag type="success" size="small">已提交</el-tag>
+              </div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-bottom:6px">随访日期：{{ (item.followUpDate||'').slice(0,10) }}</div>
+              <div style="font-size:var(--tx-sm);color:var(--c-text-2)">情绪：{{ item.emotionStatus }}</div>
+              <div v-if="item.behaviorChange" style="font-size:var(--tx-sm);color:var(--c-text-2);margin-top:3px">行为：{{ item.behaviorChange }}</div>
+            </div>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+
+    <!-- ══ TEACHER ANNOUNCEMENTS ══ -->
+    <div v-else-if="route.path==='/teacher-announcements'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="teacherAnnouncementDetail=null;go('/teacher-home')">‹</button><h2>通知公告</h2></div>
+      <div v-if="teacherAnnouncementDetail" class="section">
+        <div style="margin-bottom:14px"><button style="background:none;border:none;color:var(--c-primary);font-size:14px;cursor:pointer;padding:0" @click="teacherAnnouncementDetail=null">‹ 返回列表</button></div>
+        <div style="font-size:var(--tx-lg);font-weight:var(--fw-sb);color:var(--c-text-1);margin-bottom:8px">{{ teacherAnnouncementDetail.title }}</div>
+        <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-bottom:16px">{{ teacherAnnouncementDetail.publisher }} · {{ (teacherAnnouncementDetail.publishTime||'').slice(0,10) }}</div>
+        <div style="font-size:var(--tx-sm);color:var(--c-text-2);line-height:1.85;white-space:pre-line">{{ teacherAnnouncementDetail.content }}</div>
+      </div>
+      <div v-else>
+        <el-tabs v-model="teacherAnnouncementTab" class="section">
+          <el-tab-pane label="系统通知" name="system">
+            <div v-if="!systemAnnouncements.length" class="empty-state"><div class="empty-icon"></div><div class="empty-text">暂无系统通知</div></div>
+            <div v-for="item in systemAnnouncements" :key="item.id" class="review-card" style="margin-bottom:10px;cursor:pointer" @click="teacherAnnouncementDetail=item">
+              <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1);margin-bottom:4px">{{ item.title }}</div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3)">{{ item.publisher }} · {{ (item.publishTime||'').slice(0,10) }}</div>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="培训通知" name="training">
+            <div v-if="!trainingAnnouncements.length" class="empty-state"><div class="empty-icon"></div><div class="empty-text">暂无培训通知</div></div>
+            <div v-for="item in trainingAnnouncements" :key="item.id" class="review-card" style="margin-bottom:10px;cursor:pointer" @click="teacherAnnouncementDetail=item">
+              <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1);margin-bottom:4px">{{ item.title }}</div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-bottom:4px">{{ item.publisher }} · {{ (item.publishTime||'').slice(0,10) }}</div>
+              <div style="font-size:var(--tx-sm);color:var(--c-text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ (item.content||'').slice(0,60) }}...</div>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+    </div>
+
+    <!-- ══ TEACHER ARTWORK MENU ══ -->
+    <div v-else-if="route.path==='/teacher-artwork'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/teacher-home')">‹</button><h2>活动作品上传</h2></div>
+      <div class="section">
+        <div class="teacher-entry-card" @click="go('/teacher-artwork-upload')" style="margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="svc-icon" style="background:#FFFBE8;width:46px;height:46px;flex-shrink:0"><svg viewBox="0 0 24 24" width="24" height="24" fill="#FF9300"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></div>
+            <div>
+              <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1)">青少年绘画作品上传</div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-top:2px">第三届心理健康绘画比赛 · 征稿中</div>
+            </div>
+          </div>
+          <span style="color:var(--c-primary);font-size:20px;flex-shrink:0">›</span>
+        </div>
+        <div style="padding:12px 14px;background:var(--c-bg-2);border-radius:10px;font-size:var(--tx-xs);color:var(--c-text-3);line-height:1.9">
+           活动主题：《我心中的彩虹》<br> 投稿截止：2026年6月30日<br> 参赛对象：6-18岁在校学生<br> 由心理老师统一审核后在本模块上传
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TEACHER ARTWORK UPLOAD ══ -->
+    <div v-else-if="route.path==='/teacher-artwork-upload'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/teacher-artwork')">‹</button><h2>青少年绘画作品上传</h2></div>
+      <el-tabs v-model="teacherArtworkUploadTab" class="section">
+        <el-tab-pane label="上传作品" name="upload">
+          <el-form label-position="top" style="padding-top:8px">
+            <div class="grid-2">
+              <el-form-item label="学生姓名"><el-input v-model="awForm.studentName" placeholder="学生姓名"></el-input></el-form-item>
+              <el-form-item label="就读年级"><el-input v-model="awForm.studentGrade" placeholder="如：初一"></el-input></el-form-item>
+            </div>
+            <div class="grid-2">
+              <el-form-item label="学生年龄"><el-input v-model="awForm.studentAge" type="number" placeholder="岁"></el-input></el-form-item>
+              <el-form-item label="作品名称"><el-input v-model="awForm.artworkName" placeholder="请输入作品名称"></el-input></el-form-item>
+            </div>
+            <el-form-item label="作品描述"><el-input v-model="awForm.description" type="textarea" :rows="3" placeholder="简要描述作品内容与创作思路..."></el-input></el-form-item>
+            <el-form-item label="上传图片">
+              <div style="border:2px dashed var(--c-border);border-radius:10px;height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--c-text-3)">
+                <span style="font-size:30px"></span>
+                <span style="font-size:var(--tx-sm)">点击上传图片（演示模式）</span>
+              </div>
+            </el-form-item>
+            <el-button type="primary" style="width:100%;height:44px" @click="submitArtwork">提交作品</el-button>
+          </el-form>
+        </el-tab-pane>
+        <el-tab-pane label="我的上传记录" name="records">
+          <div style="padding-top:8px">
+            <div v-if="!teacherArtworks.length" class="empty-state"><div class="empty-icon"></div><div class="empty-text">暂无上传记录</div></div>
+            <div v-for="item in teacherArtworks" :key="item.id" class="review-card" style="margin-bottom:12px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+                <div>
+                  <div style="font-size:var(--tx-base);font-weight:var(--fw-sb);color:var(--c-text-1)">《{{ item.artworkName }}》</div>
+                  <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-top:2px">{{ item.studentName }} · {{ item.studentGrade }}</div>
+                </div>
+                <el-tag :type="awStatusType(item.status)" size="small">{{ awStatusLabel(item.status) }}</el-tag>
+              </div>
+              <div v-if="item.description" style="font-size:var(--tx-sm);color:var(--c-text-2);line-height:1.5">{{ item.description }}</div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-top:6px">上传时间：{{ (item.submitTime||'').slice(0,10) }}</div>
+              <div v-if="item.reviewNote" style="margin-top:4px;font-size:var(--tx-xs);color:var(--c-text-3)">备注：{{ item.reviewNote }}</div>
+            </div>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+
+    <!-- ══ REGISTER ══ -->
+    <div v-else-if="route.path==='/register'" class="page" style="padding-bottom:20px">
+      <!-- Header -->
+      <div style="display:flex;align-items:center;gap:12px;padding:4px 0 14px">
+        <div @click="backRegisterStep()" style="width:34px;height:34px;background:var(--c-fill);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0">←</div>
+        <div>
+          <div style="font-weight:var(--fw-b);font-size:var(--tx-base)">盛京医院（南湖院区）</div>
+          <div style="font-size:var(--tx-xs);color:var(--c-text-3)">{{ register.step===2 ? register.department+' · 选择医生' : register.step===3 ? register.department+' / '+(register.doctor?register.doctor.name:'')+'  ·  选时段' : register.step===4 ? '确认并支付' : '选择科室' }}</div>
+        </div>
+      </div>
+      <!-- Step indicator with labels -->
+      <div style="display:flex;align-items:flex-start;margin-bottom:20px">
+        <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+          <div :style="{width:'28px',height:'28px',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'12px',fontWeight:'700',background:register.step>=1?'var(--c-primary)':'var(--c-fill)',color:register.step>=1?'#fff':'var(--c-text-3)'}">1</div>
+          <div :style="{fontSize:'10px',marginTop:'3px',color:register.step>=1?'var(--c-primary)':'var(--c-text-3)',fontWeight:register.step===1?'700':'400'}">选科室</div>
+        </div>
+        <div :style="{flex:1,height:'2px',margin:'13px 2px 0',background:register.step>1?'var(--c-primary)':'var(--c-fill)'}"></div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+          <div :style="{width:'28px',height:'28px',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'12px',fontWeight:'700',background:register.step>=2?'var(--c-primary)':'var(--c-fill)',color:register.step>=2?'#fff':'var(--c-text-3)'}">2</div>
+          <div :style="{fontSize:'10px',marginTop:'3px',color:register.step>=2?'var(--c-primary)':'var(--c-text-3)',fontWeight:register.step===2?'700':'400'}">选医生</div>
+        </div>
+        <div :style="{flex:1,height:'2px',margin:'13px 2px 0',background:register.step>2?'var(--c-primary)':'var(--c-fill)'}"></div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+          <div :style="{width:'28px',height:'28px',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'12px',fontWeight:'700',background:register.step>=3?'var(--c-primary)':'var(--c-fill)',color:register.step>=3?'#fff':'var(--c-text-3)'}">3</div>
+          <div :style="{fontSize:'10px',marginTop:'3px',color:register.step>=3?'var(--c-primary)':'var(--c-text-3)',fontWeight:register.step===3?'700':'400'}">选时段</div>
+        </div>
+        <div :style="{flex:1,height:'2px',margin:'13px 2px 0',background:register.step>3?'var(--c-primary)':'var(--c-fill)'}"></div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+          <div :style="{width:'28px',height:'28px',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'12px',fontWeight:'700',background:register.step>=4?'var(--c-primary)':'var(--c-fill)',color:register.step>=4?'#fff':'var(--c-text-3)'}">4</div>
+          <div :style="{fontSize:'10px',marginTop:'3px',color:register.step>=4?'var(--c-primary)':'var(--c-text-3)',fontWeight:register.step===4?'700':'400'}">确认</div>
+        </div>
+      </div>
+
+      <!-- Step 1: 选科室 -->
+      <div v-if="register.step===1" style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:var(--tx-sm);color:var(--c-text-3);margin-bottom:4px">请选择就诊科室</div>
+        <div class="reg-dept-card" :class="{selected:register.department==='儿童心理门诊'}" @click="selectRegisterDept('儿童心理门诊')">
+          <div style="font-size:36px;margin-bottom:10px"></div>
+          <div style="font-size:var(--tx-base);font-weight:var(--fw-b);color:var(--c-text-1);margin-bottom:5px">儿童心理门诊</div>
+          <div style="font-size:var(--tx-xs);color:var(--c-text-3)">适合情绪、行为、学习困难等常见问题初诊就诊</div>
+          <div style="margin-top:10px;font-size:12px;color:var(--c-primary);font-weight:600">挂号费 ¥ 12.00 起</div>
+        </div>
+        <div class="reg-dept-card" :class="{selected:register.department==='专家专科门诊'}" @click="selectRegisterDept('专家专科门诊')">
+          <div style="font-size:36px;margin-bottom:10px">⚕</div>
+          <div style="font-size:var(--tx-base);font-weight:var(--fw-b);color:var(--c-text-1);margin-bottom:5px">专家专科门诊</div>
+          <div style="font-size:var(--tx-xs);color:var(--c-text-3)">疑难复杂病例、需要专家会诊或转诊综合评估</div>
+          <div style="margin-top:10px;font-size:12px;color:var(--c-primary);font-weight:600">挂号费 ¥ 50.00 起</div>
+        </div>
+      </div>
+
+      <!-- Step 2: 选医生 -->
+      <div v-else-if="register.step===2">
+        <!-- 今日满号提示 -->
+        <div v-if="registerTodayFull" style="background:#fff3f0;border:1px solid #ffccc7;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:16px"></span>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#d32f2f">今日号源已全满</div>
+            <div style="font-size:11px;color:#888;margin-top:1px">已自动切换至最早可预约日期</div>
+          </div>
+        </div>
+        <div class="reg-date-tabs">
+          <div v-for="tab in registerDateTabs" :key="tab.value"
+            :class="['reg-date-tab', register.dateFilter===tab.value?'active':'', tab.isFull && !tab.isToday?'':'', tab.isToday?'full-tab':'']"
+            @click="register.dateFilter=tab.value">
+            <div style="font-size:12px;font-weight:600;white-space:nowrap">{{ tab.label }}</div>
+            <div v-if="tab.value!=='全部'" class="reg-date-hint">{{ tab.isFull?'满号':'余号' }}</div>
+          </div>
+        </div>
+        <div v-if="registerFilteredDoctors.length===0" class="empty-state"><div class="empty-icon"></div><div class="empty-text">该日期暂无排班医生</div></div>
+        <div v-for="doc in registerFilteredDoctors" :key="doc.id" class="reg-doctor-card" @click="selectRegisterDoctor(doc)">
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--c-primary-bg);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">⚕</div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;gap:6px">
+                <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap">
+                  <span style="font-weight:var(--fw-b);font-size:var(--tx-base)">{{ doc.name }}</span>
+                  <span style="font-size:11px;color:var(--c-text-3)">{{ doc.title }}</span>
+                  <span style="font-size:11px;color:var(--c-text-3)">普通门诊</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
+                  <span class="reg-tag-orange">{{ doc.availablePeriod||'全天' }}</span>
+                  <span v-if="registerDoctorIsFull(doc.id)" class="reg-full-btn">满号</span>
+                  <span v-else class="reg-avail-btn">可预约</span>
+                </div>
+              </div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3);margin-bottom:3px">{{ doc.department }}</div>
+              <div class="reg-price" style="margin-bottom:3px">¥ {{ (doc.price||12).toFixed(2) }}</div>
+              <div style="font-size:var(--tx-xs);color:var(--c-text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ doc.goodAt }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: 选号源 -->
+      <div v-else-if="register.step===3">
+        <div v-if="register.doctor" style="background:var(--c-primary-bg);border-radius:var(--r-xl);padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+          <div style="width:42px;height:42px;border-radius:50%;background:var(--c-primary);display:flex;align-items:center;justify-content:center;font-size:20px">⚕</div>
+          <div>
+            <div style="font-weight:var(--fw-b)">{{ register.doctor.name }} · {{ register.doctor.title }}</div>
+            <div style="font-size:var(--tx-xs);color:var(--c-text-3)">{{ register.department }} · ¥ {{ (register.doctor.price||12).toFixed(2) }}</div>
+          </div>
+        </div>
+        <div v-if="!registerSchedules.morning.length && !registerSchedules.afternoon.length && !registerSchedules.evening.length" class="empty-state"><div class="empty-icon"></div><div class="empty-text">暂无可用号源</div></div>
+        <div v-for="p in registerPeriods" :key="p.key" style="margin-bottom:16px">
+            <div style="font-size:var(--tx-sm);color:var(--c-text-3);font-weight:600;margin-bottom:8px">{{ p.label }}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <div v-for="s in p.slots" :key="s.id"
+                :class="['reg-slot-btn', register.scheduleId===s.id?'selected':'', s.availableSlots===0?'full':'']"
+                @click="selectRegisterSchedule(s)">
+                <span style="font-size:13px;font-weight:600">{{ s.timeSlot }}</span>
+                <span style="font-size:10px;margin-top:2px">{{ s.availableSlots===0?'满号':s.date.slice(5) }}</span>
+              </div>
+            </div>
+          </div>
+        <div v-if="register.scheduleId" style="position:sticky;bottom:0;background:white;padding:10px 0 4px;border-top:1px solid var(--c-fill);margin-top:4px">
+          <el-button type="primary" style="width:100%;height:48px" @click="register.step=4">下一步：确认支付 →</el-button>
+        </div>
+      </div>
+
+      <!-- Step 4: 确认支付 -->
+      <div v-else-if="register.step===4">
+        <div class="card" style="margin-bottom:14px">
+          <div style="font-weight:var(--fw-b);font-size:var(--tx-base);margin-bottom:12px"> 挂号信息确认</div>
+          <div class="summary-row"><span>就诊医院</span><span>盛京医院（南湖院区）</span></div>
+          <div class="summary-row"><span>就诊科室</span><span>{{ register.department }}</span></div>
+          <div v-if="register.doctor" class="summary-row"><span>接诊医生</span><span>{{ register.doctor.name }} · {{ register.doctor.title }}</span></div>
+          <div v-if="register.schedule" class="summary-row"><span>就诊时间</span><span>{{ register.schedule.date }} {{ register.schedule.timeSlot }}</span></div>
+          <div class="summary-row"><span style="font-weight:700">挂号费用</span><span class="reg-price">¥ {{ (register.doctor && register.doctor.price||12).toFixed(2) }}</span></div>
+        </div>
+        <div class="card" style="margin-bottom:14px">
+          <div style="font-weight:var(--fw-b);margin-bottom:10px">选择就诊人</div>
+          <div v-if="!state.patients||state.patients.length===0" style="color:var(--c-text-3);font-size:var(--tx-sm);padding:8px 0">请先在「我的」中添加就诊人</div>
+          <div v-for="p in state.patients" :key="p.id"
+            :class="['doctor-select-card', {selected:register.patientId===p.id}]"
+            style="margin-bottom:8px;padding:10px 14px" @click="register.patientId=p.id">
+            <div><div style="font-weight:var(--fw-b)">{{ p.name }}</div><div style="font-size:var(--tx-xs);color:var(--c-text-3)">{{ p.relationship }} · {{ p.grade }}</div></div>
+            <span v-if="register.patientId===p.id" style="color:var(--c-success);font-size:20px">✓</span>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:20px">
+          <div style="font-weight:var(--fw-b);margin-bottom:12px">支付方式</div>
+          <div style="display:flex;gap:10px">
+            <div @click="register.payMethod='alipay'" :style="{flex:1,padding:'14px 12px',borderRadius:'12px',border:'2px solid '+(register.payMethod==='alipay'?'#1677ff':'var(--c-fill)'),cursor:'pointer',textAlign:'center',background:register.payMethod==='alipay'?'#f0f7ff':'#fafafa',transition:'all .15s'}">
+              <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#1677ff,#4096ff);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:18px;font-weight:900;color:white">支</div>
+              <div style="font-size:12px;font-weight:700;color:#1677ff">支付宝</div>
+            </div>
+            <div @click="register.payMethod='wechat'" :style="{flex:1,padding:'14px 12px',borderRadius:'12px',border:'2px solid '+(register.payMethod==='wechat'?'#07c160':'var(--c-fill)'),cursor:'pointer',textAlign:'center',background:register.payMethod==='wechat'?'#f0faf4':'#fafafa',transition:'all .15s'}">
+              <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#07c160,#2fce7a);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:18px;font-weight:900;color:white">微</div>
+              <div style="font-size:12px;font-weight:700;color:#07c160">微信支付</div>
+            </div>
+          </div>
+        </div>
+        <button class="reg-pay-btn" :style="{background:register.payMethod==='wechat'?'#07c160':'#1677ff'}"
+          :disabled="register.paying||!register.patientId" @click="submitRegister()">
+          <span v-if="register.paying">支付中...</span>
+          <span v-else>立即支付 ¥ {{ (register.doctor  &&  register.doctor.price||12).toFixed(2) }}</span>
+        </button>
+        <div style="text-align:center;font-size:11px;color:var(--c-text-3);margin-top:8px">此为演示系统，不会产生真实扣费</div>
+      </div>
+    </div>
+
+    <!-- ══ REGISTER SUCCESS ══ -->
+    <div v-else-if="route.path==='/register-success'" class="page">
+      <div class="top-bar"><button class="back-btn" @click="go('/')">&#x2039;</button><h2>挂号成功</h2></div>
+      <div class="success-page">
+        <div class="success-check"></div>
+        <div class="success-title">挂号成功！</div>
+        <div class="success-sub">请按时前往就诊，祝您早日康复</div>
+        <div class="appt-reminder" style="margin-top:16px;text-align:left">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="#165DFF" style="flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          <span style="font-size:11px;color:var(--c-text-2)">请携带儿童有效证件与既往检查资料，提前 15 分钟到院</span>
+        </div>
+        <div class="summary-card" style="margin-top:var(--sp-5);text-align:left" v-if="register.doctor  &&  register.schedule">
+          <div class="summary-row"><span class="s-label">就诊医院</span><span class="s-value">盛京医院（南湖院区）</span></div>
+          <div class="summary-row"><span class="s-label">就诊科室</span><span class="s-value">{{ register.department }}</span></div>
+          <div class="summary-row"><span class="s-label">接诊医生</span><span class="s-value">{{ register.doctor.name }} · {{ register.doctor.title }}</span></div>
+          <div class="summary-row"><span class="s-label">就诊时间</span><span class="s-value">{{ register.schedule.date }} {{ register.schedule.timeSlot }}</span></div>
+        </div>
+        <div style="display:grid;gap:var(--sp-3);margin-top:var(--sp-5)">
+          <el-button type="primary" style="width:100%;height:48px" @click="go('/my-appointments')">查看我的预约</el-button>
+          <el-button style="width:100%;height:44px" @click="go('/')">返回首页</el-button>
+        </div>
+      </div>
+    </div>
+
     <!-- ══ 404 ══ -->
     <div v-else class="page">
-      <div class="empty-state" style="padding-top:80px"><div class="empty-icon">🔍</div><div class="empty-text">页面不存在</div></div>
+      <div class="empty-state" style="padding-top:80px"><div class="empty-icon"></div><div class="empty-text">页面不存在</div></div>
     </div>
 
     <!-- ══ Bottom Nav ══ -->
-    <div class="bottom-nav">
-      <div class="nav-item" :class="{active:isHome}" @click="go('/')"><span class="nav-icon">🏠</span><span class="nav-label">首页</span></div>
-      <div class="nav-item" :class="{active:route.path==='/articles'||route.path==='/article'}" @click="go('/articles')"><span class="nav-icon">📖</span><span class="nav-label">科普</span></div>
-      <div class="nav-item" :class="{active:route.path==='/assessments'||route.path==='/quiz'||route.path==='/report'||route.path==='/my-assessments'}" @click="go('/assessments')"><span class="nav-icon">🧠</span><span class="nav-label">测评</span></div>
-      <div class="nav-item" :class="{active:route.path==='/appointment'||route.path==='/doctor'||route.path==='/my-appointments'}" @click="go('/appointment')"><span class="nav-icon">🩺</span><span class="nav-label">预约</span></div>
-      <div class="nav-item" :class="{active:route.path==='/profile'||route.path==='/patients'||route.path==='/favorites'||route.path==='/reviews'}" @click="go('/profile')"><span class="nav-icon">👤</span><span class="nav-label">我的</span></div>
+    <div class="bottom-nav" v-show="!isTeacherRoute  &&  !isRegisterRoute">
+      <div class="nav-item" :class="{active:isHome}" @click="go('/')"><span class="nav-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></span><span class="nav-label">首页</span></div>
+      <div class="nav-item" :class="{active:route.path==='/articles'||route.path==='/article'}" @click="go('/articles')"><span class="nav-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 15H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></span><span class="nav-label">科普</span></div>
+      <div class="nav-item" :class="{active:route.path==='/assessments'||route.path==='/quiz'||route.path==='/report'||route.path==='/my-assessments'}" @click="go('/assessments')"><span class="nav-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></span><span class="nav-label">测评</span></div>
+      <div class="nav-item" :class="{active:route.path==='/appointment'||route.path==='/doctor'||route.path==='/my-appointments'}" @click="go('/appointment')"><span class="nav-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg></span><span class="nav-label">预约</span></div>
+      <div class="nav-item" :class="{active:route.path==='/profile'||route.path==='/patients'||route.path==='/favorites'||route.path==='/reviews'}" @click="go('/profile')"><span class="nav-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span><span class="nav-label">我的</span></div>
     </div>
 
     <!-- ══ Dialogs ══ -->
@@ -812,13 +1331,13 @@
 const { createApp } = Vue;
 const { ElMessage, ElMessageBox } = ElementPlus;
 
-createApp({
+const app = createApp({
   data() {
     return {
       loading: false, ws: null, clockTime: '--:--',
       route: { path: '/', query: {} },
       state: { user:{}, categories:[], articles:[], doctors:[], hospitals:[],
-        scales:[], schedules:[], patients:[], appointments:[], assessments:[], favorites:[], reviews:[] },
+        scales:[], schedules:[], patients:[], appointments:[], assessments:[], favorites:[], reviews:[], announcements:[] },
       articleType:'全部', articleCategory:'全部',
       scaleAgeBand:'全部', scaleProblemType:'全部',
       quizScale:null, quizIndex:0, quizAnswers:[], quizPatientId:'',
@@ -829,7 +1348,16 @@ createApp({
       lastAppointment: null,
       reviewTab:'pending', reviewDrafts:{}, feedbackMessage:'',
       patientDialogVisible:false,
-      patientForm:{ id:'', name:'', idCard:'', birthDate:'', gender:'男', grade:'', relationship:'', phone:'', emergencyContact:'', emergencyPhone:'' }
+      patientForm:{ id:'', name:'', idCard:'', birthDate:'', gender:'男', grade:'', relationship:'', phone:'', emergencyContact:'', emergencyPhone:'' },
+      teacher:null, loginForm:{ account:'teacher', password:'123456' },
+      teacherGreenChannels:[], teacherFollowUps:[], teacherArtworks:[],
+      teacherAnnouncementTab:'system', teacherAnnouncementDetail:null,
+      teacherGreenChannelTab:'apply', teacherFollowUpTab:'list', teacherArtworkUploadTab:'upload',
+      gcForm:{ studentName:'李小明', studentGrade:'初二(3)班', studentGender:'男', problem:'该同学近两个月来出现明显的情绪低落、学习积极性下降，课堂注意力不集中，有时出现头痛、失眠等躯体症状。与同学互动明显减少，家长反映在家也常发脾气、哭泣，情绪起伏较大。', contact:'138****5678' },
+      fuForm:{ visitStatus:'按时复诊', emotionStatus:'情绪较前明显改善，焦虑程度下降，偶尔仍有低落情绪但持续时间短', behaviorChange:'课堂参与度提升，主动举手增多，与同学交流较前积极', medicationCompliance:'按时服药，家长反映无明显副作用', schoolPerformance:'出勤正常，作业完成情况良好，近期月考成绩有所回升', parentFeedback:'家长表示孩子在家睡眠改善，愿意与家长沟通，亲子关系明显好转', teacherSuggestion:'建议继续当前治疗方案，下次复诊前可安排适当团体活动帮助融入' },
+      fuSelectedStudent:null,
+      awForm:{ studentName:'王梦瑶', studentGrade:'小学五年级', studentAge:'11', artworkName:'我心中的彩虹', description:'用色彩表达内心的希望与美好，彩虹代表雨后的美好，象征经历困难后终会迎来美好的明天。', imageUrl:'' },
+      register:{ step:1, department:'', departmentName:'', dateFilter:'全部', doctorId:'', doctor:null, scheduleId:'', schedule:null, patientId:'', payMethod:'alipay', paying:false }
     };
   },
   computed: {
@@ -882,7 +1410,69 @@ createApp({
       return this.state.appointments.filter(a=>a.status==='已完成'&&!reviewed.includes(a.id));
     },
     historyReviews(){ return this.state.reviews.filter(r=>r.type==='review'); },
-    recentActivities(){ return (this.state.dashboard&&this.state.dashboard.activityFeed||[]).slice(0,5); }
+    recentActivities(){ return (this.state.dashboard&&this.state.dashboard.activityFeed||[]).slice(0,5); },
+    isTeacherRoute(){ return ['/teacher-login','/teacher-home','/teacher-green-channel','/teacher-follow-up','/teacher-announcements','/teacher-artwork','/teacher-artwork-upload'].includes(this.route.path); },
+    isRegisterRoute(){ return ['/register','/register-success'].includes(this.route.path); },
+    nanhuDoctors(){
+      const dept=this.register.department;
+      return (this.state.doctors||[]).filter(d=>d.hospitalId==='hospital-nanhu'&&(!dept||d.department===dept));
+    },
+    registerDateTabs(){
+      const ids=new Set(this.nanhuDoctors.map(d=>d.id));
+      const schs=(this.state.schedules||[]).filter(s=>ids.has(s.doctorId));
+      const today=new Date().toISOString().slice(0,10);
+      const wd=['\u5468\u65e5','\u5468\u4e00','\u5468\u4e8c','\u5468\u4e09','\u5468\u56db','\u5468\u4e94','\u5468\u516d'];
+      const dates=[...new Set(schs.map(s=>s.date))].sort();
+      const tabs=[{label:'\u5168\u90e8\u533b\u751f',value:'\u5168\u90e8',isFull:false,isToday:false}];
+      dates.forEach(d=>{
+        const dt=new Date(d+'T00:00:00');
+        const mm=d.slice(5);
+        const isToday=d===today;
+        const label=isToday?`${wd[dt.getDay()]} \u4eca\u65e5`:`${wd[dt.getDay()]} ${mm}`;
+        const daySchs=schs.filter(s=>s.date===d);
+        const isFull=daySchs.length>0&&daySchs.every(s=>s.availableSlots===0);
+        tabs.push({label,value:d,isFull,isToday});
+      });
+      return tabs;
+    },
+    registerFilteredDoctors(){
+      if(this.register.dateFilter==='\u5168\u90e8') return this.nanhuDoctors;
+      const df=this.register.dateFilter;
+      const ids=new Set((this.state.schedules||[]).filter(s=>s.date===df).map(s=>s.doctorId));
+      return this.nanhuDoctors.filter(d=>ids.has(d.id));
+    },
+    registerDoctorIsFull(){
+      const df=this.register.dateFilter;
+      return (doctorId)=>{
+        if(df==='\u5168\u90e8') return false;
+        const slots=(this.state.schedules||[]).filter(s=>s.doctorId===doctorId&&s.date===df);
+        return slots.length>0&&slots.every(s=>s.availableSlots===0);
+      };
+    },
+    registerPeriods(){
+      return [
+        {key:'morning',label:'上午',slots:this.registerSchedules.morning},
+        {key:'afternoon',label:'下午',slots:this.registerSchedules.afternoon},
+        {key:'evening',label:'晚上',slots:this.registerSchedules.evening}
+      ].filter(p=>p.slots.length);
+    },
+    registerTodayFull(){
+      const today=new Date().toISOString().slice(0,10);
+      const todayTab=this.registerDateTabs.find(t=>t.value===today);
+      return !!(todayTab&&todayTab.isFull);
+    },
+    registerSchedules(){
+      const {doctorId,dateFilter}=this.register;
+      if(!doctorId) return {morning:[],afternoon:[],evening:[]};
+      const r={morning:[],afternoon:[],evening:[]};
+      (this.state.schedules||[]).filter(s=>s.doctorId===doctorId&&s.status==='\u6b63\u5e38'&&(dateFilter==='\u5168\u90e8'||s.date===dateFilter))
+        .sort((a,b)=>(a.date+a.timeSlot).localeCompare(b.date+b.timeSlot))
+        .forEach(s=>{const k=s.period==='\u4e0a\u5348'?'morning':s.period==='\u4e0b\u5348'?'afternoon':'evening';r[k].push(s);});
+      return r;
+    },
+    publishedAnnouncements(){ return (this.state.announcements||[]).filter(a=>a.status==='published'); },
+    systemAnnouncements(){ return this.publishedAnnouncements.filter(a=>a.type==='system'); },
+    trainingAnnouncements(){ return this.publishedAnnouncements.filter(a=>a.type==='training'); }
   },
   methods: {
     avColor(name){
@@ -935,6 +1525,12 @@ createApp({
       if(this.route.path==='/doctor'&&this.route.query.id) this.booking.doctorId=this.route.query.id;
       if(this.route.path!=='/quiz'){this.quizScale=null;this.quizIndex=0;this.quizAnswers=[];this.quizPatientId='';}
       if(this.route.path!=='/appointment') this.booking.step=1;
+      const teacherProtected=['/teacher-home','/teacher-green-channel','/teacher-follow-up','/teacher-announcements','/teacher-artwork','/teacher-artwork-upload'];
+      if(teacherProtected.includes(this.route.path)){
+        if(!this.checkTeacherAuth()){this.go('/teacher-login');return;}
+        this.fetchTeacherData();
+      }
+      if(this.route.path==='/teacher-login'){const saved=sessionStorage.getItem('teacher');if(saved){this.teacher=JSON.parse(saved);this.go('/teacher-home');}}
     },
     async request(url,opts){
       const res=await fetch(url,opts);
@@ -985,7 +1581,7 @@ createApp({
         const r=await this.request('/api/assessments/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({scaleId:this.quizScale.id,patientId:this.quizPatientId,answers:this.quizAnswers})});
         await this.fetchBootstrap();
         this.go('/report',{id:r.id});
-        if(r.riskLevel==='高') ElMessageBox.alert('测评结果提示较高风险，建议尽快预约推荐医生。','⚠️ 高风险预警',{type:'error'});
+        if(r.riskLevel==='高') ElMessageBox.alert('测评结果提示较高风险，建议尽快预约推荐医生。','⚠ 高风险预警',{type:'error'});
       }catch(e){ ElMessage.error(e.message); }
     },
     recommendBooking(report){
@@ -994,7 +1590,54 @@ createApp({
       if(doc){ this.booking.hospitalId=doc.hospitalId||''; this.booking.doctorId=doc.id; this.booking.step=3; this.go('/appointment'); } else this.go('/appointment');
     },
     selectDoctor(id){ this.booking.doctorId=id; this.booking.scheduleId=''; this.booking.date=''; this.booking.period=''; },
-    selectHospital(id){ this.booking.hospitalId=id; this.booking.doctorId=''; this.booking.scheduleId=''; this.booking.date=''; this.booking.period=''; },
+    selectHospital(id){
+      if(id==='hospital-nanhu'){
+        Object.assign(this.register,{step:1,department:'',departmentName:'',dateFilter:'\u5168\u90e8',doctorId:'',doctor:null,scheduleId:'',schedule:null,patientId:'',paying:false});
+        this.go('/register'); return;
+      }
+      this.booking.hospitalId=id; this.booking.doctorId=''; this.booking.scheduleId=''; this.booking.date=''; this.booking.period=''; },
+    selectRegisterDept(dept){
+      this.register.department=dept; this.register.doctorId=''; this.register.doctor=null;
+      this.register.scheduleId=''; this.register.schedule=null;
+      // 自动跳过今日满号，选中最近可预约日期
+      const today=new Date().toISOString().slice(0,10);
+      const tabs=this.registerDateTabs;
+      const todayTab=tabs.find(t=>t.value===today);
+      if(todayTab&&todayTab.isFull){
+        const nextAvail=tabs.find(t=>t.value!=='全部'&&!t.isFull);
+        this.register.dateFilter=nextAvail?nextAvail.value:'全部';
+      } else {
+        this.register.dateFilter='全部';
+      }
+      this.register.step=2;
+    },
+    selectRegisterDoctor(doc){
+      this.register.doctorId=doc.id; this.register.doctor=doc;
+      this.register.scheduleId=''; this.register.schedule=null;
+      this.register.step=3;
+    },
+    selectRegisterSchedule(s){
+      if(s.availableSlots===0) return;
+      this.register.scheduleId=s.id; this.register.schedule=s;
+    },
+    backRegisterStep(){
+      if(this.register.step>1) this.register.step--;
+      else this.go('/appointment');
+    },
+    async submitRegister(){
+      if(!this.register.scheduleId){ ElMessage.warning('\u8bf7\u5148\u9009\u62e9\u5c31\u8bca\u65f6\u6bb5'); return; }
+      if(!this.register.patientId){ ElMessage.warning('\u8bf7\u9009\u62e9\u5c31\u8bca\u4eba'); return; }
+      this.register.paying=true;
+      try{
+        await new Promise(r=>setTimeout(r,1200));
+        await this.request('/api/appointments',{
+          method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({doctorId:this.register.doctorId,scheduleId:this.register.scheduleId,patientId:this.register.patientId,source:'register'})
+        });
+        this.go('/register-success');
+      }catch(e){ ElMessage.error(e.message||'\u6302\u53f7\u5931\u8d25\uff0c\u8bf7\u91cd\u8bd5'); }
+      finally{ this.register.paying=false; }
+    },
     selectDatePeriod(date, period, scheduleId){ this.booking.date=date; this.booking.period=period; this.booking.scheduleId=scheduleId; },
     enterBookingStep4(){
       if(!this.booking.patientId&&this.state.patients.length)
@@ -1090,6 +1733,72 @@ createApp({
       this.ws=new WebSocket(`${p}://${location.host}`);
       this.ws.onmessage=(e)=>{ const d=JSON.parse(e.data); if(d.type!=='connected') this.fetchBootstrap(); };
     },
+    // ── Teacher zone ──────────────────────────────────────────────────────────
+    checkTeacherAuth(){
+      const saved=sessionStorage.getItem('teacher');
+      if(saved&&!this.teacher) this.teacher=JSON.parse(saved);
+      return !!this.teacher;
+    },
+    async teacherLogin(){
+      if(!this.loginForm.account||!this.loginForm.password){ElMessage.warning('请输入账号和密码');return;}
+      try{
+        const t=await this.request('/api/teacher/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({account:this.loginForm.account,password:this.loginForm.password})});
+        this.teacher=t; sessionStorage.setItem('teacher',JSON.stringify(t));
+        await this.fetchTeacherData(); this.go('/teacher-home');
+      }catch(e){ElMessage.error(e.message);}
+    },
+    teacherLogout(){
+      this.teacher=null; sessionStorage.removeItem('teacher'); this.go('/');
+    },
+    async fetchTeacherData(){
+      if(!this.teacher) return;
+      const tid=this.teacher.id;
+      try{
+        const [gcs,fus,ans,aws]=await Promise.all([
+          this.request(`/api/teacher/green-channels?teacherId=${tid}`),
+          this.request(`/api/teacher/follow-ups?teacherId=${tid}`),
+          this.request('/api/teacher/announcements'),
+          this.request(`/api/teacher/artworks?teacherId=${tid}`)
+        ]);
+        this.teacherGreenChannels=gcs; this.teacherFollowUps=fus;
+        this.state.announcements=ans; this.teacherArtworks=aws;
+      }catch(e){}
+    },
+    async submitGreenChannel(){
+      const f=this.gcForm;
+      if(!f.studentName||!f.problem||!f.contact){ElMessage.warning('请填写完整信息');return;}
+      try{
+        const item=await this.request('/api/teacher/green-channels',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...f,teacherId:this.teacher.id,teacherName:this.teacher.name,school:this.teacher.school})});
+        this.teacherGreenChannels.unshift(item);
+        this.gcForm={studentName:'',studentGrade:'',studentGender:'男',problem:'',contact:''};
+        this.teacherGreenChannelTab='records'; ElMessage.success('申请已提交，等待审核');
+      }catch(e){ElMessage.error(e.message);}
+    },
+    async submitFollowUp(){
+      const f=this.fuForm;
+      if(!f.visitStatus||!f.emotionStatus){ElMessage.warning('请填写随访内容');return;}
+      if(!this.fuSelectedStudent){ElMessage.warning('请先选择随访学生');return;}
+      try{
+        const item=await this.request('/api/teacher/follow-ups',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...f,teacherId:this.teacher.id,teacherName:this.teacher.name,school:this.teacher.school,studentName:this.fuSelectedStudent.studentName,studentGrade:this.fuSelectedStudent.studentGrade,visitDate:this.fuSelectedStudent.appointmentDate})});
+        this.teacherFollowUps.unshift(item);
+        this.fuForm={visitStatus:'按时复诊',emotionStatus:'',behaviorChange:'',medicationCompliance:'',schoolPerformance:'',parentFeedback:'',teacherSuggestion:''};
+        this.fuSelectedStudent=null; this.teacherFollowUpTab='records'; ElMessage.success('随访记录已提交');
+      }catch(e){ElMessage.error(e.message);}
+    },
+    async submitArtwork(){
+      const f=this.awForm;
+      if(!f.studentName||!f.artworkName){ElMessage.warning('请填写作品信息');return;}
+      try{
+        const item=await this.request('/api/teacher/artworks',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...f,teacherId:this.teacher.id,teacherName:this.teacher.name,school:this.teacher.school})});
+        this.teacherArtworks.unshift(item);
+        this.awForm={studentName:'',studentGrade:'',studentAge:'',artworkName:'',description:'',imageUrl:''};
+        this.teacherArtworkUploadTab='records'; ElMessage.success('作品已上传');
+      }catch(e){ElMessage.error(e.message);}
+    },
+    gcStatusLabel(s){ return {pending:'待审核',approved:'已通过',rejected:'已拒绝'}[s]||s; },
+    gcStatusType(s){ return {pending:'warning',approved:'success',rejected:'danger'}[s]||''; },
+    awStatusLabel(s){ return {pending:'待审核',approved:'已通过',rejected:'已退回'}[s]||s; },
+    awStatusType(s){ return {pending:'warning',approved:'success',rejected:'danger'}[s]||''; },
     startClock(){
       const upd=()=>{
         const d=new Date();
@@ -1111,7 +1820,35 @@ createApp({
     window.removeEventListener('hashchange',this.parseRoute);
     if(this.ws) this.ws.close();
   }
-}).use(ElementPlus).mount('#app');
+});
+try {
+  app.use(ElementPlus).mount('#app');
+} catch(mountErr) {
+  var _el=document.getElementById('preloader-err');
+  if(_el){ _el.textContent='MountErr: '+mountErr.message; _el.style.display='block'; }
+  console.error('Mount failed:', mountErr);
+}
+
+// Catch errors and show in preloader
+window.addEventListener('error', function(e){
+  var el=document.getElementById('preloader-err');
+  if(el){ el.textContent='⚠ '+e.message; el.style.display='block'; }
+});
+window.addEventListener('unhandledrejection', function(e){
+  var el=document.getElementById('preloader-err');
+  var msg=e.reason&&e.reason.message?e.reason.message:String(e.reason);
+  if(el){ el.textContent='⚠ '+msg; el.style.display='block'; }
+});
+
+// Failsafe: force-hide preloader after 4s even if Vue fails
+setTimeout(function(){
+  var s = document.getElementById('preloader');
+  if(s && s.style.display !== 'none') {
+    s.style.display = 'none';
+    var app = document.getElementById('app');
+    if(app) app.removeAttribute('v-cloak');
+  }
+}, 4000);
 </script>
 </body>
 </html>

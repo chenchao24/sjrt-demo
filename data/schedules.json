@@ -17,8 +17,8 @@
     "timeSlot": "14:00-14:30",
     "period": "下午",
     "totalSlots": 8,
-    "bookedSlots": 5,
-    "availableSlots": 3,
+    "bookedSlots": 7,
+    "availableSlots": 1,
     "status": "正常"
   },
   {
@@ -61,8 +61,8 @@
     "timeSlot": "09:00-09:30",
     "period": "上午",
     "totalSlots": 6,
-    "bookedSlots": 3,
-    "availableSlots": 3,
+    "bookedSlots": 5,
+    "availableSlots": 1,
     "status": "正常"
   },
   {
@@ -127,8 +127,8 @@
     "timeSlot": "09:00-09:30",
     "period": "上午",
     "totalSlots": 8,
-    "bookedSlots": 1,
-    "availableSlots": 7,
+    "bookedSlots": 2,
+    "availableSlots": 6,
     "status": "正常"
   },
   {
@@ -228,6 +228,292 @@
     "totalSlots": 8,
     "bookedSlots": 4,
     "availableSlots": 4,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-001",
+    "doctorId": "d-nhu-001",
+    "date": "2026-05-22",
+    "timeSlot": "08:30-09:00",
+    "period": "上午",
+    "totalSlots": 8,
+    "bookedSlots": 8,
+    "availableSlots": 0,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-002",
+    "doctorId": "d-nhu-001",
+    "date": "2026-05-22",
+    "timeSlot": "14:00-14:30",
+    "period": "下午",
+    "totalSlots": 8,
+    "bookedSlots": 8,
+    "availableSlots": 0,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-003",
+    "doctorId": "d-nhu-002",
+    "date": "2026-05-22",
+    "timeSlot": "09:00-09:30",
+    "period": "上午",
+    "totalSlots": 6,
+    "bookedSlots": 6,
+    "availableSlots": 0,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-004",
+    "doctorId": "d-nhu-003",
+    "date": "2026-05-22",
+    "timeSlot": "09:30-10:00",
+    "period": "上午",
+    "totalSlots": 5,
+    "bookedSlots": 5,
+    "availableSlots": 0,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-005",
+    "doctorId": "d-nhu-003",
+    "date": "2026-05-22",
+    "timeSlot": "15:00-15:30",
+    "period": "下午",
+    "totalSlots": 5,
+    "bookedSlots": 5,
+    "availableSlots": 0,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-006",
+    "doctorId": "d-nhu-004",
+    "date": "2026-05-22",
+    "timeSlot": "14:30-15:00",
+    "period": "下午",
+    "totalSlots": 4,
+    "bookedSlots": 4,
+    "availableSlots": 0,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-007",
+    "doctorId": "d-nhu-005",
+    "date": "2026-05-22",
+    "timeSlot": "19:00-19:30",
+    "period": "晚上",
+    "totalSlots": 8,
+    "bookedSlots": 8,
+    "availableSlots": 0,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-011",
+    "doctorId": "d-nhu-001",
+    "date": "2026-05-23",
+    "timeSlot": "08:30-09:00",
+    "period": "上午",
+    "totalSlots": 8,
+    "bookedSlots": 3,
+    "availableSlots": 5,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-012",
+    "doctorId": "d-nhu-001",
+    "date": "2026-05-23",
+    "timeSlot": "09:00-09:30",
+    "period": "上午",
+    "totalSlots": 8,
+    "bookedSlots": 2,
+    "availableSlots": 6,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-013",
+    "doctorId": "d-nhu-002",
+    "date": "2026-05-23",
+    "timeSlot": "09:30-10:00",
+    "period": "上午",
+    "totalSlots": 6,
+    "bookedSlots": 1,
+    "availableSlots": 5,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-014",
+    "doctorId": "d-nhu-003",
+    "date": "2026-05-23",
+    "timeSlot": "14:00-14:30",
+    "period": "下午",
+    "totalSlots": 5,
+    "bookedSlots": 2,
+    "availableSlots": 3,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-015",
+    "doctorId": "d-nhu-004",
+    "date": "2026-05-23",
+    "timeSlot": "14:30-15:00",
+    "period": "下午",
+    "totalSlots": 4,
+    "bookedSlots": 1,
+    "availableSlots": 3,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-016",
+    "doctorId": "d-nhu-005",
+    "date": "2026-05-23",
+    "timeSlot": "19:00-19:30",
+    "period": "晚上",
+    "totalSlots": 8,
+    "bookedSlots": 4,
+    "availableSlots": 4,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-021",
+    "doctorId": "d-nhu-001",
+    "date": "2026-05-24",
+    "timeSlot": "08:30-09:00",
+    "period": "上午",
+    "totalSlots": 8,
+    "bookedSlots": 2,
+    "availableSlots": 6,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-022",
+    "doctorId": "d-nhu-002",
+    "date": "2026-05-24",
+    "timeSlot": "09:00-09:30",
+    "period": "上午",
+    "totalSlots": 6,
+    "bookedSlots": 0,
+    "availableSlots": 6,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-023",
+    "doctorId": "d-nhu-003",
+    "date": "2026-05-24",
+    "timeSlot": "10:00-10:30",
+    "period": "上午",
+    "totalSlots": 5,
+    "bookedSlots": 3,
+    "availableSlots": 2,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-031",
+    "doctorId": "d-nhu-001",
+    "date": "2026-05-26",
+    "timeSlot": "08:30-09:00",
+    "period": "上午",
+    "totalSlots": 8,
+    "bookedSlots": 1,
+    "availableSlots": 7,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-032",
+    "doctorId": "d-nhu-002",
+    "date": "2026-05-26",
+    "timeSlot": "09:00-09:30",
+    "period": "上午",
+    "totalSlots": 6,
+    "bookedSlots": 0,
+    "availableSlots": 6,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-033",
+    "doctorId": "d-nhu-003",
+    "date": "2026-05-26",
+    "timeSlot": "14:00-14:30",
+    "period": "下午",
+    "totalSlots": 5,
+    "bookedSlots": 0,
+    "availableSlots": 5,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-034",
+    "doctorId": "d-nhu-004",
+    "date": "2026-05-26",
+    "timeSlot": "14:30-15:00",
+    "period": "下午",
+    "totalSlots": 4,
+    "bookedSlots": 2,
+    "availableSlots": 2,
+    "status": "正常"
+  },
+  {
+    "id": "s-nhu-035",
+    "doctorId": "d-nhu-005",
+    "date": "2026-05-26",
+    "timeSlot": "19:00-19:30",
+    "period": "晚上",
+    "totalSlots": 8,
+    "bookedSlots": 3,
+    "availableSlots": 5,
+    "status": "正常"
+  },
+  {
+    "id": "s-dl-001",
+    "doctorId": "d-dl-001",
+    "date": "2026-05-22",
+    "timeSlot": "08:30-09:00",
+    "period": "上午",
+    "totalSlots": 8,
+    "bookedSlots": 4,
+    "availableSlots": 4,
+    "status": "正常"
+  },
+  {
+    "id": "s-dl-002",
+    "doctorId": "d-dl-001",
+    "date": "2026-05-22",
+    "timeSlot": "14:00-14:30",
+    "period": "下午",
+    "totalSlots": 8,
+    "bookedSlots": 2,
+    "availableSlots": 6,
+    "status": "正常"
+  },
+  {
+    "id": "s-dl-003",
+    "doctorId": "d-dl-002",
+    "date": "2026-05-22",
+    "timeSlot": "09:00-09:30",
+    "period": "上午",
+    "totalSlots": 6,
+    "bookedSlots": 3,
+    "availableSlots": 3,
+    "status": "正常"
+  },
+  {
+    "id": "s-dl-004",
+    "doctorId": "d-dl-001",
+    "date": "2026-05-23",
+    "timeSlot": "08:30-09:00",
+    "period": "上午",
+    "totalSlots": 8,
+    "bookedSlots": 2,
+    "availableSlots": 6,
+    "status": "正常"
+  },
+  {
+    "id": "s-dl-005",
+    "doctorId": "d-dl-002",
+    "date": "2026-05-23",
+    "timeSlot": "09:00-09:30",
+    "period": "上午",
+    "totalSlots": 6,
+    "bookedSlots": 1,
+    "availableSlots": 5,
     "status": "正常"
   }
 ]

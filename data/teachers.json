@@ -1,0 +1,32 @@
+[
+  {
+    "id": "T001",
+    "account": "teacher",
+    "password": "123456",
+    "name": "李晓梅",
+    "school": "沈阳市第七中学",
+    "title": "心理健康老师",
+    "phone": "13800138001",
+    "avatar": ""
+  },
+  {
+    "id": "T002",
+    "account": "teacher2",
+    "password": "123456",
+    "name": "王志强",
+    "school": "沈阳市实验小学",
+    "title": "心理健康老师",
+    "phone": "13800138002",
+    "avatar": ""
+  },
+  {
+    "id": "T003",
+    "account": "teacher3",
+    "password": "123456",
+    "name": "张慧敏",
+    "school": "沈阳市第一高中",
+    "title": "心理健康老师",
+    "phone": "13800138003",
+    "avatar": ""
+  }
+]

@@ -26,7 +26,13 @@ const DB_FILES = {
   assessments: 'assessments.json',
   favorites: 'favorites.json',
   reviews: 'reviews.json',
-  activities: 'activities.json'
+  activities: 'activities.json',
+  adminUsers: 'admin-users.json',
+  teachers: 'teachers.json',
+  greenChannels: 'green-channels.json',
+  followUps: 'follow-ups.json',
+  announcements: 'announcements.json',
+  artworks: 'artworks.json'
 };
 
 const MIME_TYPES = {
@@ -213,10 +219,12 @@ function getDashboardSnapshot() {
   });
 
   const lowSlotCount = schedules.filter((item) => item.availableSlots <= 3 && item.availableSlots > 0).length;
+  const pendingGcCount = readData('greenChannels').filter(g => g.status === 'pending').length;
   const todoItems = [
     { id: 'todo-1', label: `待发布科普内容 ${articles.filter((item) => item.status !== '已发布').length} 条`, level: 'warning' },
     { id: 'todo-2', label: `低余量号源 ${lowSlotCount} 个`, level: lowSlotCount ? 'danger' : 'success' },
-    { id: 'todo-3', label: `高风险测评 ${assessments.filter((item) => item.riskLevel === '高').length} 条`, level: 'danger' }
+    { id: 'todo-3', label: `高风险测评 ${assessments.filter((item) => item.riskLevel === '高').length} 条`, level: 'danger' },
+    { id: 'todo-4', label: `绿色通道待审核 ${pendingGcCount} 条`, level: pendingGcCount ? 'warning' : 'success' }
   ];
 
   return {
@@ -301,7 +309,11 @@ function buildBootstrap(scope = 'mobile') {
     reviews,
     dashboard: getDashboardSnapshot(),
     assessmentAnalytics: getAssessmentAnalytics(),
-    categories: ['情绪', '学习', '亲子', '发育', '睡眠']
+    categories: ['情绪', '学习', '亲子', '发育', '睡眠'],
+    greenChannels: readData('greenChannels'),
+    followUps: readData('followUps'),
+    announcements: scope === 'admin' ? readData('announcements') : readData('announcements').filter(a => a.status === 'published'),
+    artworks: readData('artworks')
   };
 }
 
@@ -928,6 +940,174 @@ async function handleApi(req, res, url) {
       return;
     }
 
+    // ── Teacher auth ─────────────────────────────────────────────
+    if (method === 'POST' && pathname === '/api/teacher/login') {
+      const teachers = readData('teachers');
+      const teacher = teachers.find(t => t.account === body.account && t.password === body.password);
+      if (!teacher) { sendJson(res, 400, { code: 400, message: '账号或密码错误' }); return; }
+      const { password: _pw, ...safeTeacher } = teacher;
+      sendJson(res, 200, response(safeTeacher, '登录成功'));
+      return;
+    }
+
+    // ── Teacher green channels ───────────────────────────────────
+    if (method === 'GET' && pathname === '/api/teacher/green-channels') {
+      const teacherId = url.searchParams.get('teacherId');
+      const gcs = readData('greenChannels');
+      sendJson(res, 200, response(teacherId ? gcs.filter(g => g.teacherId === teacherId) : gcs));
+      return;
+    }
+    if (method === 'POST' && pathname === '/api/teacher/green-channels') {
+      const gcs = readData('greenChannels');
+      const item = { id: 'GC' + Date.now().toString(36).toUpperCase(), status: 'pending', applyTime: nowIso(), reviewTime: null, reviewNote: '', appointmentDate: null, appointmentTime: null, ...body };
+      gcs.unshift(item); writeData('greenChannels', gcs);
+      addActivity('green_channel_applied', '绿色通道申请', `${item.teacherName || ''} 为学生 ${item.studentName || ''} 申请专科通道`);
+      broadcast('green-channel:created', item);
+      sendJson(res, 200, response(item, '申请提交成功'));
+      return;
+    }
+
+    // ── Teacher follow-ups ───────────────────────────────────────
+    if (method === 'GET' && pathname === '/api/teacher/follow-ups') {
+      const teacherId = url.searchParams.get('teacherId');
+      const fus = readData('followUps');
+      sendJson(res, 200, response(teacherId ? fus.filter(f => f.teacherId === teacherId) : fus));
+      return;
+    }
+    if (method === 'POST' && pathname === '/api/teacher/follow-ups') {
+      const fus = readData('followUps');
+      const item = { id: 'FU' + Date.now().toString(36).toUpperCase(), status: 'submitted', followUpDate: nowIso(), ...body };
+      fus.unshift(item); writeData('followUps', fus);
+      addActivity('follow_up_submitted', '随访反馈提交', `${item.teacherName || ''} 提交了 ${item.studentName || ''} 的随访记录`);
+      broadcast('follow-up:created', item);
+      sendJson(res, 200, response(item, '随访记录已提交'));
+      return;
+    }
+
+    // ── Teacher announcements ────────────────────────────────────
+    if (method === 'GET' && pathname === '/api/teacher/announcements') {
+      sendJson(res, 200, response(readData('announcements').filter(a => a.status === 'published')));
+      return;
+    }
+
+    // ── Teacher artworks ─────────────────────────────────────────
+    if (method === 'GET' && pathname === '/api/teacher/artworks') {
+      const teacherId = url.searchParams.get('teacherId');
+      const aws = readData('artworks');
+      sendJson(res, 200, response(teacherId ? aws.filter(a => a.teacherId === teacherId) : aws));
+      return;
+    }
+    if (method === 'POST' && pathname === '/api/teacher/artworks') {
+      const aws = readData('artworks');
+      const item = { id: 'AW' + Date.now().toString(36).toUpperCase(), status: 'pending', submitTime: nowIso(), reviewNote: '', ...body };
+      aws.unshift(item); writeData('artworks', aws);
+      addActivity('artwork_uploaded', '活动作品上传', `${item.teacherName || ''} 上传了 ${item.studentName || ''} 的作品《${item.artworkName || ''}》`);
+      sendJson(res, 200, response(item, '上传成功'));
+      return;
+    }
+
+    // ── Admin green channels ─────────────────────────────────────
+    if (method === 'GET' && pathname === '/api/admin/green-channels') {
+      const statusFilter = url.searchParams.get('status');
+      const gcs = readData('greenChannels');
+      sendJson(res, 200, response(statusFilter && statusFilter !== '全部' ? gcs.filter(g => g.status === statusFilter) : gcs));
+      return;
+    }
+    const adminGcReviewMatch = matchRoute(pathname, /^\/api\/admin\/green-channels\/([^/]+)\/review$/);
+    if (adminGcReviewMatch && method === 'PUT') {
+      const gcs = readData('greenChannels');
+      const index = gcs.findIndex(g => g.id === adminGcReviewMatch[1]);
+      if (index === -1) { sendJson(res, 404, { code: 404, message: '申请不存在' }); return; }
+      const { action, appointmentDate, appointmentTime, note } = body;
+      gcs[index] = { ...gcs[index], status: action === 'approve' ? 'approved' : 'rejected', reviewTime: nowIso(), reviewNote: note || '', appointmentDate: action === 'approve' ? (appointmentDate || null) : null, appointmentTime: action === 'approve' ? (appointmentTime || null) : null };
+      writeData('greenChannels', gcs);
+      addActivity('green_channel_reviewed', '绿色通道审核', `${gcs[index].studentName || ''} 的申请已${action === 'approve' ? '通过' : '拒绝'}`);
+      broadcast('green-channel:updated', gcs[index]);
+      sendJson(res, 200, response(gcs[index], action === 'approve' ? '已通过' : '已拒绝'));
+      return;
+    }
+
+    // ── Admin follow-ups ─────────────────────────────────────────
+    if (method === 'GET' && pathname === '/api/admin/follow-ups') {
+      sendJson(res, 200, response(readData('followUps')));
+      return;
+    }
+
+    // ── Admin announcements ──────────────────────────────────────
+    if (method === 'GET' && pathname === '/api/admin/announcements') {
+      sendJson(res, 200, response(readData('announcements')));
+      return;
+    }
+    if (method === 'POST' && pathname === '/api/admin/announcements') {
+      const ans = readData('announcements');
+      const item = { id: 'AN' + Date.now().toString(36).toUpperCase(), status: 'draft', publishTime: nowIso(), readCount: 0, ...body };
+      ans.unshift(item); writeData('announcements', ans);
+      sendJson(res, 200, response(item, '创建成功'));
+      return;
+    }
+    const adminAnnouncementPublishMatch = matchRoute(pathname, /^\/api\/admin\/announcements\/([^/]+)\/publish$/);
+    if (adminAnnouncementPublishMatch && method === 'POST') {
+      const ans = readData('announcements');
+      const index = ans.findIndex(a => a.id === adminAnnouncementPublishMatch[1]);
+      if (index === -1) { sendJson(res, 404, { code: 404, message: '公告不存在' }); return; }
+      ans[index] = { ...ans[index], status: 'published', publishTime: nowIso() };
+      writeData('announcements', ans); broadcast('announcement:published', ans[index]);
+      sendJson(res, 200, response(ans[index], '发布成功'));
+      return;
+    }
+    const adminAnnouncementUnpublishMatch = matchRoute(pathname, /^\/api\/admin\/announcements\/([^/]+)\/unpublish$/);
+    if (adminAnnouncementUnpublishMatch && method === 'POST') {
+      const ans = readData('announcements');
+      const index = ans.findIndex(a => a.id === adminAnnouncementUnpublishMatch[1]);
+      if (index === -1) { sendJson(res, 404, { code: 404, message: '公告不存在' }); return; }
+      ans[index] = { ...ans[index], status: 'draft' }; writeData('announcements', ans);
+      sendJson(res, 200, response(ans[index], '已下架'));
+      return;
+    }
+    const adminAnnouncementMatch = matchRoute(pathname, /^\/api\/admin\/announcements\/([^/]+)$/);
+    if (adminAnnouncementMatch && method === 'PUT') {
+      const ans = readData('announcements');
+      const index = ans.findIndex(a => a.id === adminAnnouncementMatch[1]);
+      if (index === -1) { sendJson(res, 404, { code: 404, message: '公告不存在' }); return; }
+      ans[index] = { ...ans[index], ...body, updatedAt: nowIso() }; writeData('announcements', ans);
+      sendJson(res, 200, response(ans[index], '更新成功'));
+      return;
+    }
+    if (adminAnnouncementMatch && method === 'DELETE') {
+      writeData('announcements', readData('announcements').filter(a => a.id !== adminAnnouncementMatch[1]));
+      sendJson(res, 200, response(true, '删除成功'));
+      return;
+    }
+
+    // ── Admin artworks ───────────────────────────────────────────
+    if (method === 'GET' && pathname === '/api/admin/artworks') {
+      const statusFilter = url.searchParams.get('status');
+      const aws = readData('artworks');
+      sendJson(res, 200, response(statusFilter && statusFilter !== '全部' ? aws.filter(a => a.status === statusFilter) : aws));
+      return;
+    }
+    const adminArtworkReviewMatch = matchRoute(pathname, /^\/api\/admin\/artworks\/([^/]+)\/review$/);
+    if (adminArtworkReviewMatch && method === 'PUT') {
+      const aws = readData('artworks');
+      const index = aws.findIndex(a => a.id === adminArtworkReviewMatch[1]);
+      if (index === -1) { sendJson(res, 404, { code: 404, message: '作品不存在' }); return; }
+      const { action, note } = body;
+      aws[index] = { ...aws[index], status: action === 'approve' ? 'approved' : 'rejected', reviewNote: note || '' };
+      writeData('artworks', aws);
+      sendJson(res, 200, response(aws[index], action === 'approve' ? '已通过' : '已退回'));
+      return;
+    }
+
+    // ── Admin login ────────────────────────────────────────────────────
+    if (method === 'POST' && pathname === '/api/admin/login') {
+      const users = readData('adminUsers');
+      const user = users.find(u => u.account === body.account && u.password === body.password);
+      if (!user) { sendJson(res, 400, { code: 400, message: '账号或密码错误' }); return; }
+      const { password: _p, ...safeUser } = user;
+      sendJson(res, 200, response(safeUser, '登录成功'));
+      return;
+    }
+
     sendJson(res, 404, { code: 404, message: '接口不存在' });
   } catch (error) {
     sendJson(res, 500, { code: 500, message: error.message || '服务异常' });
@@ -951,6 +1131,11 @@ function serveStatic(req, res, url) {
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME_TYPES[ext] || 'application/octet-stream';
   setCommonHeaders(res, contentType);
+  // Prevent browsers from caching HTML so changes are always reflected
+  if (ext === '.html') {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+  }
   res.writeHead(200);
   fs.createReadStream(filePath).pipe(res);
 }

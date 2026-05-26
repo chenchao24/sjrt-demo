@@ -1,5 +1,40 @@
 [
   {
+    "id": "d7aee99f-4590-478d-83b9-fa9b24d8a87b",
+    "scaleId": "scale-001",
+    "scaleName": "儿童情绪风险快速筛查",
+    "patientId": "patient-001",
+    "patientName": "王乐乐",
+    "ageBand": "6-12岁",
+    "score": 6,
+    "maxScore": 10,
+    "riskLevel": "中",
+    "suggestion": "建议持续观察，并结合家庭支持干预。",
+    "answers": [
+      {
+        "label": "几乎没有",
+        "score": 0
+      },
+      {
+        "label": "明显影响",
+        "score": 2
+      },
+      {
+        "label": "偶尔出现",
+        "score": 1
+      },
+      {
+        "label": "有时会",
+        "score": 1
+      },
+      {
+        "label": "明显变差",
+        "score": 2
+      }
+    ],
+    "createdAt": "2026-05-21T01:29:08.652Z"
+  },
+  {
     "id": "86c78e0b-6703-4394-9ba9-11416db1f4bf",
     "scaleId": "scale-002",
     "scaleName": "学龄儿童注意力表现筛查",

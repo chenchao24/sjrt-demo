@@ -1,0 +1,18 @@
+[
+  {
+    "id": "AU001",
+    "account": "admin",
+    "password": "123456",
+    "role": "admin",
+    "institutionId": "hospital-001",
+    "institutionName": "盛京医院（主院）"
+  },
+  {
+    "id": "AU002",
+    "account": "alliance",
+    "password": "123456",
+    "role": "alliance",
+    "institutionId": "hospital-dalian",
+    "institutionName": "大连市儿童医院"
+  }
+]

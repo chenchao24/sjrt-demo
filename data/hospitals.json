@@ -1,5 +1,14 @@
 [
   {
+    "id": "hospital-nanhu",
+    "name": "盛京医院（南湖院区）",
+    "address": "沈阳市沈河区南湖大街35号",
+    "phone": "024-96615",
+    "distance": 0.8,
+    "specialFlow": true,
+    "tag": "专属挂号通道"
+  },
+  {
     "id": "hospital-001",
     "name": "盛京儿童心理中心",
     "address": "沈阳市和平区新华路18号",
@@ -33,5 +42,12 @@
     "address": "沈阳市铁西区启工街99号",
     "phone": "024-31180005",
     "distance": 5.3
+  },
+  {
+    "id": "hospital-dalian",
+    "name": "大连市儿童医院心理科",
+    "address": "大连市中山区长江路210号",
+    "phone": "0411-83636963",
+    "distance": 380
   }
 ]
