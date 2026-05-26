@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    Mock API — 盛京儿童心理健康服务平台 (GitHub Pages 静态演示版)
    所有 /api/ 请求由此文件拦截，数据存储在内存中。
    刷新页面后数据恢复为种子状态。
@@ -125,38 +125,49 @@
       {"id":"feedback-001","userId":"parent-001","type":"feedback","message":"希望后续增加更多低龄儿童的家庭训练视频。","createdAt":"2026-05-16T10:10:00.000Z"}
     ],
     activities: [
-      {"id":"4978c01d-a5b4-4f05-8536-652948bdb8d1","action":"assessment_completed","title":"完成心理测评","detail":"王乐乐 完成 学龄儿童注意力表现筛查，结果 中 风险","createdAt":"2026-05-19T07:48:16.355Z"},
-      {"id":"93866084-6706-44bf-bb8e-7511aa502721","action":"appointment_created","title":"新增预约订单","detail":"王乐乐 已预约 赵舒宁 2026-05-21 09:00-09:30","createdAt":"2026-05-19T07:47:59.593Z"},
-      {"id":"d217f14a-49f1-4ace-be50-d7a03af1f03c","action":"assessment_completed","title":"完成心理测评","detail":"王乐乐 完成 儿童情绪风险快速筛查，结果 低 风险","createdAt":"2026-05-19T06:17:01.097Z"},
-      {"id":"32a1a17f-0bfe-4bff-b6d9-e3c1933a62b0","action":"appointment_created","title":"新增预约订单","detail":"王乐乐 已预约 姜叙白 2026-05-30 13:30-14:00","createdAt":"2026-05-19T06:15:37.748Z"},
-      {"id":"d7a54472-9632-486b-bb34-93a92f95d74e","action":"assessment_completed","title":"完成心理测评","detail":"王乐乐 完成 儿童情绪风险快速筛查，结果 中 风险","createdAt":"2026-05-19T05:00:46.672Z"},
+      {"id":"act-001","action":"appointment_created","title":"新增预约订单","detail":"王小川 已预约 韩知夏 2026-05-23 09:00-09:30","createdAt":"2026-05-25T08:33:54.978Z"},
+      {"id":"act-002","action":"artwork_uploaded","title":"活动作品上传","detail":"李晓梅 上传了 王梦瑶 的作品《我心中的彩虹》","createdAt":"2026-05-25T07:42:59.476Z"},
+      {"id":"act-003","action":"follow_up_submitted","title":"随访反馈提交","detail":"李晓梅 提交了 小红 的随访记录","createdAt":"2026-05-25T07:42:39.956Z"},
+      {"id":"act-004","action":"green_channel_applied","title":"绿色通道申请","detail":"李晓梅 为学生 小明 申请专科通道","createdAt":"2026-05-25T07:28:40.183Z"},
+      {"id":"act-005","action":"appointment_created","title":"新增预约订单","detail":"王小川 已预约 赵舒宁 2026-05-21 14:00-14:30","createdAt":"2026-05-25T07:27:17.742Z"},
+      {"id":"act-006","action":"article_published","title":"发布科普内容","detail":"视频：课堂注意力支持策略 已发布","createdAt":"2026-05-20T07:27:53.526Z"},
+      {"id":"act-007","action":"appointment_approved","title":"批准接诊申请","detail":"appointment-005 已审核，状态变为已审核，日期调整为 2026-06-02","createdAt":"2026-05-20T07:22:56.433Z"},
+      {"id":"act-008","action":"appointment_approved","title":"批准接诊申请","detail":"appointment-004 已审核，状态变为已审核","createdAt":"2026-05-20T07:22:43.186Z"},
       {"id":"activity-001","action":"appointment_created","title":"新增预约订单","detail":"王乐乐 已预约 赵舒宁 2026-05-21 14:00-14:30","createdAt":"2026-05-18T08:30:00.000Z"},
       {"id":"activity-002","action":"assessment_completed","title":"完成心理测评","detail":"王乐乐 完成 儿童情绪风险快速筛查，结果 高 风险","createdAt":"2026-05-17T15:20:00.000Z"},
       {"id":"activity-003","action":"favorite_added","title":"收藏科普内容","detail":"内容 article-005 已加入收藏","createdAt":"2026-05-18T13:10:00.000Z"},
       {"id":"activity-004","action":"review_created","title":"提交就诊评价","detail":"医生沟通耐心，给出的亲子任务非常具体。","createdAt":"2026-05-12T16:20:00.000Z"}
     ],
     teachers: [
-      {"id":"teacher-001","account":"teacher01","password":"123456","name":"刘晓婷","school":"盛京实验小学","role":"teacher"},
-      {"id":"teacher-002","account":"teacher02","password":"123456","name":"张浩然","school":"联盟路中学","role":"teacher"}
+      {"id":"T001","account":"teacher","password":"123456","name":"李晓梅","school":"沈阳市第七中学","title":"心理健康老师","phone":"13800138001","avatar":"","role":"teacher"},
+      {"id":"T002","account":"teacher2","password":"123456","name":"王志强","school":"沈阳市实验小学","title":"心理健康老师","phone":"13800138002","avatar":"","role":"teacher"},
+      {"id":"T003","account":"teacher3","password":"123456","name":"张慧敏","school":"沈阳市第一高中","title":"心理健康老师","phone":"13800138003","avatar":"","role":"teacher"}
     ],
     greenChannels: [
-      {"id":"gc-001","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"李小明","studentGrade":"初二(3)班","studentGender":"男","problem":"近三个月情绪低落，不愿意上学，有轻微自伤倾向，家长反映在家也不说话，睡眠质量差。","contact":"138****5678","status":"待审核","createdAt":"2026-05-20T09:00:00.000Z"},
-      {"id":"gc-002","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"王晓雨","studentGrade":"初一(2)班","studentGender":"女","problem":"存在明显焦虑表现，考试前后情绪波动大，有过轻微自伤行为，需要专科评估。","contact":"138****9999","status":"已接受","reviewNote":"情况紧急，安排优先通道","reviewedAt":"2026-05-19T14:30:00.000Z","createdAt":"2026-05-18T10:30:00.000Z"},
-      {"id":"gc-003","teacherId":"teacher-002","teacherName":"张浩然","school":"联盟路中学","studentName":"刘小华","studentGrade":"小学四年级","studentGender":"男","problem":"多动倾向，课堂无法集中注意力，与同学冲突频发，老师和家长均反映问题突出。","contact":"139****3003","status":"待审核","createdAt":"2026-05-19T11:00:00.000Z"},
-      {"id":"gc-004","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"赵思远","studentGrade":"高三(1)班","studentGender":"男","problem":"高考压力导致严重焦虑，出现躯体化症状（头痛、胃痛），影响正常学习生活。","contact":"138****4004","status":"已拒绝","reviewNote":"建议先由学校心理教师介入，必要时转诊","reviewedAt":"2026-05-17T10:00:00.000Z","createdAt":"2026-05-16T09:00:00.000Z"}
+      {"id":"GC001","teacherId":"T001","teacherName":"李晓梅","school":"沈阳市第七中学","studentName":"小明","studentGrade":"初二","studentGender":"男","problem":"近三个月情绪低落，不愿上学，睡眠质量差，注意力无法集中，家长反映在家也不说话。","contact":"13900139001","status":"待审核","applyTime":"2026-05-18 10:23:00","reviewTime":null,"reviewNote":"","appointmentDate":null,"appointmentTime":null},
+      {"id":"GC002","teacherId":"T001","teacherName":"李晓梅","school":"沈阳市第七中学","studentName":"小红","studentGrade":"高一","studentGender":"女","problem":"存在明显焦虑表现，考试前后情绪波动大，有过轻微自伤行为，需要专科评估。","contact":"13900139002","status":"已接受","applyTime":"2026-05-10 09:15:00","reviewTime":"2026-05-11 14:30:00","reviewNote":"情况紧急，安排优先通道","appointmentDate":"2026-05-20","appointmentTime":"上午 09:00-09:30"},
+      {"id":"GC003","teacherId":"T002","teacherName":"王志强","school":"沈阳市实验小学","studentName":"小华","studentGrade":"四年级","studentGender":"男","problem":"多动倾向，课堂无法集中注意力，与同学冲突频发，老师和家长均反映问题突出。","contact":"13900139003","status":"待审核","applyTime":"2026-05-19 11:00:00","reviewTime":null,"reviewNote":"","appointmentDate":null,"appointmentTime":null},
+      {"id":"GC004","teacherId":"T003","teacherName":"张慧敏","school":"沈阳市第一高中","studentName":"小李","studentGrade":"高三","studentGender":"女","problem":"高考压力导致严重焦虑，出现躯体化症状（头痛、胃痛），影响正常学习生活。","contact":"13900139004","status":"已拒绝","applyTime":"2026-05-08 16:40:00","reviewTime":"2026-05-09 10:00:00","reviewNote":"建议先在校内完成初步干预，一周后如未改善再申请通道","appointmentDate":null,"appointmentTime":null}
     ],
     followUps: [
-      {"id":"fu-001","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"王晓雨","studentGrade":"初一(2)班","visitDate":"2026-05-20","visitStatus":"按时复诊","emotionStatus":"较就诊前有所好转，情绪稳定性提升，自伤行为已消失","behaviorChange":"与同学交流有所增加，课间独处情况减少","medicationCompliance":"按时服药，无明显副作用","schoolPerformance":"出勤率恢复正常，课堂参与度提升","parentFeedback":"家长反映孩子回家后话明显变多，睡眠改善","teacherSuggestion":"建议继续按医嘱服药，下月进行第二次随访","createdAt":"2026-05-21T08:00:00.000Z"},
-      {"id":"fu-002","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"王梦瑶","studentGrade":"小学五年级","visitDate":"2026-05-15","visitStatus":"按时复诊","emotionStatus":"情绪较前明显改善，焦虑程度下降，偶尔仍有低落情绪但持续时间短","behaviorChange":"课堂参与度提升，主动举手增多，与同学交流较前积极","medicationCompliance":"按时服药，家长反映无明显副作用","schoolPerformance":"出勤正常，作业完成情况良好，近期月考成绩有所回升","parentFeedback":"家长表示孩子在家睡眠改善，愿意与家长沟通，亲子关系明显好转","teacherSuggestion":"建议继续当前治疗方案，下次复诊前可安排适当团体活动帮助融入","createdAt":"2026-05-16T08:00:00.000Z"},
-      {"id":"fu-003","teacherId":"teacher-002","teacherName":"张浩然","school":"联盟路中学","studentName":"陈小强","studentGrade":"小学三年级","visitDate":"2026-05-12","visitStatus":"按时复诊","emotionStatus":"情绪较稳定","behaviorChange":"冲动行为有所减少，但仍有注意力分散问题","medicationCompliance":"已开始服药，家长反映有轻微入睡困难","schoolPerformance":"课堂表现有所改善，作业完成率提升","parentFeedback":"家长希望了解更多行为训练方法，积极配合","teacherSuggestion":"建议向医生反馈入睡困难，适当调整用药时间","createdAt":"2026-05-13T09:00:00.000Z"}
+      {"id":"FU001","teacherId":"T001","teacherName":"李晓梅","school":"沈阳市第七中学","studentName":"小红","studentGrade":"高一","visitDate":"2026-05-20","doctor":"陈思远","diagnosis":"焦虑障碍","followUpDate":"2026-05-21 10:00:00","visitStatus":"按时复诊","emotionStatus":"较就诊前有所好转，情绪稳定性提升","behaviorChange":"自伤行为已消失，与同学交流有所增加","medicationCompliance":"按时服药，无明显副作用","schoolPerformance":"出勤率恢复正常，课堂参与度提升","parentFeedback":"家长反映孩子回家后话明显变多，睡眠改善","teacherSuggestion":"建议继续按医嘱服药，下月进行第二次随访","status":"submitted"},
+      {"id":"FU002","teacherId":"T001","teacherName":"李晓梅","school":"沈阳市第七中学","studentName":"小明","studentGrade":"初二","visitDate":"2026-05-15","doctor":"刘心悦","diagnosis":"抑郁倾向","followUpDate":"2026-05-21 14:00:00","visitStatus":"按时复诊","emotionStatus":"情绪仍较低落，但已无明显哭泣行为","behaviorChange":"开始参加部分课外活动","medicationCompliance":"暂未开药，以心理疏导为主","schoolPerformance":"出勤情况改善，但成绩仍有下滑","parentFeedback":"家长积极配合，参加了家庭辅导课程","teacherSuggestion":"持续关注，安排班主任给予更多支持","status":"submitted"},
+      {"id":"FU003","teacherId":"T002","teacherName":"王志强","school":"沈阳市实验小学","studentName":"小强","studentGrade":"三年级","visitDate":"2026-05-12","doctor":"赵明辉","diagnosis":"ADHD（注意缺陷多动障碍）","followUpDate":"2026-05-21 16:00:00","visitStatus":"按时复诊","emotionStatus":"情绪较稳定","behaviorChange":"冲动行为有所减少，但仍有注意力分散","medicationCompliance":"已开始服药，家长反映有轻微入睡困难","schoolPerformance":"课堂表现有所改善","parentFeedback":"家长希望了解更多行为训练方法","teacherSuggestion":"建议向医生反馈入睡困难，调整用药时间","status":"submitted"}
     ],
     announcements: [
-      {"id":"ann-001","title":"关于开展春季儿童心理健康筛查的通知","content":"各校心理老师：盛京医疗联盟将于2026年5月28日至6月5日开展春季儿童心理健康集中筛查活动，请各校积极组织学生参与。","publishedAt":"2026-05-20T10:00:00.000Z","status":"已发布"},
-      {"id":"ann-002","title":"系统升级公告","content":"本平台将于2026年5月27日凌晨2:00-4:00进行系统升级维护，届时平台暂停使用，请知悉。","publishedAt":"","status":"草稿"}
+      {"id":"AN001","type":"training","title":"2026年春季学期心理健康教师专项培训通知","content":"各校心理健康老师：为提升全省中小学心理健康教育工作水平，盛京医院儿童精神心理科联合省教育厅，定于2026年6月10日-12日举办青少年心理危机识别与干预专项培训。培训地点：盛京医院北院区教育中心。培训名额：每校1-2名，请于5月31日前通过本平台报名。联系人：张老师 024-12345678","publisher":"盛京医院儿童心理科","publishTime":"2026-05-15 09:00:00","status":"已发布","readCount":142},
+      {"id":"AN002","type":"system","title":"心理老师专区功能上线公告","content":"各位心理健康老师：盛京联盟儿童心理健康服务平台心理老师专区功能正式上线！上线功能包括：专科门诊绿色通道、随访反馈、通知公告、活动作品上传。账号由学校管理员统一开通，如有问题请联系平台客服。","publisher":"系统管理员","publishTime":"2026-05-20 08:00:00","status":"已发布","readCount":89},
+      {"id":"AN003","type":"training","title":"第三届青少年心理健康绘画比赛活动通知","content":"各校心理健康老师：盛京医院联合辽宁省教育学会，定于2026年6月1日启动第三届青少年心理健康绘画比赛。活动主题：我心中的彩虹。参赛对象：6-18岁在校学生。投稿截止：2026年6月30日。请通过本平台活动作品上传模块提交。","publisher":"盛京医院儿童心理科","publishTime":"2026-05-18 10:00:00","status":"已发布","readCount":216},
+      {"id":"AN004","type":"system","title":"平台维护通知：5月25日凌晨系统升级","content":"平台将于2026年5月25日凌晨00:00-02:00进行系统例行维护升级，维护期间平台暂停服务。给您带来的不便，敬请谅解。","publisher":"系统管理员","publishTime":"2026-05-21 17:00:00","status":"已发布","readCount":53},
+      {"id":"AN005","type":"training","title":"家校协作工作坊报名通知（草稿）","content":"培训详情待定，草稿中...","publisher":"盛京医院儿童心理科","publishTime":"2026-05-22 09:00:00","status":"草稿","readCount":0}
     ],
     artworks: [
-      {"id":"aw-001","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"陈思宇","studentGrade":"小学三年级","title":"我的心情彩虹","description":"用七种颜色画出自己一周的心情变化，分享给同学。","imageUrl":"","status":"待审核","createdAt":"2026-05-21T14:00:00.000Z"},
-      {"id":"aw-002","teacherId":"teacher-002","teacherName":"张浩然","school":"联盟路中学","studentName":"林佳妮","studentGrade":"初一(1)班","title":"压力小怪物","description":"把压力画成一个可爱的小怪物，再想个方法打败它。","imageUrl":"","status":"已通过","createdAt":"2026-05-19T10:00:00.000Z"}
+      {"id":"AW001","teacherId":"T001","teacherName":"李晓梅","school":"沈阳市第七中学","studentName":"王小雨","studentGrade":"初一","studentAge":12,"artworkName":"快乐的星期天","description":"描绘一家人在公园里野餐的温馨场景，色彩明亮，展现出孩子对家庭幸福的向往。","imageUrl":"","submitTime":"2026-05-20 14:30:00","status":"已通过","reviewNote":"色彩运用好，主题积极，推荐参赛"},
+      {"id":"AW002","teacherId":"T001","teacherName":"李晓梅","school":"沈阳市第七中学","studentName":"张小浩","studentGrade":"高二","studentAge":16,"artworkName":"心中的彩虹","description":"用超现实主义手法描绘了心灵成长的历程，以彩虹为核心元素，象征希望与未来。","imageUrl":"","submitTime":"2026-05-21 09:15:00","status":"待审核","reviewNote":""},
+      {"id":"AW003","teacherId":"T002","teacherName":"王志强","school":"沈阳市实验小学","studentName":"李小朵","studentGrade":"五年级","studentAge":10,"artworkName":"我的好朋友","description":"描绘与小伙伴们一起玩耍的场景，充满童趣，展现儿童友好的社交关系。","imageUrl":"","submitTime":"2026-05-19 16:00:00","status":"已通过","reviewNote":"构图生动，情感真实"},
+      {"id":"AW004","teacherId":"T003","teacherName":"张慧敏","school":"沈阳市第一高中","studentName":"赵晓晨","studentGrade":"高三","studentAge":18,"artworkName":"蜕变","description":"以蝴蝶破茧为主题，表达高考前的心理挑战与自我突破，色调深沉中不失希望。","imageUrl":"","submitTime":"2026-05-21 11:45:00","status":"待审核","reviewNote":""},
+      {"id":"AW005","teacherId":"T002","teacherName":"王志强","school":"沈阳市实验小学","studentName":"孙小明","studentGrade":"三年级","studentAge":8,"artworkName":"我喜欢上学","description":"描绘了背着书包去上学的自画像，表情开心，展现积极的学习态度。","imageUrl":"","submitTime":"2026-05-21 10:20:00","status":"已拒绝","reviewNote":"图片清晰度不足，请重新扫描上传"},
+      {"id":"AW006","teacherId":"T001","teacherName":"李晓梅","school":"沈阳市第七中学","studentName":"王梦瑶","studentGrade":"小学五年级","studentAge":11,"artworkName":"我心中的彩虹","description":"用色彩表达内心的希望与美好，彩虹代表雨后的美好，象征经历困难后终会迎来美好的明天。","imageUrl":"","submitTime":"2026-05-25 07:42:59","status":"待审核","reviewNote":""}
     ]
   };
 
@@ -679,7 +690,7 @@
     // ── Teacher Login ──
     if (method === 'POST' && path === '/api/teacher/login') {
       var tc = db.teachers.find(function (t) { return t.account === body.account && t.password === body.password; });
-      if (!tc) return fail(401, '账号或密码错误，演示账号 teacher01 / 密码 123456');
+      if (!tc) return fail(401, '账号或密码错误，演示账号 teacher / 密码 123456');
       return ok(tc, '登录成功');
     }
 
