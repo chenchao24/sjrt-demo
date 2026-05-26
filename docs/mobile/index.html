@@ -1153,7 +1153,7 @@
         <div v-if="registerFilteredDoctors.length===0" class="empty-state"><div class="empty-icon"></div><div class="empty-text">该日期暂无排班医生</div></div>
         <div v-for="doc in registerFilteredDoctors" :key="doc.id" class="reg-doctor-card" @click="selectRegisterDoctor(doc)">
           <div style="display:flex;gap:12px;align-items:flex-start">
-            <div style="width:48px;height:48px;border-radius:50%;background:var(--c-primary-bg);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">⚕</div>
+            <div :class="['letter-av', avColor(doc.name)]" :style="docBgStyle(doc)" style="width:48px;height:48px;font-size:20px;flex-shrink:0">{{ doc.name[0] }}</div>
             <div style="flex:1;min-width:0">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;gap:6px">
                 <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap">
@@ -1178,7 +1178,7 @@
       <!-- Step 3: 选号源 -->
       <div v-else-if="register.step===3">
         <div v-if="register.doctor" style="background:var(--c-primary-bg);border-radius:var(--r-xl);padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
-          <div style="width:42px;height:42px;border-radius:50%;background:var(--c-primary);display:flex;align-items:center;justify-content:center;font-size:20px">⚕</div>
+          <div :class="['letter-av', avColor(register.doctor.name)]" :style="docBgStyle(register.doctor)" style="width:42px;height:42px;font-size:18px;flex-shrink:0">{{ register.doctor.name[0] }}</div>
           <div>
             <div style="font-weight:var(--fw-b)">{{ register.doctor.name }} · {{ register.doctor.title }}</div>
             <div style="font-size:var(--tx-xs);color:var(--c-text-3)">{{ register.department }} · ¥ {{ (register.doctor.price||12).toFixed(2) }}</div>
@@ -1197,7 +1197,7 @@
             </div>
           </div>
         <div v-if="register.scheduleId" style="position:sticky;bottom:0;background:white;padding:10px 0 4px;border-top:1px solid var(--c-fill);margin-top:4px">
-          <el-button type="primary" style="width:100%;height:48px" @click="register.step=4">下一步：确认支付 →</el-button>
+          <el-button type="primary" style="width:100%;height:48px" @click="enterRegisterStep4()">下一步：确认支付 →</el-button>
         </div>
       </div>
 
@@ -1205,11 +1205,11 @@
       <div v-else-if="register.step===4">
         <div class="card" style="margin-bottom:14px">
           <div style="font-weight:var(--fw-b);font-size:var(--tx-base);margin-bottom:12px"> 挂号信息确认</div>
-          <div class="summary-row"><span>就诊医院</span><span>盛京医院（南湖院区）</span></div>
-          <div class="summary-row"><span>就诊科室</span><span>{{ register.department }}</span></div>
-          <div v-if="register.doctor" class="summary-row"><span>接诊医生</span><span>{{ register.doctor.name }} · {{ register.doctor.title }}</span></div>
-          <div v-if="register.schedule" class="summary-row"><span>就诊时间</span><span>{{ register.schedule.date }} {{ register.schedule.timeSlot }}</span></div>
-          <div class="summary-row"><span style="font-weight:700">挂号费用</span><span class="reg-price">¥ {{ (register.doctor && register.doctor.price||12).toFixed(2) }}</span></div>
+          <div class="summary-row"><span class="s-label">就诊医院</span><span class="s-value">盛京医院（南湖院区）</span></div>
+          <div class="summary-row"><span class="s-label">就诊科室</span><span class="s-value">{{ register.department }}</span></div>
+          <div v-if="register.doctor" class="summary-row"><span class="s-label">接诊医生</span><span class="s-value">{{ register.doctor.name }} · {{ register.doctor.title }}</span></div>
+          <div v-if="register.schedule" class="summary-row"><span class="s-label">就诊时间</span><span class="s-value">{{ register.schedule.date }} {{ register.schedule.timeSlot }}</span></div>
+          <div class="summary-row"><span class="s-label" style="font-weight:700">挂号费用</span><span class="reg-price">¥ {{ (register.doctor && register.doctor.price||12).toFixed(2) }}</span></div>
         </div>
         <div class="card" style="margin-bottom:14px">
           <div style="font-weight:var(--fw-b);margin-bottom:10px">选择就诊人</div>
@@ -1623,6 +1623,11 @@ const app = createApp({
     backRegisterStep(){
       if(this.register.step>1) this.register.step--;
       else this.go('/appointment');
+    },
+    enterRegisterStep4(){
+      if(!this.register.patientId && this.state.patients && this.state.patients.length)
+        this.register.patientId=this.state.patients[0].id;
+      this.register.step=4;
     },
     async submitRegister(){
       if(!this.register.scheduleId){ ElMessage.warning('\u8bf7\u5148\u9009\u62e9\u5c31\u8bca\u65f6\u6bb5'); return; }
