@@ -47,27 +47,27 @@
       {"id":"scale-003","name":"幼儿发育与社交沟通观察表","ageBand":"3-6岁","problemType":"社交","description":"用于家长观察幼儿在回应、模仿和社交互动方面的表现。","questions":[{"id":"q1","title":"孩子被叫名字时是否能稳定回应？","options":[{"label":"基本都能","score":0},{"label":"有时反应慢","score":1},{"label":"经常无回应","score":2}]},{"id":"q2","title":"孩子是否愿意和同龄人一起玩？","options":[{"label":"愿意","score":0},{"label":"需要引导","score":1},{"label":"明显回避","score":2}]},{"id":"q3","title":"孩子是否会用手指或眼神主动分享兴趣？","options":[{"label":"经常会","score":0},{"label":"偶尔会","score":1},{"label":"很少会","score":2}]},{"id":"q4","title":"孩子是否能模仿大人的动作或简单语言？","options":[{"label":"可以","score":0},{"label":"偶尔","score":1},{"label":"明显困难","score":2}]},{"id":"q5","title":"孩子日常是否出现固定重复动作并难以转移？","options":[{"label":"很少","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]}]}
     ],
     schedules: [
-      {"id":"schedule-001","doctorId":"doctor-001","date":"2026-05-21","timeSlot":"09:00-09:30","totalSlots":8,"bookedSlots":4,"availableSlots":4,"status":"正常"},
-      {"id":"schedule-002","doctorId":"doctor-001","date":"2026-05-21","timeSlot":"14:00-14:30","totalSlots":8,"bookedSlots":5,"availableSlots":3,"status":"正常"},
-      {"id":"schedule-003","doctorId":"doctor-002","date":"2026-05-21","timeSlot":"10:00-10:30","totalSlots":10,"bookedSlots":4,"availableSlots":6,"status":"正常"},
-      {"id":"schedule-004","doctorId":"doctor-003","date":"2026-05-22","timeSlot":"09:30-10:00","totalSlots":6,"bookedSlots":1,"availableSlots":5,"status":"正常"},
-      {"id":"schedule-005","doctorId":"doctor-004","date":"2026-05-22","timeSlot":"13:30-14:00","totalSlots":8,"bookedSlots":2,"availableSlots":6,"status":"正常"},
-      {"id":"schedule-006","doctorId":"doctor-005","date":"2026-05-23","timeSlot":"09:00-09:30","totalSlots":6,"bookedSlots":2,"availableSlots":4,"status":"正常"},
-      {"id":"schedule-007","doctorId":"doctor-006","date":"2026-05-23","timeSlot":"15:00-15:30","totalSlots":6,"bookedSlots":5,"availableSlots":1,"status":"正常"},
-      {"id":"schedule-008","doctorId":"doctor-007","date":"2026-05-24","timeSlot":"10:30-11:00","totalSlots":8,"bookedSlots":2,"availableSlots":6,"status":"正常"},
-      {"id":"schedule-009","doctorId":"doctor-008","date":"2026-05-24","timeSlot":"14:30-15:00","totalSlots":8,"bookedSlots":3,"availableSlots":5,"status":"正常"},
-      {"id":"schedule-010","doctorId":"doctor-009","date":"2026-05-25","timeSlot":"09:00-09:30","totalSlots":10,"bookedSlots":7,"availableSlots":3,"status":"正常"},
-      {"id":"schedule-011","doctorId":"doctor-010","date":"2026-05-25","timeSlot":"13:00-13:30","totalSlots":8,"bookedSlots":4,"availableSlots":4,"status":"正常"},
-      {"id":"schedule-012","doctorId":"doctor-001","date":"2026-05-26","timeSlot":"09:00-09:30","totalSlots":8,"bookedSlots":1,"availableSlots":7,"status":"正常"},
-      {"id":"schedule-013","doctorId":"doctor-002","date":"2026-05-26","timeSlot":"14:00-14:30","totalSlots":8,"bookedSlots":2,"availableSlots":6,"status":"正常"},
-      {"id":"schedule-014","doctorId":"doctor-003","date":"2026-05-27","timeSlot":"10:00-10:30","totalSlots":6,"bookedSlots":1,"availableSlots":5,"status":"正常"},
-      {"id":"schedule-015","doctorId":"doctor-004","date":"2026-05-27","timeSlot":"16:00-16:30","totalSlots":8,"bookedSlots":0,"availableSlots":8,"status":"正常"},
-      {"id":"schedule-016","doctorId":"doctor-005","date":"2026-05-28","timeSlot":"09:30-10:00","totalSlots":8,"bookedSlots":2,"availableSlots":6,"status":"正常"},
-      {"id":"schedule-017","doctorId":"doctor-006","date":"2026-05-28","timeSlot":"15:30-16:00","totalSlots":6,"bookedSlots":3,"availableSlots":3,"status":"正常"},
-      {"id":"schedule-018","doctorId":"doctor-007","date":"2026-05-29","timeSlot":"10:00-10:30","totalSlots":6,"bookedSlots":1,"availableSlots":5,"status":"正常"},
-      {"id":"schedule-019","doctorId":"doctor-008","date":"2026-05-29","timeSlot":"14:00-14:30","totalSlots":8,"bookedSlots":2,"availableSlots":6,"status":"正常"},
-      {"id":"schedule-020","doctorId":"doctor-009","date":"2026-05-30","timeSlot":"09:00-09:30","totalSlots":10,"bookedSlots":4,"availableSlots":6,"status":"正常"},
-      {"id":"schedule-021","doctorId":"doctor-010","date":"2026-05-30","timeSlot":"13:30-14:00","totalSlots":8,"bookedSlots":4,"availableSlots":4,"status":"正常"}
+      {"id":"schedule-001","doctorId":"doctor-001","date":"2026-05-21","timeSlot":"09:00-09:30","period":"上午","totalSlots":8,"bookedSlots":4,"availableSlots":4,"status":"正常"},
+      {"id":"schedule-002","doctorId":"doctor-001","date":"2026-05-21","timeSlot":"14:00-14:30","period":"下午","totalSlots":8,"bookedSlots":5,"availableSlots":3,"status":"正常"},
+      {"id":"schedule-003","doctorId":"doctor-002","date":"2026-05-21","timeSlot":"10:00-10:30","period":"上午","totalSlots":10,"bookedSlots":4,"availableSlots":6,"status":"正常"},
+      {"id":"schedule-004","doctorId":"doctor-003","date":"2026-05-22","timeSlot":"09:30-10:00","period":"上午","totalSlots":6,"bookedSlots":1,"availableSlots":5,"status":"正常"},
+      {"id":"schedule-005","doctorId":"doctor-004","date":"2026-05-22","timeSlot":"13:30-14:00","period":"下午","totalSlots":8,"bookedSlots":2,"availableSlots":6,"status":"正常"},
+      {"id":"schedule-006","doctorId":"doctor-005","date":"2026-05-23","timeSlot":"09:00-09:30","period":"上午","totalSlots":6,"bookedSlots":2,"availableSlots":4,"status":"正常"},
+      {"id":"schedule-007","doctorId":"doctor-006","date":"2026-05-23","timeSlot":"15:00-15:30","period":"下午","totalSlots":6,"bookedSlots":5,"availableSlots":1,"status":"正常"},
+      {"id":"schedule-008","doctorId":"doctor-007","date":"2026-05-24","timeSlot":"10:30-11:00","period":"上午","totalSlots":8,"bookedSlots":2,"availableSlots":6,"status":"正常"},
+      {"id":"schedule-009","doctorId":"doctor-008","date":"2026-05-24","timeSlot":"14:30-15:00","period":"下午","totalSlots":8,"bookedSlots":3,"availableSlots":5,"status":"正常"},
+      {"id":"schedule-010","doctorId":"doctor-009","date":"2026-05-25","timeSlot":"09:00-09:30","period":"上午","totalSlots":10,"bookedSlots":7,"availableSlots":3,"status":"正常"},
+      {"id":"schedule-011","doctorId":"doctor-010","date":"2026-05-25","timeSlot":"13:00-13:30","period":"下午","totalSlots":8,"bookedSlots":4,"availableSlots":4,"status":"正常"},
+      {"id":"schedule-012","doctorId":"doctor-001","date":"2026-05-26","timeSlot":"09:00-09:30","period":"上午","totalSlots":8,"bookedSlots":1,"availableSlots":7,"status":"正常"},
+      {"id":"schedule-013","doctorId":"doctor-002","date":"2026-05-26","timeSlot":"14:00-14:30","period":"下午","totalSlots":8,"bookedSlots":2,"availableSlots":6,"status":"正常"},
+      {"id":"schedule-014","doctorId":"doctor-003","date":"2026-05-27","timeSlot":"10:00-10:30","period":"上午","totalSlots":6,"bookedSlots":1,"availableSlots":5,"status":"正常"},
+      {"id":"schedule-015","doctorId":"doctor-004","date":"2026-05-27","timeSlot":"16:00-16:30","period":"下午","totalSlots":8,"bookedSlots":0,"availableSlots":8,"status":"正常"},
+      {"id":"schedule-016","doctorId":"doctor-005","date":"2026-05-28","timeSlot":"09:30-10:00","period":"上午","totalSlots":8,"bookedSlots":2,"availableSlots":6,"status":"正常"},
+      {"id":"schedule-017","doctorId":"doctor-006","date":"2026-05-28","timeSlot":"15:30-16:00","period":"下午","totalSlots":6,"bookedSlots":3,"availableSlots":3,"status":"正常"},
+      {"id":"schedule-018","doctorId":"doctor-007","date":"2026-05-29","timeSlot":"10:00-10:30","period":"上午","totalSlots":6,"bookedSlots":1,"availableSlots":5,"status":"正常"},
+      {"id":"schedule-019","doctorId":"doctor-008","date":"2026-05-29","timeSlot":"14:00-14:30","period":"下午","totalSlots":8,"bookedSlots":2,"availableSlots":6,"status":"正常"},
+      {"id":"schedule-020","doctorId":"doctor-009","date":"2026-05-30","timeSlot":"09:00-09:30","period":"上午","totalSlots":10,"bookedSlots":4,"availableSlots":6,"status":"正常"},
+      {"id":"schedule-021","doctorId":"doctor-010","date":"2026-05-30","timeSlot":"13:30-14:00","period":"下午","totalSlots":8,"bookedSlots":4,"availableSlots":4,"status":"正常"}
     ],
     appointments: [
       {"id":"appointment-001","userId":"parent-001","doctorId":"doctor-001","patientId":"patient-001","scheduleId":"schedule-001","date":"2026-05-21","period":"上午","hospitalId":"hospital-001","status":"已审核","reviewNote":"资料完整，安排就诊","reviewedAt":"2026-05-19T09:00:00.000Z","preConsultation":{"mainIssue":"近两个月频繁焦虑，临睡前明显加重","duration":"2个月","history":"否","behavior":"睡前反复确认第二天事项","development":"发育正常","familyChange":"近期升学压力增加"},"createdAt":"2026-05-18T08:30:00.000Z"},
@@ -113,11 +113,15 @@
       {"id":"teacher-002","account":"teacher02","password":"123456","name":"张浩然","school":"联盟路中学","role":"teacher"}
     ],
     greenChannels: [
-      {"id":"gc-001","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"李小明","studentGrade":"初二(3)班","studentGender":"男","problem":"近期情绪低落，不愿意上学，有自伤倾向","contact":"138****5678","status":"待审核","createdAt":"2026-05-20T09:00:00.000Z"},
-      {"id":"gc-002","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"王晓雨","studentGrade":"初一(2)班","studentGender":"女","problem":"与同学发生冲突后情绪失控，家长反映在家也有明显变化","contact":"138****9999","status":"已接受","createdAt":"2026-05-18T10:30:00.000Z"}
+      {"id":"gc-001","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"李小明","studentGrade":"初二(3)班","studentGender":"男","problem":"近三个月情绪低落，不愿意上学，有轻微自伤倾向，家长反映在家也不说话，睡眠质量差。","contact":"138****5678","status":"待审核","createdAt":"2026-05-20T09:00:00.000Z"},
+      {"id":"gc-002","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"王晓雨","studentGrade":"初一(2)班","studentGender":"女","problem":"存在明显焦虑表现，考试前后情绪波动大，有过轻微自伤行为，需要专科评估。","contact":"138****9999","status":"已接受","reviewNote":"情况紧急，安排优先通道","reviewedAt":"2026-05-19T14:30:00.000Z","createdAt":"2026-05-18T10:30:00.000Z"},
+      {"id":"gc-003","teacherId":"teacher-002","teacherName":"张浩然","school":"联盟路中学","studentName":"刘小华","studentGrade":"小学四年级","studentGender":"男","problem":"多动倾向，课堂无法集中注意力，与同学冲突频发，老师和家长均反映问题突出。","contact":"139****3003","status":"待审核","createdAt":"2026-05-19T11:00:00.000Z"},
+      {"id":"gc-004","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"赵思远","studentGrade":"高三(1)班","studentGender":"男","problem":"高考压力导致严重焦虑，出现躯体化症状（头痛、胃痛），影响正常学习生活。","contact":"138****4004","status":"已拒绝","reviewNote":"建议先由学校心理教师介入，必要时转诊","reviewedAt":"2026-05-17T10:00:00.000Z","createdAt":"2026-05-16T09:00:00.000Z"}
     ],
     followUps: [
-      {"id":"fu-001","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"王梦瑶","studentGrade":"小学五年级","visitDate":"2026-05-15","visitResult":"焦虑评估中风险，已建议家长预约专科","followUpStatus":"关注中","followUpNote":"家长已预约赵舒宁医生，下次随访5月底","createdAt":"2026-05-16T08:00:00.000Z"}
+      {"id":"fu-001","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"王晓雨","studentGrade":"初一(2)班","visitDate":"2026-05-20","visitStatus":"按时复诊","emotionStatus":"较就诊前有所好转，情绪稳定性提升，自伤行为已消失","behaviorChange":"与同学交流有所增加，课间独处情况减少","medicationCompliance":"按时服药，无明显副作用","schoolPerformance":"出勤率恢复正常，课堂参与度提升","parentFeedback":"家长反映孩子回家后话明显变多，睡眠改善","teacherSuggestion":"建议继续按医嘱服药，下月进行第二次随访","createdAt":"2026-05-21T08:00:00.000Z"},
+      {"id":"fu-002","teacherId":"teacher-001","teacherName":"刘晓婷","school":"盛京实验小学","studentName":"王梦瑶","studentGrade":"小学五年级","visitDate":"2026-05-15","visitStatus":"按时复诊","emotionStatus":"情绪较前明显改善，焦虑程度下降，偶尔仍有低落情绪但持续时间短","behaviorChange":"课堂参与度提升，主动举手增多，与同学交流较前积极","medicationCompliance":"按时服药，家长反映无明显副作用","schoolPerformance":"出勤正常，作业完成情况良好，近期月考成绩有所回升","parentFeedback":"家长表示孩子在家睡眠改善，愿意与家长沟通，亲子关系明显好转","teacherSuggestion":"建议继续当前治疗方案，下次复诊前可安排适当团体活动帮助融入","createdAt":"2026-05-16T08:00:00.000Z"},
+      {"id":"fu-003","teacherId":"teacher-002","teacherName":"张浩然","school":"联盟路中学","studentName":"陈小强","studentGrade":"小学三年级","visitDate":"2026-05-12","visitStatus":"按时复诊","emotionStatus":"情绪较稳定","behaviorChange":"冲动行为有所减少，但仍有注意力分散问题","medicationCompliance":"已开始服药，家长反映有轻微入睡困难","schoolPerformance":"课堂表现有所改善，作业完成率提升","parentFeedback":"家长希望了解更多行为训练方法，积极配合","teacherSuggestion":"建议向医生反馈入睡困难，适当调整用药时间","createdAt":"2026-05-13T09:00:00.000Z"}
     ],
     announcements: [
       {"id":"ann-001","title":"关于开展春季儿童心理健康筛查的通知","content":"各校心理老师：盛京医疗联盟将于2026年5月28日至6月5日开展春季儿童心理健康集中筛查活动，请各校积极组织学生参与。","publishedAt":"2026-05-20T10:00:00.000Z","status":"已发布"},
