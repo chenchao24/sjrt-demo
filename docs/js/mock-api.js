@@ -32,14 +32,20 @@
       {"id":"doctor-007","name":"程晞月","title":"副主任医师","hospitalId":"hospital-003","specialties":["发育","睡眠","喂养行为"],"goodAt":"婴幼儿睡眠与发育行为咨询","avatar":"../css/img/header/doctor-avatar-08.png","intro":"面向0-3岁儿童家庭，擅长睡眠与喂养行为指导。"},
       {"id":"doctor-008","name":"沈望舒","title":"主治医师","hospitalId":"hospital-002","specialties":["社交支持","情绪","学校适应"],"goodAt":"社交退缩与学校适应困难评估","avatar":"../css/img/header/doctor-avatar-09.png","intro":"重视学校场景与家庭场景的联合干预。"},
       {"id":"doctor-009","name":"陆星沅","title":"副主任医师","hospitalId":"hospital-004","specialties":["注意力","学习","睡眠"],"goodAt":"学龄期注意力问题与睡眠管理","avatar":"../css/img/header/doctor-avatar-10.png","intro":"善于把量表结果转化为家庭与学校的可执行建议。"},
-      {"id":"doctor-010","name":"姜叙白","title":"主任医师","hospitalId":"hospital-005","specialties":["亲子关系","情绪","学习困难"],"goodAt":"复杂型儿童心理问题综合门诊","avatar":"../css/img/header/doctor-avatar-11.png","intro":"擅长跨问题共病场景下的综合评估与多学科协同。"}
+      {"id":"doctor-010","name":"姜叙白","title":"主任医师","hospitalId":"hospital-005","specialties":["亲子关系","情绪","学习困难"],"goodAt":"复杂型儿童心理问题综合门诊","avatar":"../css/img/header/doctor-avatar-11.png","intro":"擅长跨问题共病场景下的综合评估与多学科协同。"},
+      {"id":"d-nhu-001","name":"李明辉","title":"主治医师","hospitalId":"hospital-nanhu","department":"儿童心理门诊","price":12,"availablePeriod":"全天","specialties":["情绪调节","焦虑抑郁","行为问题"],"goodAt":"儿童情绪与行为问题的门诊评估与干预","avatar":"../css/img/header/doctor-avatar-01.png","intro":"从事儿童青少年心理门诊工作8年，擅长情绪障碍及行为问题的综合评估。"},
+      {"id":"d-nhu-002","name":"张晓芳","title":"副主任医师","hospitalId":"hospital-nanhu","department":"儿童心理门诊","price":12,"availablePeriod":"上午","specialties":["学习障碍","注意力","社交困难"],"goodAt":"学龄期儿童注意力缺陷与学习困难评估","avatar":"../css/img/header/doctor-avatar-02.png","intro":"专注学龄期儿童心理健康，擅长注意缺陷多动障碍的系统诊疗。"},
+      {"id":"d-nhu-003","name":"王德明","title":"主任医师","hospitalId":"hospital-nanhu","department":"专家专科门诊","price":50,"availablePeriod":"全天","specialties":["青少年抑郁","亲子冲突","危机干预"],"goodAt":"青少年抑郁、情绪危机的专家级评估与干预","avatar":"../css/img/header/doctor-avatar-03.png","intro":"从事儿童青少年精神心理专科20年，主持多项省级科研课题，擅长复杂情绪障碍。"},
+      {"id":"d-nhu-004","name":"陈丽华","title":"主任医师","hospitalId":"hospital-nanhu","department":"专家专科门诊","price":50,"availablePeriod":"下午","specialties":["自闭症谱系","发育障碍","家庭治疗"],"goodAt":"自闭症谱系障碍及发育迟缓的专家会诊","avatar":"../css/img/header/doctor-avatar-04.png","intro":"国内自闭症谱系障碍领域知名专家，曾赴美国进修，主导多项国际合作研究。"},
+      {"id":"d-nhu-005","name":"刘志远","title":"主治医师","hospitalId":"hospital-nanhu","department":"儿童心理门诊","price":12,"availablePeriod":"晚上","specialties":["睡眠问题","考试焦虑","情绪疏导"],"goodAt":"青少年考试焦虑与睡眠障碍的心理疏导","avatar":"../css/img/header/doctor-avatar-05.png","intro":"擅长以认知行为疗法结合正念技术，帮助青少年缓解学业压力及睡眠困扰。"}
     ],
     hospitals: [
-      {"id":"hospital-001","name":"盛京儿童心理中心","address":"沈阳市和平区新华路18号","phone":"024-31180001"},
-      {"id":"hospital-002","name":"联盟北部儿童专科医院","address":"沈阳市皇姑区昆山路66号","phone":"024-31180002"},
-      {"id":"hospital-003","name":"盛京联盟发育行为门诊","address":"沈阳市浑南区创新路120号","phone":"024-31180003"},
-      {"id":"hospital-004","name":"儿童睡眠与情绪医学中心","address":"沈阳市沈河区文化东路28号","phone":"024-31180004"},
-      {"id":"hospital-005","name":"联盟青少年心理康复医院","address":"沈阳市铁西区启工街99号","phone":"024-31180005"}
+      {"id":"hospital-nanhu","name":"盛京医院（南湖院区）","address":"沈阳市沈河区南湖大街35号","phone":"024-96615","distance":0.8,"specialFlow":true,"tag":"专属挂号通道"},
+      {"id":"hospital-001","name":"盛京儿童心理中心","address":"沈阳市和平区新华路18号","phone":"024-31180001","distance":1.2},
+      {"id":"hospital-002","name":"联盟北部儿童专科医院","address":"沈阳市皇姑区昆山路66号","phone":"024-31180002","distance":3.8},
+      {"id":"hospital-003","name":"盛京联盟发育行为门诊","address":"沈阳市浑南区创新路120号","phone":"024-31180003","distance":8.5},
+      {"id":"hospital-004","name":"儿童睡眠与情绪医学中心","address":"沈阳市沈河区文化东路28号","phone":"024-31180004","distance":2.1},
+      {"id":"hospital-005","name":"联盟青少年心理康复医院","address":"沈阳市铁西区启工街99号","phone":"024-31180005","distance":5.3}
     ],
     scales: [
       {"id":"scale-001","name":"儿童情绪风险快速筛查","ageBand":"6-12岁","problemType":"情绪","description":"用于识别孩子近期情绪波动与焦虑风险。","questions":[{"id":"q1","title":"孩子最近是否经常无明显原因地紧张、担心？","options":[{"label":"几乎没有","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},{"id":"q2","title":"是否因为情绪问题影响上学或日常活动？","options":[{"label":"没有影响","score":0},{"label":"轻度影响","score":1},{"label":"明显影响","score":2}]},{"id":"q3","title":"孩子是否常抱怨头痛、肚子痛但查不出明显器质性问题？","options":[{"label":"几乎没有","score":0},{"label":"偶尔出现","score":1},{"label":"频繁出现","score":2}]},{"id":"q4","title":"面对分离或陌生环境时，孩子是否明显不安？","options":[{"label":"基本不会","score":0},{"label":"有时会","score":1},{"label":"经常如此","score":2}]},{"id":"q5","title":"过去两周睡眠质量如何？","options":[{"label":"基本正常","score":0},{"label":"偶尔受影响","score":1},{"label":"明显变差","score":2}]}]},
@@ -67,7 +73,28 @@
       {"id":"schedule-018","doctorId":"doctor-007","date":"2026-05-29","timeSlot":"10:00-10:30","period":"上午","totalSlots":6,"bookedSlots":1,"availableSlots":5,"status":"正常"},
       {"id":"schedule-019","doctorId":"doctor-008","date":"2026-05-29","timeSlot":"14:00-14:30","period":"下午","totalSlots":8,"bookedSlots":2,"availableSlots":6,"status":"正常"},
       {"id":"schedule-020","doctorId":"doctor-009","date":"2026-05-30","timeSlot":"09:00-09:30","period":"上午","totalSlots":10,"bookedSlots":4,"availableSlots":6,"status":"正常"},
-      {"id":"schedule-021","doctorId":"doctor-010","date":"2026-05-30","timeSlot":"13:30-14:00","period":"下午","totalSlots":8,"bookedSlots":4,"availableSlots":4,"status":"正常"}
+      {"id":"schedule-021","doctorId":"doctor-010","date":"2026-05-30","timeSlot":"13:30-14:00","period":"下午","totalSlots":8,"bookedSlots":4,"availableSlots":4,"status":"正常"},
+      {"id":"s-nhu-001","doctorId":"d-nhu-001","date":"2026-05-22","timeSlot":"08:30-09:00","period":"上午","totalSlots":8,"bookedSlots":8,"availableSlots":0,"status":"正常"},
+      {"id":"s-nhu-002","doctorId":"d-nhu-001","date":"2026-05-22","timeSlot":"14:00-14:30","period":"下午","totalSlots":8,"bookedSlots":8,"availableSlots":0,"status":"正常"},
+      {"id":"s-nhu-003","doctorId":"d-nhu-002","date":"2026-05-22","timeSlot":"09:00-09:30","period":"上午","totalSlots":6,"bookedSlots":6,"availableSlots":0,"status":"正常"},
+      {"id":"s-nhu-004","doctorId":"d-nhu-003","date":"2026-05-22","timeSlot":"09:30-10:00","period":"上午","totalSlots":5,"bookedSlots":5,"availableSlots":0,"status":"正常"},
+      {"id":"s-nhu-005","doctorId":"d-nhu-003","date":"2026-05-22","timeSlot":"15:00-15:30","period":"下午","totalSlots":5,"bookedSlots":5,"availableSlots":0,"status":"正常"},
+      {"id":"s-nhu-006","doctorId":"d-nhu-004","date":"2026-05-22","timeSlot":"14:30-15:00","period":"下午","totalSlots":4,"bookedSlots":4,"availableSlots":0,"status":"正常"},
+      {"id":"s-nhu-007","doctorId":"d-nhu-005","date":"2026-05-22","timeSlot":"19:00-19:30","period":"晚上","totalSlots":8,"bookedSlots":8,"availableSlots":0,"status":"正常"},
+      {"id":"s-nhu-011","doctorId":"d-nhu-001","date":"2026-05-23","timeSlot":"08:30-09:00","period":"上午","totalSlots":8,"bookedSlots":3,"availableSlots":5,"status":"正常"},
+      {"id":"s-nhu-012","doctorId":"d-nhu-001","date":"2026-05-23","timeSlot":"09:00-09:30","period":"上午","totalSlots":8,"bookedSlots":2,"availableSlots":6,"status":"正常"},
+      {"id":"s-nhu-013","doctorId":"d-nhu-002","date":"2026-05-23","timeSlot":"09:30-10:00","period":"上午","totalSlots":6,"bookedSlots":1,"availableSlots":5,"status":"正常"},
+      {"id":"s-nhu-014","doctorId":"d-nhu-003","date":"2026-05-23","timeSlot":"14:00-14:30","period":"下午","totalSlots":5,"bookedSlots":2,"availableSlots":3,"status":"正常"},
+      {"id":"s-nhu-015","doctorId":"d-nhu-004","date":"2026-05-23","timeSlot":"14:30-15:00","period":"下午","totalSlots":4,"bookedSlots":1,"availableSlots":3,"status":"正常"},
+      {"id":"s-nhu-016","doctorId":"d-nhu-005","date":"2026-05-23","timeSlot":"19:00-19:30","period":"晚上","totalSlots":8,"bookedSlots":4,"availableSlots":4,"status":"正常"},
+      {"id":"s-nhu-021","doctorId":"d-nhu-001","date":"2026-05-24","timeSlot":"08:30-09:00","period":"上午","totalSlots":8,"bookedSlots":2,"availableSlots":6,"status":"正常"},
+      {"id":"s-nhu-022","doctorId":"d-nhu-002","date":"2026-05-24","timeSlot":"09:00-09:30","period":"上午","totalSlots":6,"bookedSlots":0,"availableSlots":6,"status":"正常"},
+      {"id":"s-nhu-023","doctorId":"d-nhu-003","date":"2026-05-24","timeSlot":"10:00-10:30","period":"上午","totalSlots":5,"bookedSlots":3,"availableSlots":2,"status":"正常"},
+      {"id":"s-nhu-031","doctorId":"d-nhu-001","date":"2026-05-26","timeSlot":"08:30-09:00","period":"上午","totalSlots":8,"bookedSlots":1,"availableSlots":7,"status":"正常"},
+      {"id":"s-nhu-032","doctorId":"d-nhu-002","date":"2026-05-26","timeSlot":"09:00-09:30","period":"上午","totalSlots":6,"bookedSlots":0,"availableSlots":6,"status":"正常"},
+      {"id":"s-nhu-033","doctorId":"d-nhu-003","date":"2026-05-26","timeSlot":"14:00-14:30","period":"下午","totalSlots":5,"bookedSlots":0,"availableSlots":5,"status":"正常"},
+      {"id":"s-nhu-034","doctorId":"d-nhu-004","date":"2026-05-26","timeSlot":"14:30-15:00","period":"下午","totalSlots":4,"bookedSlots":2,"availableSlots":2,"status":"正常"},
+      {"id":"s-nhu-035","doctorId":"d-nhu-005","date":"2026-05-26","timeSlot":"19:00-19:30","period":"晚上","totalSlots":8,"bookedSlots":3,"availableSlots":5,"status":"正常"}
     ],
     appointments: [
       {"id":"appointment-001","userId":"parent-001","doctorId":"doctor-001","patientId":"patient-001","scheduleId":"schedule-001","date":"2026-05-21","period":"上午","hospitalId":"hospital-001","status":"已审核","reviewNote":"资料完整，安排就诊","reviewedAt":"2026-05-19T09:00:00.000Z","preConsultation":{"mainIssue":"近两个月频繁焦虑，临睡前明显加重","duration":"2个月","history":"否","behavior":"睡前反复确认第二天事项","development":"发育正常","familyChange":"近期升学压力增加"},"createdAt":"2026-05-18T08:30:00.000Z"},
