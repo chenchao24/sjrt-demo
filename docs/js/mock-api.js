@@ -155,11 +155,11 @@
       {"id":"FU003","teacherId":"T002","teacherName":"王志强","school":"沈阳市实验小学","studentName":"小强","studentGrade":"三年级","visitDate":"2026-05-12","doctor":"赵明辉","diagnosis":"ADHD（注意缺陷多动障碍）","followUpDate":"2026-05-21 16:00:00","visitStatus":"按时复诊","emotionStatus":"情绪较稳定","behaviorChange":"冲动行为有所减少，但仍有注意力分散","medicationCompliance":"已开始服药，家长反映有轻微入睡困难","schoolPerformance":"课堂表现有所改善","parentFeedback":"家长希望了解更多行为训练方法","teacherSuggestion":"建议向医生反馈入睡困难，调整用药时间","status":"submitted"}
     ],
     announcements: [
-      {"id":"AN001","type":"training","title":"2026年春季学期心理健康教师专项培训通知","content":"各校心理健康老师：为提升全省中小学心理健康教育工作水平，盛京医院儿童精神心理科联合省教育厅，定于2026年6月10日-12日举办青少年心理危机识别与干预专项培训。培训地点：盛京医院北院区教育中心。培训名额：每校1-2名，请于5月31日前通过本平台报名。联系人：张老师 024-12345678","publisher":"盛京医院儿童心理科","publishTime":"2026-05-15 09:00:00","status":"已发布","readCount":142},
-      {"id":"AN002","type":"system","title":"心理老师专区功能上线公告","content":"各位心理健康老师：盛京联盟儿童心理健康服务平台心理老师专区功能正式上线！上线功能包括：专科门诊绿色通道、随访反馈、通知公告、活动作品上传。账号由学校管理员统一开通，如有问题请联系平台客服。","publisher":"系统管理员","publishTime":"2026-05-20 08:00:00","status":"已发布","readCount":89},
-      {"id":"AN003","type":"training","title":"第三届青少年心理健康绘画比赛活动通知","content":"各校心理健康老师：盛京医院联合辽宁省教育学会，定于2026年6月1日启动第三届青少年心理健康绘画比赛。活动主题：我心中的彩虹。参赛对象：6-18岁在校学生。投稿截止：2026年6月30日。请通过本平台活动作品上传模块提交。","publisher":"盛京医院儿童心理科","publishTime":"2026-05-18 10:00:00","status":"已发布","readCount":216},
-      {"id":"AN004","type":"system","title":"平台维护通知：5月25日凌晨系统升级","content":"平台将于2026年5月25日凌晨00:00-02:00进行系统例行维护升级，维护期间平台暂停服务。给您带来的不便，敬请谅解。","publisher":"系统管理员","publishTime":"2026-05-21 17:00:00","status":"已发布","readCount":53},
-      {"id":"AN005","type":"training","title":"家校协作工作坊报名通知（草稿）","content":"培训详情待定，草稿中...","publisher":"盛京医院儿童心理科","publishTime":"2026-05-22 09:00:00","status":"草稿","readCount":0}
+      {"id":"AN001","type":"training","title":"2026年春季学期心理健康教师专项培训通知","content":"各校心理健康老师：为提升全省中小学心理健康教育工作水平，盛京医院儿童精神心理科联合省教育厅，定于2026年6月10日-12日举办青少年心理危机识别与干预专项培训。培训地点：盛京医院北院区教育中心。培训名额：每校1-2名，请于5月31日前通过本平台报名。联系人：张老师 024-12345678","publisher":"盛京医院儿童心理科","publishTime":"2026-05-15 09:00:00","status":"published","readCount":142},
+      {"id":"AN002","type":"system","title":"心理老师专区功能上线公告","content":"各位心理健康老师：盛京联盟儿童心理健康服务平台心理老师专区功能正式上线！上线功能包括：专科门诊绿色通道、随访反馈、通知公告、活动作品上传。账号由学校管理员统一开通，如有问题请联系平台客服。","publisher":"系统管理员","publishTime":"2026-05-20 08:00:00","status":"published","readCount":89},
+      {"id":"AN003","type":"training","title":"第三届青少年心理健康绘画比赛活动通知","content":"各校心理健康老师：盛京医院联合辽宁省教育学会，定于2026年6月1日启动第三届青少年心理健康绘画比赛。活动主题：我心中的彩虹。参赛对象：6-18岁在校学生。投稿截止：2026年6月30日。请通过本平台活动作品上传模块提交。","publisher":"盛京医院儿童心理科","publishTime":"2026-05-18 10:00:00","status":"published","readCount":216},
+      {"id":"AN004","type":"system","title":"平台维护通知：5月25日凌晨系统升级","content":"平台将于2026年5月25日凌晨00:00-02:00进行系统例行维护升级，维护期间平台暂停服务。给您带来的不便，敬请谅解。","publisher":"系统管理员","publishTime":"2026-05-21 17:00:00","status":"published","readCount":53},
+      {"id":"AN005","type":"training","title":"家校协作工作坊报名通知（草稿）","content":"培训详情待定，草稿中...","publisher":"盛京医院儿童心理科","publishTime":"2026-05-22 09:00:00","status":"draft","readCount":0}
     ],
     artworks: [
       {"id":"AW001","teacherId":"T001","teacherName":"李晓梅","school":"沈阳市第七中学","studentName":"王小雨","studentGrade":"初一","studentAge":12,"artworkName":"快乐的星期天","description":"描绘一家人在公园里野餐的温馨场景，色彩明亮，展现出孩子对家庭幸福的向往。","imageUrl":"","submitTime":"2026-05-20 14:30:00","status":"已通过","reviewNote":"色彩运用好，主题积极，推荐参赛"},
@@ -665,7 +665,7 @@
     if (m && method === 'POST') {
       var annidx = db.announcements.findIndex(function (a) { return a.id === m[1]; });
       if (annidx === -1) return fail(404, '公告不存在');
-      db.announcements[annidx] = Object.assign({}, db.announcements[annidx], { status: '已发布', publishedAt: nowIso() });
+      db.announcements[annidx] = Object.assign({}, db.announcements[annidx], { status: 'published', publishedAt: nowIso() });
       return ok(db.announcements[annidx], '已发布');
     }
     m = path.match(/^\/api\/admin\/announcements\/([^/]+)\/unpublish$/);
@@ -724,7 +724,7 @@
 
     // ── Teacher Announcements ──
     if (method === 'GET' && path === '/api/teacher/announcements') {
-      return ok(db.announcements.filter(function (a) { return a.status === '已发布'; }));
+      return ok(db.announcements.filter(function (a) { return a.status === 'published'; }));
     }
 
     // ── Teacher Artworks ──
