@@ -1516,6 +1516,7 @@ const app = createApp({
       return {background:'linear-gradient(135deg,#00B578,#008f5a)'};
     },
     parseRoute(){
+      const shell=document.querySelector('.mobile-shell'); if(shell) shell.scrollTop=0;
       const hash=window.location.hash.replace(/^#/,'')||'/';
       const[pathPart,queryPart]=hash.split('?');
       const query={};
@@ -1639,6 +1640,7 @@ const app = createApp({
           method:'POST',headers:{'Content-Type':'application/json'},
           body:JSON.stringify({doctorId:this.register.doctorId,scheduleId:this.register.scheduleId,patientId:this.register.patientId,source:'register'})
         });
+        await this.fetchBootstrap();
         this.go('/register-success');
       }catch(e){ ElMessage.error(e.message||'\u6302\u53f7\u5931\u8d25\uff0c\u8bf7\u91cd\u8bd5'); }
       finally{ this.register.paying=false; }
